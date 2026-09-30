@@ -257,15 +257,14 @@ def register_chat_routes(rt):
             from utils.i18n import get_lang, LANGUAGES
             lang = get_lang(sess)
             lang_info = LANGUAGES.get(lang, LANGUAGES["en"])
-            lang_directive = ""
-            if lang != "en":
-                lang_directive = (
-                    f"\nUser language: {lang} ({lang_info['name']}). "
-                    f"Respond in {lang_info['name']}."
-                )
-            lc_messages = []
-            if lang_directive:
-                lc_messages.append(SystemMessage(content=lang_directive.strip()))
+            # Hard rule: always answer in the user's selected UI language,
+            # regardless of the language of the sources found.
+            lang_directive = (
+                f"IMPORTANT: Write your ENTIRE response in {lang_info['name']} "
+                f"(language code '{lang}'), even though the official sources may be in "
+                f"another language. Keep URLs, official names, and proper nouns as-is."
+            )
+            lc_messages = [SystemMessage(content=lang_directive)]
             for h in history[-20:]:
                 if h["role"] == "user":
                     lc_messages.append(HumanMessage(content=h["content"]))

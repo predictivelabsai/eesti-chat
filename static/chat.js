@@ -276,7 +276,13 @@
                         if (payload.sid) setSid(payload.sid);
                     } else if (type === "done") {
                         hideThinking();
-                        if (bubble) bubble.classList.remove("streaming");
+                        if (bubble) {
+                            bubble.classList.remove("streaming");
+                            // Hide the "-> web_search" trace once the answer is complete
+                            // (kept only while streaming / when a thinking trace is enabled).
+                            const tl = bubble.parentElement && bubble.parentElement.querySelector(".tool-log");
+                            if (tl && !document.body.classList.contains("show-trace")) tl.remove();
+                        }
                         enhanceTables(bubble);
                         const fr = payload.free_remaining;
                         if (typeof fr === "number" && fr >= 0 && fr <= 2) {

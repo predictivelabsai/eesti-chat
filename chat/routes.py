@@ -129,12 +129,44 @@ def _persist_message(session_id, role, content, agent_slug=None, tool_calls=None
         db.close()
 
 
+def _ensure_guest(sess) -> int | None:
+    """Create/reuse a guest user row for an anonymous visitor so chat history
+    persists across their session (multi-turn + sidebar history)."""
+    if not DB_ENABLED:
+        return None
+    uid = get_user_id(sess)
+    if uid:
+        return uid
+    key = sess.get("guest_key")
+    if not key:
+        import secrets
+        key = secrets.token_hex(8)
+        sess["guest_key"] = key
+    from sqlalchemy import text
+    db = _get_db()
+    try:
+        row = db.execute(
+            text(f"INSERT INTO {SCHEMA}.chat_users (email) VALUES (:e) "
+                 "ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email RETURNING id"),
+            {"e": f"guest+{key}@eesti.local"},
+        ).fetchone()
+        db.commit()
+        uid = row[0]
+    finally:
+        db.close()
+    set_user_id(sess, uid)
+    return uid
+
+
 def register_chat_routes(rt):
     """Register all chat routes on the given FastHTML router."""
 
     @rt("/app")
     def app_home(sess, sid: str = ""):
         uid, email = _ensure_user(sess)
+        if not uid and DB_ENABLED:
+            # Returning guest: show their history without creating a new row.
+            uid = get_user_id(sess)
         sessions = _list_sessions(uid) if uid else []
         messages = []
         current_agent = None
@@ -202,13 +234,15 @@ def register_chat_routes(rt):
         spec = by_slug(agent_slug)
         stripped_msg = agent_router.strip_prefix(user_msg)
 
-        if email and DB_ENABLED:
-            # Signed-in: persist history for continuity.
+        if DB_ENABLED:
+            # Persist history (multi-turn) for signed-in users and guests alike.
+            if not uid:
+                uid = _ensure_guest(sess)
             session_id = _ensure_session(uid, sid_str, first_message=user_msg)
             _persist_message(session_id, "user", user_msg)
             history = _session_messages(session_id)[:-1]
         else:
-            # Anonymous free tier: single-turn, nothing persisted.
+            # No database configured: single-turn, nothing persisted.
             session_id = 0
             history = []
 
@@ -280,7 +314,7 @@ def register_chat_routes(rt):
                 yield sse.event(sse.ERROR, {"message": str(e)})
 
             final = "".join(accumulated) or "(no response)"
-            if email and DB_ENABLED:
+            if DB_ENABLED and session_id:
                 _persist_message(session_id, "assistant", final, agent_slug=agent_slug,
                                  tool_calls=tool_calls_log or None)
                 from sqlalchemy import text

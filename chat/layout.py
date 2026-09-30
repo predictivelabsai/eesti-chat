@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from fasthtml.common import (
-    Html, Head, Body, Meta, Title, Link, Script, NotStr,
+    Html, Head, Body, Meta, Title, Link, Script, Style, NotStr,
     Div, Span,
 )
 
@@ -35,6 +35,8 @@ def _head(title: str = "eesti.chat") -> Head:
         Meta(charset="utf-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
         Meta(name="theme-color", content="#0072CE"),
+        Meta(name="color-scheme", content="light"),
+        Style(":root{color-scheme:light}html,body{background:#ffffff}"),
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent"),
         Link(rel="icon", href="/static/favicon.svg", type="image/svg+xml"),

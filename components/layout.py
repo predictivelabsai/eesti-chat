@@ -26,7 +26,9 @@ def app_styles():
           },
         }
         """),
-        Style("body { font-family: 'Inter', system-ui, sans-serif; }"),
+        Meta(name='color-scheme', content='light'),
+        Style(":root { color-scheme: light; } html, body { background: #ffffff; } "
+              "body { font-family: 'Inter', system-ui, sans-serif; color: #0A0A0A; }"),
     )
 
 

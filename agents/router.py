@@ -12,17 +12,23 @@ log = logging.getLogger(__name__)
 _PREFIX_MAP: dict[str, str] = {a.prefix.rstrip(":"): a.slug for a in AGENTS if a.prefix}
 
 _SLUG_KEYWORDS: dict[str, list[str]] = {
-    "car_search": ["search", "find", "looking for", "show me", "list", "filter", "under", "below"],
-    "market_analyst": ["market", "trend", "depreciation", "analytics", "chart", "heat map",
-                       "price trend", "segment", "average price", "cheapest"],
-    "valuator": ["value", "valuation", "worth", "fair price", "estimate", "is .* fair",
-                 "should i pay", "overpriced", "underpriced"],
-    "car_compare": ["compare", "versus", "vs", "comparison", "side by side", "better",
-                    "difference between"],
-    "advisor": ["advise", "recommend", "budget", "suggest", "should i buy",
-                "best car", "which car", "help me choose", "daily driver"],
-    "kenri": ["kenri", "car hero", "deal", "sleeper", "what should i buy",
-              "anything good", "hot deal", "best buy", "fire deal"],
+    "eresidency": ["e-residency", "e-resident", "eresidency", "company", "oü", "ou ",
+                   "start a business", "register a company", "startup", "business bank",
+                   "annual report", "invoice", "founder", "incorporat"],
+    "tax": ["tax", "vat", "income tax", "corporate tax", "emta", "e-tax", "declaration",
+            "declare", "social tax", "fie", "sole proprietor", "deduction", "refund"],
+    "moving": ["move to estonia", "moving", "residence permit", "visa", "relocat",
+               "digital nomad", "register my address", "personal code", "id code",
+               "work permit", "study permit", "immigration", "settle"],
+    "digital": ["digital id", "e-id", "eid", "id card", "smart-id", "smart id",
+                "mobiil-id", "mobile-id", "digital signature", "sign a document",
+                "x-road", "x-tee", "e-service", "log in", "authenticat", "once-only"],
+    "services": ["health", "insurance", "tervisekassa", "doctor", "school", "education",
+                 "university", "benefit", "pension", "family", "parental", "child",
+                 "voting", "i-voting", "vote", "passport", "renew", "marriage", "birth"],
+    "explore": ["why estonia", "e-estonia", "digital society", "culture", "history",
+                "tourism", "visit", "tallinn", "travel", "about estonia", "story",
+                "invest", "innovation", "startup nation"],
 }
 
 
@@ -59,7 +65,7 @@ def _llm_classify(message: str) -> str:
             return resp
     except Exception as e:
         log.warning("LLM classify failed: %s", e)
-    return "car_search"
+    return "explore"
 
 
 def route(message: str) -> str:

@@ -5,20 +5,30 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 load_dotenv()
 
-DB_URL = os.environ["DB_URL"]
-SCHEMA = "carhero"
+DB_URL = os.environ.get("DB_URL", "").strip()
+SCHEMA = "eesti"
 
-engine = create_engine(DB_URL, pool_pre_ping=True, pool_size=5, max_overflow=10)
+# The portal runs without a database (anonymous chat, no persisted history).
+# A DB is only needed for saved chat history, login, and admin.
+DB_ENABLED = bool(DB_URL)
 
+if DB_ENABLED:
+    engine = create_engine(DB_URL, pool_pre_ping=True, pool_size=5, max_overflow=10)
 
-@event.listens_for(engine, "connect")
-def set_search_path(dbapi_conn, connection_record):
-    cursor = dbapi_conn.cursor()
-    cursor.execute(f"SET search_path TO {SCHEMA}, public")
-    cursor.close()
+    @event.listens_for(engine, "connect")
+    def set_search_path(dbapi_conn, connection_record):
+        cursor = dbapi_conn.cursor()
+        cursor.execute(f"SET search_path TO {SCHEMA}, public")
+        cursor.close()
 
+    SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+else:
+    engine = None
 
-SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+    def SessionLocal(*args, **kwargs):  # type: ignore[misc]
+        raise RuntimeError(
+            "No DB_URL configured — database features (login, saved history) are disabled."
+        )
 
 
 class Base(DeclarativeBase):
@@ -34,13 +44,16 @@ def get_db():
 
 
 def init_db():
-    """Create schema and all tables."""
+    """Create schema and all tables (no-op when no DB is configured)."""
+    if not DB_ENABLED:
+        print("INFO:     No DB_URL configured — running without a database "
+              "(anonymous chat only, no saved history/login).")
+        return
     with engine.connect() as conn:
         conn.execute(text(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA}"))
         conn.commit()
     Base.metadata.create_all(bind=engine)
     _init_chat_tables()
-    _init_car_tables()
 
 
 def _init_chat_tables():

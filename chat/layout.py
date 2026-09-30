@@ -15,9 +15,10 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: '#1A1A1A', muted: '#6B7280', dim: '#9CA3AF' },
-        surface: { DEFAULT: '#FFFFFF', alt: '#F5F5F5' },
-        border: '#E5E5E5',
+        ink: { DEFAULT: '#0A0A0A', muted: '#4B5563', dim: '#9CA3AF' },
+        surface: { DEFAULT: '#FFFFFF', alt: '#F5F7FA' },
+        border: '#E5E7EB',
+        brand: { DEFAULT: '#0072CE', dark: '#005BA6', light: '#E6F1FB' },
       },
       fontFamily: {
         display: ['DM Serif Display', 'Georgia', 'serif'],
@@ -29,17 +30,17 @@ tailwind.config = {
 """
 
 
-def _head(title: str = "CarHero") -> Head:
+def _head(title: str = "eesti.chat") -> Head:
     return Head(
         Meta(charset="utf-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
-        Meta(name="theme-color", content="#1A1A1A"),
+        Meta(name="theme-color", content="#0072CE"),
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent"),
         Link(rel="icon", href="/static/favicon.svg", type="image/svg+xml"),
         Link(rel="apple-touch-icon", href="/static/favicon.svg"),
         Link(rel="manifest", href="/static/manifest.json"),
-        Title(f"{title} -- CarHero"),
+        Title(f"{title} — eesti.chat"),
         Link(rel="preconnect", href="https://fonts.googleapis.com"),
         Link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin=""),
         Link(rel="stylesheet",
@@ -73,7 +74,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
         Script(src="/static/chat.js?v=2"),
         cls="bg-white text-ink font-sans antialiased app",
     )
-    return Html(_head("Car Advisor"), body)
+    return Html(_head("Ask eesti.chat"), body)
 
 
 def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None):
@@ -101,7 +102,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
             Div(
                 Div(title, cls="chat-header-title"),
                 Div(
-                    Div("Shared via CarHero", cls="text-sm text-gray-400"),
+                    Div("Shared via eesti.chat", cls="text-sm text-gray-400"),
                     cls="chat-header-actions",
                 ),
                 cls="chat-header",

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from starlette.requests import Request
@@ -11,12 +12,14 @@ from starlette.responses import StreamingResponse, JSONResponse
 
 from chat.layout import chat_page
 from chat import sse
+from db import DB_ENABLED, SCHEMA
 from utils.session import (get_user_email, set_user_email, clear_user,
                            get_user_id, set_user_id)
 
 log = logging.getLogger(__name__)
 
-SCHEMA = "carhero"
+# Number of free questions an anonymous visitor may ask before sign-in is required.
+FREE_QUERIES = int(os.getenv("FREE_QUERIES", "5"))
 
 
 def _get_db():
@@ -25,6 +28,8 @@ def _get_db():
 
 
 def _ensure_user(sess) -> tuple[int | None, str | None]:
+    if not DB_ENABLED:
+        return None, None
     email = get_user_email(sess)
     if not email:
         return None, None
@@ -172,31 +177,40 @@ def register_chat_routes(rt):
             return JSONResponse({"error": "empty message"}, status_code=400)
 
         uid, email = _ensure_user(sess)
-        if not uid:
-            from sqlalchemy import text
-            db = _get_db()
-            try:
-                row = db.execute(
-                    text(f"INSERT INTO {SCHEMA}.chat_users (email) VALUES (:email) "
-                         "ON CONFLICT (email) DO UPDATE SET email = EXCLUDED.email RETURNING id"),
-                    {"email": f"guest+{id(sess):x}@carhero.local"},
-                ).fetchone()
-                db.commit()
-                uid = row[0]
-            finally:
-                db.close()
-            set_user_id(sess, uid)
 
-        session_id = _ensure_session(uid, sid_str, first_message=user_msg)
+        # --- Free-query gate: N free questions, then require sign-in ---
+        # Session changes must happen here (before the streaming response begins),
+        # otherwise the updated cookie is never persisted.
+        if not email:
+            used = int(sess.get("free_q", 0))
+            if used >= FREE_QUERIES:
+                return JSONResponse({
+                    "error": "login_required",
+                    "message": (f"You've used your {FREE_QUERIES} free questions. "
+                                "Sign in to keep asking eesti.chat."),
+                    "free_used": used,
+                    "free_limit": FREE_QUERIES,
+                }, status_code=402)
+            sess["free_q"] = used + 1
+            free_remaining = FREE_QUERIES - (used + 1)
+        else:
+            free_remaining = None
 
         from agents import router as agent_router
         from agents.registry import by_slug
         agent_slug = agent_router.route(user_msg)
         spec = by_slug(agent_slug)
-
-        _persist_message(session_id, "user", user_msg)
-        history = _session_messages(session_id)[:-1]
         stripped_msg = agent_router.strip_prefix(user_msg)
+
+        if email and DB_ENABLED:
+            # Signed-in: persist history for continuity.
+            session_id = _ensure_session(uid, sid_str, first_message=user_msg)
+            _persist_message(session_id, "user", user_msg)
+            history = _session_messages(session_id)[:-1]
+        else:
+            # Anonymous free tier: single-turn, nothing persisted.
+            session_id = 0
+            history = []
 
         async def event_stream():
             yield sse.event("session", {"sid": session_id})
@@ -215,7 +229,9 @@ def register_chat_routes(rt):
                     f"\nUser language: {lang} ({lang_info['name']}). "
                     f"Respond in {lang_info['name']}."
                 )
-            lc_messages = [SystemMessage(content=f"You are a CarHero car advisor. Respond helpfully and concisely.{lang_directive}")]
+            lc_messages = []
+            if lang_directive:
+                lc_messages.append(SystemMessage(content=lang_directive.strip()))
             for h in history[-20:]:
                 if h["role"] == "user":
                     lc_messages.append(HumanMessage(content=h["content"]))
@@ -264,17 +280,19 @@ def register_chat_routes(rt):
                 yield sse.event(sse.ERROR, {"message": str(e)})
 
             final = "".join(accumulated) or "(no response)"
-            _persist_message(session_id, "assistant", final, agent_slug=agent_slug,
-                             tool_calls=tool_calls_log or None)
-            from sqlalchemy import text
-            db = _get_db()
-            try:
-                db.execute(text(f"UPDATE {SCHEMA}.chat_sessions SET agent_slug = :slug WHERE id = :sid"),
-                           {"slug": agent_slug, "sid": session_id})
-                db.commit()
-            finally:
-                db.close()
-            yield sse.event(sse.DONE, {"slug": agent_slug, "tools": len(tool_calls_log)})
+            if email and DB_ENABLED:
+                _persist_message(session_id, "assistant", final, agent_slug=agent_slug,
+                                 tool_calls=tool_calls_log or None)
+                from sqlalchemy import text
+                db = _get_db()
+                try:
+                    db.execute(text(f"UPDATE {SCHEMA}.chat_sessions SET agent_slug = :slug WHERE id = :sid"),
+                               {"slug": agent_slug, "sid": session_id})
+                    db.commit()
+                finally:
+                    db.close()
+            yield sse.event(sse.DONE, {"slug": agent_slug, "tools": len(tool_calls_log),
+                                       "free_remaining": free_remaining})
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")
 

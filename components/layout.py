@@ -12,9 +12,11 @@ def app_styles():
           theme: {
             extend: {
               colors: {
-                ink: { DEFAULT: '#1A1A1A', muted: '#6B7280', dim: '#9CA3AF' },
-                surface: { DEFAULT: '#FFFFFF', alt: '#F5F5F5' },
-                border: '#E5E5E5',
+                ink: { DEFAULT: '#0A0A0A', muted: '#4B5563', dim: '#9CA3AF' },
+                surface: { DEFAULT: '#FFFFFF', alt: '#F5F7FA' },
+                border: '#E5E7EB',
+                // Estonia blue — the single accent across the portal
+                brand: { DEFAULT: '#0072CE', dark: '#005BA6', light: '#E6F1FB' },
               },
               fontFamily: {
                 display: ['DM Serif Display', 'Georgia', 'serif'],
@@ -55,25 +57,25 @@ def NavBar(active='home', sess=None):
 
     nav_items = [
         ('home', '/', t('nav_home', lang)),
-        ('advisory', '/app', t('nav_advisory', lang)),
+        ('advisory', '/app', t('nav_ask', lang)),
+        ('topics', '/#topics', t('nav_topics', lang)),
         ('about', '/about', t('nav_about', lang)),
-        ('market-map', '/app/market-map', t('nav_market_map', lang)),
         ('contact', '/contact', t('nav_contact', lang)),
     ]
 
     def nav_link(key, href, label):
         if key == active:
-            return A(label, href=href, cls='text-sm text-black hover:text-black transition-colors no-underline')
-        return A(label, href=href, cls='text-sm text-gray-400 hover:text-black transition-colors no-underline')
+            return A(label, href=href, cls='text-sm text-black hover:text-brand transition-colors no-underline')
+        return A(label, href=href, cls='text-sm text-gray-400 hover:text-brand transition-colors no-underline')
 
     nav_links = [Li(nav_link(k, h, l)) for k, h, l in nav_items]
 
-    cta = A(t('nav_open_app', lang), href='#', onclick='showSignIn();return false',
-            cls='inline-flex items-center px-4 py-2 rounded-full text-xs font-medium bg-black text-white hover:bg-gray-800 transition-colors no-underline cursor-pointer')
+    cta = A(t('nav_open_app', lang), href='/app',
+            cls='inline-flex items-center px-4 py-2 rounded-full text-xs font-medium bg-brand text-white hover:bg-brand-dark transition-colors no-underline cursor-pointer')
 
     return Nav(
         Div(
-            A('Car', Span('Hero', cls='text-gray-400'), href='/',
+            A('eesti', Span('.chat', cls='text-brand'), href='/',
               cls='font-display text-xl font-bold text-black no-underline tracking-tight shrink-0'),
             Ul(*nav_links, cls='hidden lg:flex items-center gap-6 list-none m-0 p-0'),
             Div(
@@ -100,7 +102,7 @@ def PageFooter(lang: str = "en"):
         Div(
             Div(
                 Div(
-                    H3('Car', Span('Hero', cls='text-gray-500'),
+                    H3('eesti', Span('.chat', cls='text-brand'),
                        cls='font-display text-black text-xl mb-4 tracking-wide'),
                     P(t('footer_desc', lang),
                       cls='text-sm leading-relaxed text-gray-500'),
@@ -108,25 +110,25 @@ def PageFooter(lang: str = "en"):
                 Div(
                     H4(t('footer_platform', lang), cls='text-black text-sm uppercase tracking-wider mb-4'),
                     Ul(
-                        Li(A(t('nav_advisory', lang), href='/app', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
-                        Li(A(t('nav_market_map', lang), href='/app/market-map', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
+                        Li(A(t('nav_ask', lang), href='/app', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
+                        Li(A(t('nav_topics', lang), href='/#topics', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
                         cls='list-none'
                     )
                 ),
                 Div(
                     H4(t('footer_resources', lang), cls='text-black text-sm uppercase tracking-wider mb-4'),
                     Ul(
-                        Li(A(t('nav_about', lang), href='/about', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
-                        Li(A(t('nav_contact', lang), href='/contact', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
+                        Li(A(t('nav_about', lang), href='/about', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
+                        Li(A(t('nav_contact', lang), href='/contact', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
+                        Li(A('eesti.ee', href='https://www.eesti.ee', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
                         cls='list-none'
                     )
                 ),
                 Div(
                     H4(t('footer_legal', lang), cls='text-black text-sm uppercase tracking-wider mb-4'),
                     Ul(
-                        Li(A(t('footer_terms', lang), href='/terms', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
-                        Li(A(t('footer_privacy', lang), href='/privacy', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
-                        Li(A('Delete account', href='/delete-account', cls='text-gray-500 no-underline text-sm hover:text-black transition-colors'), cls='mb-2'),
+                        Li(A(t('footer_privacy', lang), href='/privacy', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
+                        Li(A('Delete account', href='/delete-account', cls='text-gray-500 no-underline text-sm hover:text-brand transition-colors'), cls='mb-2'),
                         cls='list-none'
                     )
                 ),
@@ -142,10 +144,10 @@ def PageFooter(lang: str = "en"):
     )
 
 
-def Page(content, active='home', title='CarHero', sess=None):
+def Page(content, active='home', title='eesti.chat', sess=None):
     lang = get_lang(sess or {})
     return (
-        Title(f'{title} — AI Car Advisory'),
+        Title(f'{title} — eesti.chat · AI portal for Estonia'),
         NavBar(active, sess=sess),
         Main(content),
         PageFooter(lang=lang)

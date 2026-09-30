@@ -1,0 +1,1 @@
+"""eesti.chat digital assistants."""

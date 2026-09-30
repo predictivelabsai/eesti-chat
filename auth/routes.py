@@ -23,11 +23,13 @@ from utils.session import get_user_email, set_user_email, get_user_id, set_user_
 
 log = logging.getLogger(__name__)
 
+from db import SCHEMA
+
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "")
-GOOGLE_REDIRECT_URI = os.getenv("SERVICE_URL_CARHERO", "https://carhero.chat") + "/auth/google/callback"
-
-SCHEMA = "carhero"
+# Base public URL of the deployment, e.g. https://eesti.chat
+SERVICE_URL = os.getenv("SERVICE_URL", "https://eesti.chat").rstrip("/")
+GOOGLE_REDIRECT_URI = SERVICE_URL + "/auth/google/callback"
 
 
 def _get_db():

@@ -1,4 +1,4 @@
-/* CarHero -- chat client (SSE streaming, 3-pane interactions). */
+/* eesti.chat -- chat client (SSE streaming, 3-pane interactions). */
 
 (() => {
     const $ = (sel) => document.querySelector(sel);
@@ -108,7 +108,7 @@
                 const blob = new Blob([tableToCSV(table)], { type: "text/csv" });
                 const a = document.createElement("a");
                 a.href = URL.createObjectURL(blob);
-                a.download = "carhero-data.csv";
+                a.download = "eesti-chat-data.csv";
                 a.click();
                 URL.revokeObjectURL(a.href);
             };
@@ -161,11 +161,11 @@
         let prompts = (slug && AGENT_PROMPTS[slug]) || [];
         if (!prompts.length) {
             prompts = [
-                "search: BMW X5 under 40k EUR",
-                "market: BMW 3 Series depreciation trends",
-                "value: 2020 Mercedes C300, 45k km",
-                "compare: Audi Q5 vs BMW X3 vs Volvo XC60",
-                "advise: EUR 50,000 budget, family SUV",
+                "How do I apply for e-Residency and what does it cost?",
+                "How do I register an OÜ company online?",
+                "How does Estonia's corporate income tax work?",
+                "How do I set up Smart-ID or Mobiil-ID?",
+                "How do I get a residence permit to work in Estonia?",
             ];
         }
         row.innerHTML = "";
@@ -208,6 +208,17 @@
 
         const body = new URLSearchParams({ msg, sid: currentSessionId || "" });
         const resp = await fetch("/app/chat", { method: "POST", body });
+        if (resp.status === 402) {
+            // Free-query limit reached — prompt sign in.
+            let data = {};
+            try { data = await resp.json(); } catch (e) {}
+            addBubble("assistant", data.message ||
+                "You've reached the free limit. Please sign in to continue.");
+            streaming = false;
+            if (sendBtn) sendBtn.disabled = false;
+            if (typeof showSignIn === "function") showSignIn();
+            return;
+        }
         if (!resp.ok) {
             addBubble("assistant", "Error: " + resp.status);
             streaming = false;
@@ -263,6 +274,15 @@
                         hideThinking();
                         if (bubble) bubble.classList.remove("streaming");
                         enhanceTables(bubble);
+                        const fr = payload.free_remaining;
+                        if (typeof fr === "number" && fr >= 0 && fr <= 2) {
+                            const note = fr === 0
+                                ? "That was your last free question. Sign in to keep asking."
+                                : fr + " free question" + (fr === 1 ? "" : "s") + " left — sign in for unlimited.";
+                            const el = addBubble("assistant", note);
+                            el.style.opacity = "0.6";
+                            el.style.fontSize = "13px";
+                        }
                     }
                 });
             }

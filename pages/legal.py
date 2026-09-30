@@ -28,9 +28,9 @@ def privacy_page():
                 _legal_section(
                     'Who we are',
                     _paragraph(
-                        'CarHero is operated by Predictive Labs Ltd (company number 14857334), '
+                        'eesti.chat is operated by Predictive Labs Ltd (company number 14857334), '
                         '155 Minories Street, Suite 275, London, EC3N 1AD, United Kingdom. '
-                        'For privacy questions, contact info@carhero.chat.'
+                        'For privacy questions, contact info@eesti.chat.'
                     ),
                 ),
                 _legal_section(
@@ -50,17 +50,17 @@ def privacy_page():
                         'We use this information to create and secure your account; provide search, '
                         'comparison, valuation, AI-advisory and garage features; remember your choices; '
                         'send requested service messages; respond to support requests; prevent abuse; '
-                        'and improve the reliability and safety of CarHero.'
+                        'and improve the reliability and safety of eesti.chat.'
                     ),
                 ),
                 _legal_section(
                     'AI and service providers',
                     _paragraph(
                         'Prompts and relevant conversation context may be sent to contracted AI service '
-                        'providers, including OpenAI or xAI, to generate CarHero responses. Google processes '
+                        'providers, including OpenAI or xAI, to generate eesti.chat responses. Google processes '
                         'information when you use Google Sign-In, and Postmark processes contact details '
                         'needed to deliver transactional email. Hosting, database and security providers '
-                        'process information on our behalf to operate CarHero.'
+                        'process information on our behalf to operate eesti.chat.'
                     ),
                     _paragraph(
                         'We do not sell personal information. We may disclose information when required by '
@@ -73,7 +73,7 @@ def privacy_page():
                     _paragraph(
                         'Where UK or European data-protection law applies, we process information to provide '
                         'the service you request, based on our legitimate interests in operating and securing '
-                        'CarHero, to comply with legal obligations, and with consent where required. Some '
+                        'eesti.chat, to comply with legal obligations, and with consent where required. Some '
                         'providers may process information outside your country; we use contractual and other '
                         'lawful safeguards where required.'
                     ),
@@ -82,7 +82,7 @@ def privacy_page():
                     'Retention and deletion',
                     _paragraph(
                         'We retain account information and saved content while your account is active and as '
-                        'needed to provide CarHero, meet legal obligations, resolve disputes and prevent abuse. '
+                        'needed to provide eesti.chat, meet legal obligations, resolve disputes and prevent abuse. '
                         'You can permanently delete your account and associated saved data from Profile & '
                         'Preferences in the app. You can also request deletion on our account-deletion page. '
                         'Residual copies may remain in protected backups until their normal rotation.'
@@ -96,7 +96,7 @@ def privacy_page():
                         'You can update profile information in the app and control optional notification '
                         'preferences. Depending on where you live, you may have rights to access, correct, '
                         'delete, restrict or object to processing, request portability, or complain to a '
-                        'data-protection authority. Contact info@carhero.chat to exercise these rights.'
+                        'data-protection authority. Contact info@eesti.chat to exercise these rights.'
                     ),
                 ),
                 _legal_section(
@@ -104,14 +104,14 @@ def privacy_page():
                     _paragraph(
                         'We use technical and organisational safeguards designed to protect information, '
                         'including encrypted network connections and access controls. No online service is '
-                        'completely secure. CarHero is intended for adults aged 18 and over and is not directed '
+                        'completely secure. eesti.chat is intended for adults aged 18 and over and is not directed '
                         'to children.'
                     ),
                 ),
                 _legal_section(
                     'Changes to this policy',
                     _paragraph(
-                        'We may update this policy as CarHero or legal requirements change. We will publish '
+                        'We may update this policy as eesti.chat or legal requirements change. We will publish '
                         'the updated version here and revise the date above.'
                     ),
                 ),
@@ -126,7 +126,7 @@ def delete_account_page():
     return Div(
         Section(
             Div(
-                H1('Delete your CarHero account', cls='font-display text-4xl font-extrabold text-black mb-4'),
+                H1('Delete your eesti.chat account', cls='font-display text-4xl font-extrabold text-black mb-4'),
                 P('Permanently remove your account and associated saved data.', cls='text-lg text-gray-500'),
                 cls='max-w-4xl mx-auto',
             ),
@@ -136,19 +136,19 @@ def delete_account_page():
             Div(
                 H2('Delete in the app', cls='text-xl font-semibold text-black mb-3'),
                 Ol(
-                    Li('Open CarHero and sign in.'),
+                    Li('Open eesti.chat and sign in.'),
                     Li('Open the menu and select Profile.'),
                     Li('Scroll to Delete account and confirm permanent deletion.'),
                     cls='list-decimal pl-6 text-sm leading-7 text-gray-600 space-y-2 mb-8',
                 ),
                 H2('Request deletion without the app', cls='text-xl font-semibold text-black mb-3'),
                 _paragraph(
-                    'Email us from the address registered to your CarHero account. We will verify the request '
+                    'Email us from the address registered to your eesti.chat account. We will verify the request '
                     'before deleting the account and associated chat history, favourites, saved searches, '
                     'garage vehicles and profile preferences.'
                 ),
                 A('Email an account-deletion request',
-                  href='mailto:info@carhero.chat?subject=CarHero%20account%20deletion%20request',
+                  href='mailto:info@eesti.chat?subject=eesti.chat%20account%20deletion%20request',
                   cls='inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-black text-white no-underline hover:bg-gray-800'),
                 P('We may retain information required by law and residual copies in protected backups until normal rotation.',
                   cls='text-xs leading-6 text-gray-500 mt-6'),

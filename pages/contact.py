@@ -9,7 +9,8 @@ def contact_page():
         Section(
             Div(
                 H1('Contact Us', cls='font-display text-4xl font-extrabold text-black mb-4'),
-                P('Questions or feedback? We would love to hear from you.',
+                P('Questions or feedback about eesti.chat? We would love to hear from you. '
+                  'For official matters, please use the relevant government authority.',
                   cls='text-lg text-gray-500'),
                 cls='max-w-7xl mx-auto relative z-10'
             ),
@@ -33,7 +34,7 @@ def contact_page():
                                      cls=INPUT_CLS + ' resize-none'),
                         ),
                         Button('Send Message', type='submit',
-                               cls='w-full mt-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-black text-white hover:bg-gray-800 transition-colors cursor-pointer border-none'),
+                               cls='w-full mt-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-brand text-white hover:bg-brand-dark transition-colors cursor-pointer border-none'),
                         method='post', action='/contact',
                         cls='bg-white p-8 rounded-lg shadow-sm max-w-md mx-auto'
                     ),

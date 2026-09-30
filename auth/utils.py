@@ -12,7 +12,7 @@ import bcrypt
 
 from utils.email import send_email
 
-BASE_URL = os.getenv("SERVICE_URL_CARHERO", "https://carhero.chat")
+BASE_URL = os.getenv("SERVICE_URL", "https://eesti.chat").rstrip("/")
 
 
 def hash_password(password: str) -> str:
@@ -36,7 +36,7 @@ def send_verification_email(email: str, token: str, name: str = ""):
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">
-      Welcome to CarHero
+      Welcome to eesti.chat
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
       {greeting}
@@ -57,7 +57,7 @@ def send_verification_email(email: str, token: str, name: str = ""):
 
     send_email(
         to=email,
-        subject="Verify your CarHero account",
+        subject="Verify your eesti.chat account",
         html_body=html,
         text_body=f"{greeting}\n\nVerify your email: {verify_url}\n\nIf you didn't create an account, ignore this.",
         tag="verify",
@@ -80,17 +80,17 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <div style="margin:0 0 24px;">
-      <span style="font-family:'DM Serif Display',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">CarHero</span>
+      <span style="font-family:'DM Serif Display',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">eesti.chat</span>
     </div>
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 12px;">
-      You're invited to join CarHero
+      You're invited to join eesti.chat
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
-      You've been invited{invited_by} to join CarHero — the smartest way to find, compare and track premium cars across Europe.
+      You've been invited{invited_by} to join eesti.chat — the smartest way to find, compare and track premium cars across Europe.
     </p>
     {personal_msg}
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 8px;">
-      With CarHero you can:
+      With eesti.chat you can:
     </p>
     <ul style="color:#4B5563;font-size:14px;line-height:1.8;margin:0 0 24px;padding-left:20px;">
       <li>Search 40,000+ premium listings across 17 EU countries</li>
@@ -99,24 +99,24 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
     </ul>
     <a href="{join_url}"
        style="display:inline-block;background:#1A1A1A;color:#fff;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:0.3px;">
-      Join CarHero
+      Join eesti.chat
     </a>
     <p style="color:#9CA3AF;font-size:12px;margin:24px 0 0;">
       If you weren't expecting this, you can safely ignore this email.
     </p>
   </div>
   <p style="text-align:center;color:#9CA3AF;font-size:11px;margin:16px 0 0;">
-    CarHero &middot; Premium car marketplace intelligence
+    eesti.chat &middot; Premium car marketplace intelligence
   </p>
 </div>
 </body></html>"""
 
     send_email(
         to=email,
-        subject=f"You're invited to join CarHero",
+        subject=f"You're invited to join eesti.chat",
         html_body=html,
         text_body=(
-            f"You've been invited{invited_by} to join CarHero!\n\n"
+            f"You've been invited{invited_by} to join eesti.chat!\n\n"
             f"{('Message: ' + message + chr(10) + chr(10)) if message else ''}"
             f"Join here: {join_url}\n\n"
             f"If you weren't expecting this, you can safely ignore this email."
@@ -151,7 +151,7 @@ def send_reset_email(email: str, token: str):
 
     send_email(
         to=email,
-        subject="Reset your CarHero password",
+        subject="Reset your eesti.chat password",
         html_body=html,
         text_body=f"Reset your password: {reset_url}\n\nThis link expires in 1 hour.",
         tag="reset",

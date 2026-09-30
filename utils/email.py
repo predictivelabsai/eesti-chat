@@ -1,4 +1,4 @@
-"""Postmark email sender for CarHero."""
+"""Postmark email sender for eesti.chat."""
 from __future__ import annotations
 
 import json
@@ -26,8 +26,8 @@ def send_email(
     if not token:
         return {"error": "POSTMARK_API_TOKEN not set"}
 
-    sender = from_email or os.getenv("FROM_EMAIL", "info@carhero.chat")
-    sender_name = os.getenv("FROM_NAME", "CarHero")
+    sender = from_email or os.getenv("FROM_EMAIL", "info@eesti.chat")
+    sender_name = os.getenv("FROM_NAME", "eesti.chat")
     if sender_name and "<" not in sender:
         sender = f"{sender_name} <{sender}>"
 

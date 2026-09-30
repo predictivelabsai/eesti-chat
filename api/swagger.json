@@ -1091,28 +1091,6 @@
               }
             ],
             "title": "Language"
-          },
-          "notify_new_listings": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Notify New Listings"
-          },
-          "notify_weekly_digest": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Notify Weekly Digest"
           }
         },
         "type": "object",
@@ -1176,16 +1154,6 @@
             "type": "string",
             "title": "Language",
             "default": "en"
-          },
-          "notify_new_listings": {
-            "type": "boolean",
-            "title": "Notify New Listings",
-            "default": true
-          },
-          "notify_weekly_digest": {
-            "type": "boolean",
-            "title": "Notify Weekly Digest",
-            "default": true
           }
         },
         "type": "object",

@@ -92,8 +92,6 @@ class UserProfileOut(BaseModel):
     city: str = ""
     currency: str = "EUR"
     language: str = "en"
-    notify_new_listings: bool = True
-    notify_weekly_digest: bool = True
 
 
 class UpdateProfileRequest(BaseModel):
@@ -103,8 +101,6 @@ class UpdateProfileRequest(BaseModel):
     city: str | None = None
     currency: str | None = None
     language: str | None = None
-    notify_new_listings: bool | None = None
-    notify_weekly_digest: bool | None = None
 
 
 # ── Contact ───────────────────────────────────────────────────────────

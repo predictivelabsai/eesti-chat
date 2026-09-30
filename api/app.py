@@ -420,8 +420,6 @@ def create_app(root_path: str = "") -> FastAPI:
             city=profile.get("city") or "",
             currency=profile.get("currency") or "EUR",
             language=profile.get("language") or "en",
-            notify_new_listings=profile.get("notify_new_listings", True),
-            notify_weekly_digest=profile.get("notify_weekly_digest", True),
         )
 
     @api.post("/user/profile", tags=["profile"])
@@ -433,8 +431,7 @@ def create_app(root_path: str = "") -> FastAPI:
                        {"name": body.name, "id": uid})
 
         fields = {}
-        for field in ("phone", "country", "city", "currency", "language",
-                      "notify_new_listings", "notify_weekly_digest"):
+        for field in ("phone", "country", "city", "currency", "language"):
             value = getattr(body, field)
             if value is not None:
                 fields[field] = value

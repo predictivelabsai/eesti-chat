@@ -327,8 +327,6 @@ def register_auth_routes(rt):
         p_currency = prefs.currency if prefs else "EUR"
         p_lang = prefs.language if prefs else "en"
         p_phone = prefs.phone if prefs else ""
-        p_notify_new = prefs.notify_new_listings if prefs else True
-        p_notify_digest = prefs.notify_weekly_digest if prefs else True
 
         inp = "w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
         lbl = "text-xs text-gray-500 block mb-1"
@@ -338,14 +336,6 @@ def register_auth_routes(rt):
             opts = [NotStr(f'<option value="{v}"{" selected" if v == selected else ""}>{label}</option>')
                     for v, label in options]
             return NotStr(f'<select name="{name}" class="{inp}">{"".join(str(o) for o in opts)}</select>')
-
-        def _toggle(name, label_text, checked):
-            chk = "checked" if checked else ""
-            return Div(
-                NotStr(f'<label class="toggle-row"><input type="checkbox" name="{name}" value="1" {chk}>'
-                       f'<span class="toggle-label">{label_text}</span></label>'),
-                cls="mb-2",
-            )
 
         return Html(_head("Profile & Preferences"), Body(
             Div(
@@ -388,29 +378,8 @@ def register_auth_routes(rt):
                     onsubmit="return submitProfile(event)",
                 ),
 
-                # ─── Notifications ────
-                NotStr('<hr class="my-8 border-gray-100">'),
-                H2("Notifications", cls="text-xl font-bold mb-1"),
-                P("Choose what emails you'd like to receive.", cls="text-xs text-gray-400 mb-4"),
-                Form(
-                    _toggle("notify_new_listings", "New listings matching my preferences", p_notify_new),
-                    _toggle("notify_weekly_digest", "Weekly market digest", p_notify_digest),
-                    Div(
-                        Button("Save Notifications", type="submit", cls="px-5 py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none mt-2"),
-                        Span(id="notify-msg", cls="text-sm ml-3"),
-                        cls="flex items-center",
-                    ),
-                    id="notify-form",
-                    onsubmit="return submitNotify(event)",
-                ),
-
                 cls="max-w-2xl mx-auto mt-8 mb-16 px-6",
             ),
-            Style(NotStr("""
-                .toggle-row { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:14px; }
-                .toggle-row input { width:16px; height:16px; accent-color:#111; }
-                .toggle-label { color:#374151; }
-            """)),
             Script(NotStr("""
 async function submitProfile(e) {
     e.preventDefault();
@@ -420,17 +389,6 @@ async function submitProfile(e) {
     var msg = document.getElementById('profile-msg');
     msg.style.color = data.ok ? '#16A34A' : '#DC2626';
     msg.textContent = data.ok ? 'Saved!' : (data.error || 'Error');
-    setTimeout(function(){ msg.textContent = ''; }, 3000);
-    return false;
-}
-async function submitNotify(e) {
-    e.preventDefault();
-    var form = document.getElementById('notify-form');
-    var resp = await fetch('/api/user-profile', { method:'POST', body: new FormData(form) });
-    var data = await resp.json();
-    var msg = document.getElementById('notify-msg');
-    msg.style.color = data.ok ? '#16A34A' : '#DC2626';
-    msg.textContent = data.ok ? 'Notification settings saved!' : (data.error || 'Error');
     setTimeout(function(){ msg.textContent = ''; }, 3000);
     return false;
 }
@@ -485,35 +443,6 @@ async function submitNotify(e) {
                     currency = :currency, language = :language, updated_at = NOW()
             """), {"uid": uid, "phone": phone, "country": country, "city": city,
                    "currency": currency, "language": language})
-            db.commit()
-        finally:
-            db.close()
-
-        return JSONResponse({"ok": True})
-
-    @rt("/api/user-profile", methods=["POST"])
-    async def update_user_prefs(request, sess):
-        from sqlalchemy import text
-        uid = get_user_id(sess)
-        if not uid:
-            return JSONResponse({"error": "Not logged in"}, status_code=401)
-
-        form = await request.form()
-
-        notify_new = "notify_new_listings" in form
-        notify_digest = "notify_weekly_digest" in form
-
-        db = _get_db()
-        try:
-            db.execute(text(f"""
-                INSERT INTO {SCHEMA}.user_profiles (user_id, notify_new_listings, notify_weekly_digest, updated_at)
-                VALUES (:uid, :n_new, :n_digest, NOW())
-                ON CONFLICT (user_id) DO UPDATE SET
-                    notify_new_listings = :n_new,
-                    notify_weekly_digest = :n_digest, updated_at = NOW()
-            """), {
-                "uid": uid, "n_new": notify_new, "n_digest": notify_digest,
-            })
             db.commit()
         finally:
             db.close()

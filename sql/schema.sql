@@ -45,8 +45,6 @@ CREATE TABLE IF NOT EXISTS eesti.user_profiles (
     city VARCHAR(100),
     currency VARCHAR(3) DEFAULT 'EUR',
     language VARCHAR(5) DEFAULT 'en',
-    notify_new_listings BOOLEAN DEFAULT TRUE,
-    notify_weekly_digest BOOLEAN DEFAULT TRUE,
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 

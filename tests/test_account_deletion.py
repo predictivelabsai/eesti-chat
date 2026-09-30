@@ -1,4 +1,5 @@
 from api.account_deletion import delete_user_data
+from db import SCHEMA
 
 
 class _Result:
@@ -37,7 +38,7 @@ def test_delete_user_data_removes_all_user_owned_records():
         "user_profiles",
         "chat_users",
     ):
-        assert f"eesti.{table}" in sql
+        assert f"{SCHEMA}.{table}" in sql
     assert all(params == {"uid": 42} for _, params in db.statements)
     assert db.committed is True
 

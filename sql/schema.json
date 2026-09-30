@@ -21,10 +21,10 @@
       ]
     },
     "user_profiles": {
-      "description": "Optional account profile and notification preferences",
+      "description": "Optional account profile information",
       "columns": [
         "id", "user_id", "avatar_url", "phone", "country", "city",
-        "currency", "language", "notify_new_listings", "notify_weekly_digest", "updated_at"
+        "currency", "language", "updated_at"
       ]
     },
     "invitations": {

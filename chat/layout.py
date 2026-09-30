@@ -49,7 +49,6 @@ def _head(title: str = "eesti.chat") -> Head:
              href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap"),
         Script(src="https://cdn.tailwindcss.com"),
         Script(NotStr(TAILWIND_CONFIG)),
-        Script(src="https://cdn.plot.ly/plotly-2.35.2.min.js"),
         Script(src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
         Link(rel="stylesheet", href="/static/app.css"),
     )

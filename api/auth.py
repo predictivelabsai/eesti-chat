@@ -1,4 +1,4 @@
-"""JWT auth utilities for the mobile API."""
+"""JWT auth utilities for the HTTP API."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ import time
 import base64
 
 
-JWT_SECRET = os.environ.get("JWT_SECRET", os.environ.get("APP_SECRET", "carhero-app-2026"))
+JWT_SECRET = os.environ.get("JWT_SECRET", os.environ.get("APP_SECRET", "eesti-chat-app-2026"))
 JWT_EXPIRY_HOURS = 72
 
 

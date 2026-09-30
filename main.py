@@ -75,17 +75,17 @@ from admin.routes import register_admin_routes
 register_admin_routes(rt)
 
 
-# --- Mount FastAPI mobile API at /api/v1 (optional) ---
+# --- Mount the optional FastAPI layer at /api/v1 ---
 
 _api_status = {"mounted": False, "error": None}
 try:
     from api.app import api_router
     app.mount("/api/v1", api_router)
     _api_status["mounted"] = True
-    print("INFO:     Mobile API mounted at /api/v1 (docs: /api/v1/docs)")
+    print("INFO:     FastAPI layer mounted at /api/v1 (docs: /api/v1/docs)")
 except ImportError as e:
     _api_status["error"] = f"ImportError: {e}"
-    print("INFO:     FastAPI not installed — mobile API disabled (monolith mode)")
+    print("INFO:     FastAPI not installed — API layer disabled (monolith mode)")
 except Exception as e:
     _api_status["error"] = f"{type(e).__name__}: {e}"
     print(f"ERROR:    Failed to mount mobile API: {e}")

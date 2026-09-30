@@ -13,12 +13,10 @@ from starlette.responses import RedirectResponse, JSONResponse
 
 from auth.utils import hash_password, generate_token, send_invite_email
 from chat.layout import _head
+from db import SCHEMA
 from utils.session import get_user_email, get_user_id
 
 log = logging.getLogger(__name__)
-
-SCHEMA = "carhero"
-
 
 def _get_db():
     from db import SessionLocal
@@ -137,11 +135,11 @@ def register_admin_routes(rt):
                 Td(str(u.created_at.strftime("%Y-%m-%d")) if u.created_at else "—"),
             ))
 
-        return Html(_head("Admin — CarHero"), Body(
+        return Html(_head("Admin — eesti.chat"), Body(
             Style(NotStr(ADMIN_CSS)),
             Div(
                 Div(
-                    H1("CarHero Admin"),
+                    H1("eesti.chat Admin"),
                     A("< Back to app", href="/app", cls="text-sm text-gray-500 no-underline hover:text-black"),
                     cls="admin-header",
                 ),
@@ -305,20 +303,20 @@ async function sendInvite(e) {
             return Html(_head("Invitation"), Body(
                 Div(H2("Invalid invitation"),
                     P("This invitation link is no longer valid. Please ask for a new one."),
-                    A("Go to CarHero", href="/app", cls="text-black font-semibold"),
+                            A("Go to eesti.chat", href="/app", cls="text-black font-semibold"),
                     cls="max-w-md mx-auto mt-20 text-center"),
                 cls="bg-white font-sans min-h-screen",
             ))
 
         inp = "w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
-        return Html(_head("Join CarHero"), Body(
+        return Html(_head("Join eesti.chat"), Body(
             Div(
                 Div(
-                    NotStr('<span style="font-family:\'DM Serif Display\',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">CarHero</span>'),
+                    NotStr('<span style="font-family:\'DM Serif Display\',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">eesti.chat</span>'),
                     style="margin-bottom:20px;",
                 ),
                 H2("Create your account", cls="text-xl font-bold mb-2"),
-                P(f"You've been invited to join CarHero.", cls="text-gray-500 text-sm mb-4"),
+                P(f"You've been invited to join eesti.chat.", cls="text-gray-500 text-sm mb-4"),
                 Form(
                     Input(type="hidden", name="token", value=token),
                     Div(
@@ -341,7 +339,7 @@ async function sendInvite(e) {
                         Input(type="password", name="password_confirm", placeholder="Confirm password", cls=inp, required=True),
                         cls="mb-4",
                     ),
-                    Button("Join CarHero", type="submit",
+                    Button("Join eesti.chat", type="submit",
                            cls="w-full py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none font-semibold"),
                     Div(id="invite-error", cls="text-red-500 text-sm mt-2"),
                     method="POST",

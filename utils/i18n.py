@@ -160,7 +160,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     # -- Topics / agents section --
     "topics_title": {"en": "Six specialist assistants", "et": "Kuus eriabilist"},
     "topics_subtitle": {
-        "en": "Each focused on one part of dealing with Estonia — and each answers from official sources.",
+        "en": "Each focused on one part of life in Estonia — and each answers from official sources.",
         "et": "Igaüks keskendub ühele osale Eestiga suhtlemisest — ja igaüks vastab ametlike allikate põhjal.",
     },
 

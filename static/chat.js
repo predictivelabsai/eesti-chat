@@ -334,20 +334,6 @@
         body.prepend(card);
         enhanceTables(card);
 
-        if (payload.kind === "chart" && payload.figure) {
-            const chartDiv = card.querySelector(".body");
-            const chartId = "chart-" + Math.random().toString(36).slice(2, 8);
-            const plotContainer = document.createElement("div");
-            plotContainer.id = chartId;
-            plotContainer.style.width = "100%";
-            plotContainer.style.minHeight = "300px";
-            chartDiv.innerHTML = "";
-            chartDiv.appendChild(plotContainer);
-            if (window.Plotly) {
-                Plotly.newPlot(chartId, payload.figure.data, payload.figure.layout, { responsive: true });
-            }
-        }
-
         const isMobile = window.innerWidth <= 768;
         if (!isMobile) {
             document.querySelector(".app").classList.remove("pane-closed");
@@ -362,70 +348,6 @@
     }
 
     function renderArtifactHTML(p) {
-        if (p.kind === "chart") {
-            return '<div style="color:var(--ink-muted);font-size:12px">Loading chart...</div>';
-        }
-        if (p.kind === "deals" && Array.isArray(p.deals)) {
-            if (!p.deals.length) return '<p style="color:var(--ink-muted)">No deals found.</p>';
-            return p.deals.map(d => {
-                const ch = d.cheapest;
-                const pr = d.priciest;
-                const fmtPrice = n => "EUR " + Number(n).toLocaleString();
-                const fmtKm = n => n ? Number(n).toLocaleString() + " km" : "";
-                const specs = (o) => [o.variant, o.year, fmtKm(o.mileage_km), o.fuel_type, o.transmission].filter(Boolean).join(" · ");
-                const badgeColor = d.savings_pct >= 15 ? "#16A34A" : d.savings_pct >= 8 ? "#F59E0B" : "#6B7280";
-                return `
-                <div class="deal-card">
-                    <div class="deal-header">
-                        <span class="deal-title">${d.make} ${d.model}</span>
-                        <span class="deal-badge" style="background:${badgeColor}">Save ${d.savings_pct.toFixed(0)}%</span>
-                    </div>
-                    <div class="deal-row deal-priciest">
-                        <div class="deal-row-label">Higher price</div>
-                        <div class="deal-row-price">${fmtPrice(pr.price_eur)}</div>
-                        <div class="deal-row-source">${pr.provider_label} · ${pr.country_label}</div>
-                        <div class="deal-row-specs">${specs(pr)}</div>
-                        ${pr.url ? `<a href="${pr.url}" target="_blank" class="deal-link">View listing &rarr;</a>` : ""}
-                    </div>
-                    <div class="deal-savings">
-                        <span class="deal-savings-arrow">&#x2193;</span>
-                        Save <strong>${fmtPrice(d.savings_eur)}</strong>
-                    </div>
-                    <div class="deal-row deal-cheapest">
-                        <div class="deal-row-label">Lower price</div>
-                        <div class="deal-row-price deal-price-good">${fmtPrice(ch.price_eur)}</div>
-                        <div class="deal-row-source">${ch.provider_label} · ${ch.country_label}</div>
-                        <div class="deal-row-specs">${specs(ch)}</div>
-                        ${ch.url ? `<a href="${ch.url}" target="_blank" class="deal-link deal-link-good">View listing &rarr;</a>` : ""}
-                    </div>
-                </div>`;
-            }).join("");
-        }
-        if (p.kind === "listings" && Array.isArray(p.listings)) {
-            if (!p.listings.length) return '<p style="color:var(--ink-muted)">No listings found.</p>';
-            const fmtPrice = n => n ? "EUR " + Number(n).toLocaleString() : "N/A";
-            const fmtKm = n => n ? Number(n).toLocaleString() + " km" : "";
-            return p.listings.map(l => {
-                const specs = [l.variant, l.year, fmtKm(l.mileage_km), l.fuel_type, l.transmission].filter(Boolean).join(" · ");
-                const extra = [l.power_hp ? l.power_hp + "hp" : "", l.body_type, l.steering_side === "RHD" ? "RHD" : ""].filter(Boolean).join(" · ");
-                const scoreBadge = l.investment_score ? `<span class="listing-score tier-${l.tier||3}">${l.investment_score}</span>` : "";
-                const favBtn = l.id ? `<button class="fav-btn" onclick="toggleFavorite(${l.id},this)" title="Save to favorites">&#9825;</button>` : "";
-                const img = l.image_url ? `<img src="${l.image_url}" alt="${l.make} ${l.model}" class="listing-thumb" loading="lazy" onerror="this.style.display='none'">` : "";
-                return `
-                <div class="listing-card">
-                    ${img}
-                    <div class="listing-header">
-                        <span class="listing-title">${l.make} ${l.model}</span>
-                        <span style="display:flex;align-items:center;gap:6px;">${scoreBadge}<span class="listing-price">${fmtPrice(l.price_eur)}</span>${favBtn}</span>
-                    </div>
-                    <div class="listing-specs">${specs}</div>
-                    ${l.strength_summary ? `<div class="listing-strength">${l.strength_summary}</div>` : ""}
-                    ${extra ? `<div class="listing-extra">${extra}</div>` : ""}
-                    <div class="listing-source">${l.provider_label} · ${l.country_label}</div>
-                    ${l.url ? `<a href="${l.url}" target="_blank" class="listing-link">View listing →</a>` : ""}
-                </div>`;
-            }).join("");
-        }
         if (p.kind === "table" && Array.isArray(p.rows)) {
             if (!p.rows.length) return '<p><em>No rows.</em></p>';
             const cols = p.columns || Object.keys(p.rows[0]);
@@ -546,7 +468,7 @@
         const msgs = document.querySelectorAll(".msg");
         const lines = [];
         msgs.forEach(m => {
-            const role = m.classList.contains("msg-user") ? "You" : "CarHero";
+            const role = m.classList.contains("msg-user") ? "You" : "eesti.chat";
             const bubble = m.querySelector(".msg-bubble");
             if (bubble) lines.push(`${role}: ${bubble.textContent.trim()}`);
         });
@@ -602,29 +524,6 @@
     window.renderMarkdownLite = renderMarkdownLite;
     window.enhanceTables = enhanceTables;
 
-    // Auto-send deal query from email deep-link (?deal_id=<uuid> or ?deal=BMW+X5)
-    function autoDealSend(query) {
-        const ta = $("#chat-input");
-        if (!ta) return;
-        ta.value = query;
-        if (typeof autoResize === "function") autoResize(ta);
-        sendMessage(null);
-    }
-    if (!getSidFromURL()) {
-        const params = new URLSearchParams(window.location.search);
-        const dealId = params.get("deal_id");
-        const dealName = params.get("deal");
-        if (dealId) {
-            fetch("/api/deal/" + encodeURIComponent(dealId))
-                .then(r => r.ok ? r.json() : null)
-                .then(d => {
-                    if (d) autoDealSend("search: show me price arbitrage deals for " + d.make + " " + d.model);
-                })
-                .catch(() => {});
-        } else if (dealName) {
-            setTimeout(() => autoDealSend("search: show me price arbitrage deals for " + dealName), 300);
-        }
-    }
 })();
 
 /* -- Auth functions (global, called from onclick handlers) -- */
@@ -729,17 +628,6 @@ async function doSetPassword(email) {
 
 function signOut() {
     fetch('/auth/logout', { method: 'POST' }).then(() => location.reload());
-}
-
-async function toggleFavorite(listingId, btn) {
-    const resp = await fetch('/api/favorites', {
-        method: 'POST',
-        body: new URLSearchParams({ listing_id: listingId }),
-    });
-    if (resp.ok) {
-        btn.innerHTML = '&#9829;';
-        btn.style.color = '#DC2626';
-    }
 }
 
 /* Legacy compat */

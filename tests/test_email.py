@@ -58,17 +58,17 @@ class TestSendEmailUnit:
             status_code=200,
             json=lambda: {"ErrorCode": 0, "MessageID": "x"},
         )
-        with patch.dict(os.environ, {"FROM_NAME": "CarHero"}):
+        with patch.dict(os.environ, {"FROM_NAME": "eesti.chat"}):
             send_email(
                 to="test@example.com",
                 subject="Test",
                 html_body="<p>Hi</p>",
-                from_email="info@carhero.chat",
+                from_email="info@eesti.chat",
                 api_token="fake-token",
             )
         call_args = mock_post.call_args
         payload = json.loads(call_args.kwargs.get("data") or call_args[1].get("data"))
-        assert payload["From"] == "CarHero <info@carhero.chat>"
+        assert payload["From"] == "eesti.chat <info@eesti.chat>"
 
     def test_missing_token(self):
         with patch.dict(os.environ, {}, clear=False):
@@ -127,10 +127,10 @@ class TestSendEmailIntegration:
 
         result = send_email(
             to=test_recipient,
-            subject="CarHero Test Email",
-            html_body="<p>This is a test email from the CarHero test suite.</p>",
-            text_body="This is a test email from the CarHero test suite.",
-            from_email="info@carhero.chat",
+            subject="eesti.chat Test Email",
+            html_body="<p>This is a test email from the eesti.chat test suite.</p>",
+            text_body="This is a test email from the eesti.chat test suite.",
+            from_email="info@eesti.chat",
             tag="test",
         )
         assert result.get("ErrorCode") == 0

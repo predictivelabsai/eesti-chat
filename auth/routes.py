@@ -296,27 +296,11 @@ def register_auth_routes(rt):
 
     # ─── Profile & Preferences ─────────────────────────────────────────────
 
-    from utils.config import get_featured_brands
-    MAKES = get_featured_brands()
-    BODY_TYPES = ['Sedan', 'SUV', 'Estate', 'Coupe', 'Convertible', 'Hatchback', 'MPV', 'Pickup']
-    FUEL_TYPES = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'Plug-in Hybrid']
-    TRANSMISSIONS = ['Automatic', 'Manual']
     CURRENCIES = [('EUR', '€ EUR'), ('GBP', '£ GBP'), ('USD', '$ USD')]
-
-    def _checkbox_group(name, options, selected):
-        items = []
-        for opt in options:
-            checked = 'checked' if opt in selected else ''
-            items.append(NotStr(
-                f'<label class="cb-pill"><input type="checkbox" name="{name}" value="{opt}" {checked}>'
-                f'<span>{opt}</span></label>'
-            ))
-        return Div(*items, cls="cb-group")
 
     @rt("/app/profile")
     def profile_page(sess):
         from sqlalchemy import text
-        import json as _json
         email = get_user_email(sess)
         if not email:
             return RedirectResponse("/app", status_code=303)
@@ -343,17 +327,7 @@ def register_auth_routes(rt):
         p_currency = prefs.currency if prefs else "EUR"
         p_lang = prefs.language if prefs else "en"
         p_phone = prefs.phone if prefs else ""
-        p_bmin = str(prefs.budget_min_eur or "") if prefs else ""
-        p_bmax = str(prefs.budget_max_eur or "") if prefs else ""
-        p_makes = _json.loads(prefs.preferred_makes) if prefs and prefs.preferred_makes else []
-        p_bodies = _json.loads(prefs.preferred_body_types) if prefs and prefs.preferred_body_types else []
-        p_fuels = _json.loads(prefs.preferred_fuel_types) if prefs and prefs.preferred_fuel_types else []
-        p_trans = prefs.preferred_transmission if prefs else ""
-        p_max_km = str(prefs.max_mileage_km or "") if prefs else ""
-        p_min_yr = str(prefs.min_year or "") if prefs else ""
-        p_max_yr = str(prefs.max_year or "") if prefs else ""
         p_notify_new = prefs.notify_new_listings if prefs else True
-        p_notify_price = prefs.notify_price_drops if prefs else True
         p_notify_digest = prefs.notify_weekly_digest if prefs else True
 
         inp = "w-full px-3 py-2 border border-gray-200 rounded-md text-sm"
@@ -414,54 +388,12 @@ def register_auth_routes(rt):
                     onsubmit="return submitProfile(event)",
                 ),
 
-                # ─── Search Preferences ────
-                NotStr('<hr class="my-8 border-gray-100">'),
-                H2("Search Preferences", cls="text-xl font-bold mb-1"),
-                P("Set your defaults — these will pre-fill search filters and help agents tailor recommendations.", cls="text-xs text-gray-400 mb-4"),
-                Form(
-                    H3("Budget Range (EUR)", cls="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2"),
-                    Div(
-                        Div(Label("Min", cls=lbl), Input(type="number", name="budget_min", value=p_bmin, placeholder="e.g. 10000", step="1000", cls=inp), cls=half),
-                        Div(Label("Max", cls=lbl), Input(type="number", name="budget_max", value=p_bmax, placeholder="e.g. 80000", step="1000", cls=inp), cls=half),
-                        cls="flex gap-3 mb-4",
-                    ),
-
-                    H3("Preferred Makes", cls="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2"),
-                    _checkbox_group("preferred_makes", MAKES, p_makes),
-
-                    H3("Body Types", cls="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2 mt-4"),
-                    _checkbox_group("preferred_body_types", BODY_TYPES, p_bodies),
-
-                    H3("Fuel Types", cls="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2 mt-4"),
-                    _checkbox_group("preferred_fuel_types", FUEL_TYPES, p_fuels),
-
-                    H3("Drivetrain", cls="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2 mt-4"),
-                    Div(
-                        Div(Label("Transmission", cls=lbl), _select("preferred_transmission", [("","Any"),("Automatic","Automatic"),("Manual","Manual")], p_trans), cls=half),
-                        Div(Label("Max Mileage (km)", cls=lbl), Input(type="number", name="max_mileage_km", value=p_max_km, placeholder="e.g. 100000", step="5000", cls=inp), cls=half),
-                        cls="flex gap-3 mb-3",
-                    ),
-                    Div(
-                        Div(Label("Min Year", cls=lbl), Input(type="number", name="min_year", value=p_min_yr, placeholder="e.g. 2018", cls=inp), cls=half),
-                        Div(Label("Max Year", cls=lbl), Input(type="number", name="max_year", value=p_max_yr, placeholder="e.g. 2025", cls=inp), cls=half),
-                        cls="flex gap-3 mb-4",
-                    ),
-                    Div(
-                        Button("Save Preferences", type="submit", cls="px-5 py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none"),
-                        Span(id="prefs-msg", cls="text-sm ml-3"),
-                        cls="flex items-center",
-                    ),
-                    id="prefs-form",
-                    onsubmit="return submitPrefs(event)",
-                ),
-
                 # ─── Notifications ────
                 NotStr('<hr class="my-8 border-gray-100">'),
                 H2("Notifications", cls="text-xl font-bold mb-1"),
                 P("Choose what emails you'd like to receive.", cls="text-xs text-gray-400 mb-4"),
                 Form(
                     _toggle("notify_new_listings", "New listings matching my preferences", p_notify_new),
-                    _toggle("notify_price_drops", "Price drops on my favorites", p_notify_price),
                     _toggle("notify_weekly_digest", "Weekly market digest", p_notify_digest),
                     Div(
                         Button("Save Notifications", type="submit", cls="px-5 py-2 bg-black text-white rounded-md text-sm cursor-pointer border-none mt-2"),
@@ -475,10 +407,6 @@ def register_auth_routes(rt):
                 cls="max-w-2xl mx-auto mt-8 mb-16 px-6",
             ),
             Style(NotStr("""
-                .cb-group { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
-                .cb-pill { display:inline-flex; align-items:center; gap:4px; padding:5px 12px; border:1px solid #e5e7eb; border-radius:20px; font-size:13px; cursor:pointer; transition:all .15s; user-select:none; }
-                .cb-pill:has(input:checked) { background:#111; color:#fff; border-color:#111; }
-                .cb-pill input { display:none; }
                 .toggle-row { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:14px; }
                 .toggle-row input { width:16px; height:16px; accent-color:#111; }
                 .toggle-label { color:#374151; }
@@ -492,17 +420,6 @@ async function submitProfile(e) {
     var msg = document.getElementById('profile-msg');
     msg.style.color = data.ok ? '#16A34A' : '#DC2626';
     msg.textContent = data.ok ? 'Saved!' : (data.error || 'Error');
-    setTimeout(function(){ msg.textContent = ''; }, 3000);
-    return false;
-}
-async function submitPrefs(e) {
-    e.preventDefault();
-    var form = document.getElementById('prefs-form');
-    var resp = await fetch('/api/user-profile', { method:'POST', body: new FormData(form) });
-    var data = await resp.json();
-    var msg = document.getElementById('prefs-msg');
-    msg.style.color = data.ok ? '#16A34A' : '#DC2626';
-    msg.textContent = data.ok ? 'Preferences saved!' : (data.error || 'Error');
     setTimeout(function(){ msg.textContent = ''; }, 3000);
     return false;
 }
@@ -524,7 +441,6 @@ async function submitNotify(e) {
     @rt("/app/profile", methods=["POST"])
     async def profile_update(request, sess):
         from sqlalchemy import text
-        import json as _json
         uid = get_user_id(sess)
         if not uid:
             return JSONResponse({"error": "Not logged in"}, status_code=401)
@@ -578,49 +494,25 @@ async function submitNotify(e) {
     @rt("/api/user-profile", methods=["POST"])
     async def update_user_prefs(request, sess):
         from sqlalchemy import text
-        import json as _json
         uid = get_user_id(sess)
         if not uid:
             return JSONResponse({"error": "Not logged in"}, status_code=401)
 
         form = await request.form()
 
-        budget_min = form.get("budget_min") or None
-        budget_max = form.get("budget_max") or None
-        preferred_makes = _json.dumps(form.getlist("preferred_makes"))
-        preferred_body_types = _json.dumps(form.getlist("preferred_body_types"))
-        preferred_fuel_types = _json.dumps(form.getlist("preferred_fuel_types"))
-        preferred_transmission = form.get("preferred_transmission") or None
-        max_mileage_km = form.get("max_mileage_km") or None
-        min_year = form.get("min_year") or None
-        max_year = form.get("max_year") or None
-
         notify_new = "notify_new_listings" in form
-        notify_price = "notify_price_drops" in form
         notify_digest = "notify_weekly_digest" in form
 
         db = _get_db()
         try:
             db.execute(text(f"""
-                INSERT INTO {SCHEMA}.user_profiles (user_id, budget_min_eur, budget_max_eur,
-                    preferred_makes, preferred_body_types, preferred_fuel_types,
-                    preferred_transmission, max_mileage_km, min_year, max_year,
-                    notify_new_listings, notify_price_drops, notify_weekly_digest, updated_at)
-                VALUES (:uid, :bmin, :bmax, :makes, :bodies, :fuels, :trans,
-                        :max_km, :min_yr, :max_yr, :n_new, :n_price, :n_digest, NOW())
+                INSERT INTO {SCHEMA}.user_profiles (user_id, notify_new_listings, notify_weekly_digest, updated_at)
+                VALUES (:uid, :n_new, :n_digest, NOW())
                 ON CONFLICT (user_id) DO UPDATE SET
-                    budget_min_eur = :bmin, budget_max_eur = :bmax,
-                    preferred_makes = :makes, preferred_body_types = :bodies,
-                    preferred_fuel_types = :fuels, preferred_transmission = :trans,
-                    max_mileage_km = :max_km, min_year = :min_yr, max_year = :max_yr,
-                    notify_new_listings = :n_new, notify_price_drops = :n_price,
+                    notify_new_listings = :n_new,
                     notify_weekly_digest = :n_digest, updated_at = NOW()
             """), {
-                "uid": uid, "bmin": budget_min, "bmax": budget_max,
-                "makes": preferred_makes, "bodies": preferred_body_types,
-                "fuels": preferred_fuel_types, "trans": preferred_transmission,
-                "max_km": max_mileage_km, "min_yr": min_year, "max_yr": max_year,
-                "n_new": notify_new, "n_price": notify_price, "n_digest": notify_digest,
+                "uid": uid, "n_new": notify_new, "n_digest": notify_digest,
             })
             db.commit()
         finally:

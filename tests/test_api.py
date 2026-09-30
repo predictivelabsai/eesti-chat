@@ -1,4 +1,4 @@
-"""Tests for the CarHero mobile API.
+"""Tests for the eesti.chat API.
 
 Run: pytest tests/test_api.py -v
 Requires: server running on localhost:5010 with DB access.
@@ -127,11 +127,7 @@ class TestAgents:
         agents = resp.json()
         assert len(agents) >= 5
         slugs = {a["slug"] for a in agents}
-        assert "car_search" in slugs
-        assert "market_analyst" in slugs
-        assert "valuator" in slugs
-        assert "car_compare" in slugs
-        assert "advisor" in slugs
+        assert {"eresidency", "moving", "tax", "services", "digital", "explore"} <= slugs
 
     def test_agent_fields(self, client):
         resp = client.get("/agents")
@@ -148,9 +144,10 @@ class TestSessions:
         assert resp.status_code == 200
         assert isinstance(resp.json(), list)
 
-    def test_list_requires_auth(self, client):
+    def test_list_anonymous_is_empty(self, client):
         resp = client.get("/sessions")
-        assert resp.status_code == 401
+        assert resp.status_code == 200
+        assert isinstance(resp.json(), list)
 
     def test_get_nonexistent(self, client, auth_token):
         resp = client.get("/sessions/999999", headers=auth_headers(auth_token))
@@ -184,8 +181,8 @@ class TestChat:
                     events.append({"event": event_name, "data": data})
         return events
 
-    def test_search_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "search: BMW X5 under 30k")
+    def test_business_query(self, client, auth_token):
+        events = self._stream_chat(client, auth_token, "business: how do I apply for e-Residency?")
 
         event_types = [e["event"] for e in events]
         assert "session" in event_types, "Should emit session event"
@@ -196,50 +193,46 @@ class TestChat:
         assert "sid" in session_event["data"]
 
         route_event = next(e for e in events if e["event"] == "agent_route")
-        assert route_event["data"]["slug"] == "car_search"
+        assert route_event["data"]["slug"] == "eresidency"
 
         token_events = [e for e in events if e["event"] == "token"]
         assert len(token_events) > 0, "Should stream response tokens"
 
-    def test_market_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "market: Audi Q5 price trends")
+    def test_services_query(self, client, auth_token):
+        events = self._stream_chat(client, auth_token, "gov: how do I renew my Estonian ID card?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
-        assert route_event["data"]["slug"] == "market_analyst"
+        assert route_event["data"]["slug"] == "services"
         assert any(e["event"] == "done" for e in events)
 
-    def test_valuation_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "value: 2020 Mercedes C300 45k km")
+    def test_tax_query(self, client, auth_token):
+        events = self._stream_chat(client, auth_token, "tax: how does VAT registration work?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
-        assert route_event["data"]["slug"] == "valuator"
+        assert route_event["data"]["slug"] == "tax"
         assert any(e["event"] == "done" for e in events)
 
-    def test_compare_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "compare: BMW X3 vs Audi Q5")
+    def test_digital_query(self, client, auth_token):
+        events = self._stream_chat(client, auth_token, "id: how do I set up Smart-ID?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
-        assert route_event["data"]["slug"] == "car_compare"
+        assert route_event["data"]["slug"] == "digital"
         assert any(e["event"] == "done" for e in events)
 
-    def test_advisor_query(self, client, auth_token):
-        events = self._stream_chat(client, auth_token, "advise: family SUV under 40k EUR")
+    def test_explore_query(self, client, auth_token):
+        events = self._stream_chat(client, auth_token, "estonia: what makes Estonia's digital society distinctive?")
 
         route_event = next(e for e in events if e["event"] == "agent_route")
-        assert route_event["data"]["slug"] == "advisor"
+        assert route_event["data"]["slug"] == "explore"
         assert any(e["event"] == "done" for e in events)
 
     def test_session_continuity(self, client, auth_token):
-        events1 = self._stream_chat(client, auth_token, "search: Audi A4 under 20k")
+        events1 = self._stream_chat(client, auth_token, "move: how do I register my address in Tallinn?")
         sid = next(e for e in events1 if e["event"] == "session")["data"]["sid"]
 
         events2 = self._stream_chat(client, auth_token, "what about the diesel ones?", session_id=sid)
         sid2 = next(e for e in events2 if e["event"] == "session")["data"]["sid"]
         assert sid2 == sid, "Should reuse same session"
-
-    def test_chat_requires_auth(self, client):
-        resp = client.post("/chat", json={"message": "hello"})
-        assert resp.status_code == 401
 
     def test_chat_empty_message(self, client, auth_token):
         resp = client.post("/chat", json={"message": ""},
@@ -254,7 +247,7 @@ class TestSessionCRUD:
         # Create session via chat
         events = []
         with client.stream("POST", "/chat",
-                           json={"message": "search: Volvo XC60 under 35k"},
+                           json={"message": "tax: when do I file an income tax return?"},
                            headers=auth_headers(auth_token)) as resp:
             for line in resp.iter_lines():
                 if line.startswith("event: "):

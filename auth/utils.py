@@ -86,16 +86,16 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
       You're invited to join eesti.chat
     </h1>
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 16px;">
-      You've been invited{invited_by} to join eesti.chat — the smartest way to find, compare and track premium cars across Europe.
+      You've been invited{invited_by} to join eesti.chat — an AI portal for Estonia's public services.
     </p>
     {personal_msg}
     <p style="color:#4B5563;font-size:14px;line-height:1.6;margin:0 0 8px;">
       With eesti.chat you can:
     </p>
     <ul style="color:#4B5563;font-size:14px;line-height:1.8;margin:0 0 24px;padding-left:20px;">
-      <li>Search 40,000+ premium listings across 17 EU countries</li>
-      <li>Get AI-powered deal analysis and investment scores</li>
-      <li>Track price drops and market trends in real time</li>
+      <li>Ask specialist assistants about Estonian public services</li>
+      <li>Get answers grounded in official Estonian sources</li>
+      <li>Save and share useful conversations</li>
     </ul>
     <a href="{join_url}"
        style="display:inline-block;background:#1A1A1A;color:#fff;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:0.3px;">
@@ -106,7 +106,7 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
     </p>
   </div>
   <p style="text-align:center;color:#9CA3AF;font-size:11px;margin:16px 0 0;">
-    eesti.chat &middot; Premium car marketplace intelligence
+    eesti.chat &middot; AI portal for Estonia
   </p>
 </div>
 </body></html>"""

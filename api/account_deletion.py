@@ -2,8 +2,7 @@
 
 from sqlalchemy import text
 
-
-SCHEMA = "carhero"
+from db import SCHEMA
 
 
 def delete_user_data(db, user_id: int) -> bool:
@@ -27,9 +26,9 @@ def delete_user_data(db, user_id: int) -> bool:
         {"uid": user_id},
     )
 
-    # These tables use ON DELETE CASCADE in the current schema, but explicit
-    # deletion also supports older deployed databases created before that rule.
-    for table in ("favorites", "saved_searches", "garage_cars", "user_profiles"):
+    # Explicit deletion also supports older deployed databases created before
+    # the chat user foreign keys used ON DELETE CASCADE.
+    for table in ("user_profiles",):
         db.execute(
             text(f"DELETE FROM {SCHEMA}.{table} WHERE user_id = :uid"),
             {"uid": user_id},

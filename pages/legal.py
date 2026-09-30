@@ -37,9 +37,8 @@ def privacy_page():
                     'Information we collect',
                     Ul(
                         Li('Account information, including your name, email address, account identifier and authentication information.'),
-                        Li('Optional profile and preference information, such as phone number, country, city, language, currency, vehicle preferences and budget.'),
-                        Li('Content and activity, including AI chat prompts and responses, saved searches, favourites, notes, shared-chat choices and contact messages.'),
-                        Li('Garage information you choose to provide, such as vehicle details, mileage, purchase date, purchase price and ownership-cost inputs.'),
+                        Li('Optional profile information, such as phone number, country, city, language and currency.'),
+                        Li('Content and activity, including AI chat prompts and responses, shared-chat choices and contact messages.'),
                         Li('Technical information needed to operate and secure the service, such as IP address, request time, device or browser information and error logs.'),
                         cls='list-disc pl-6 text-sm leading-7 text-gray-600 space-y-2',
                     ),
@@ -47,8 +46,8 @@ def privacy_page():
                 _legal_section(
                     'How we use information',
                     _paragraph(
-                        'We use this information to create and secure your account; provide search, '
-                        'comparison, valuation, AI-advisory and garage features; remember your choices; '
+                        'We use this information to create and secure your account; provide AI guidance '
+                        'about Estonian public services; remember your choices; '
                         'send requested service messages; respond to support requests; prevent abuse; '
                         'and improve the reliability and safety of eesti.chat.'
                     ),
@@ -144,8 +143,7 @@ def delete_account_page():
                 H2('Request deletion without the app', cls='text-xl font-semibold text-black mb-3'),
                 _paragraph(
                     'Email us from the address registered to your eesti.chat account. We will verify the request '
-                    'before deleting the account and associated chat history, favourites, saved searches, '
-                    'garage vehicles and profile preferences.'
+                    'before deleting the account and associated chat history and profile preferences.'
                 ),
                 A('Email an account-deletion request',
                   href='mailto:info@eesti.chat?subject=eesti.chat%20account%20deletion%20request',

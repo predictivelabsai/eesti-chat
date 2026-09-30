@@ -411,20 +411,3 @@ def register_chat_routes(rt):
             messages=messages,
             agent_slug=row[2],
         )
-
-    @rt("/api/deal/{deal_id}")
-    def deal_lookup(deal_id: str):
-        from sqlalchemy import text
-        db = _get_db()
-        try:
-            row = db.execute(
-                text(f"SELECT make, model FROM {SCHEMA}.deals WHERE id = :did AND status = 'active'"),
-                {"did": deal_id},
-            ).fetchone()
-            if not row:
-                return JSONResponse({"error": "deal not found"}, status_code=404)
-            return JSONResponse({"deal_id": deal_id, "make": row.make, "model": row.model})
-        except Exception:
-            return JSONResponse({"error": "invalid deal id"}, status_code=400)
-        finally:
-            db.close()

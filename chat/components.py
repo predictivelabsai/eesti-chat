@@ -145,7 +145,7 @@ def left_pane(user_email=None, sessions=None, current_sid="", lang: str = "en"):
             items.append(
                 Button(
                     Span(a.icon, cls="agent-icon"),
-                    Span(a.name, cls="agent-name"),
+                    Span(agent_t(a.slug, "name", lang), cls="agent-name"),
                     cls="agent-item",
                     onclick=f"fillChat('{a.prefix} ')",
                 )
@@ -154,7 +154,7 @@ def left_pane(user_email=None, sessions=None, current_sid="", lang: str = "en"):
         agent_groups.append(Div(
             Button(
                 Span(cat["icon"], cls="cat-icon"),
-                Span(cat["name"], cls="cat-name"),
+                Span(category_t(cat["key"], "name", lang), cls="cat-name"),
                 id=f"btn-{group_id}",
                 cls="cat-header",
                 onclick=f"toggleGroup('{group_id}')",
@@ -193,6 +193,7 @@ def left_pane(user_email=None, sessions=None, current_sid="", lang: str = "en"):
             A("eesti.ee", href="https://www.eesti.ee", target="_blank", cls="workspace-link"),
             A("eesti.ai", href="https://eesti.ai", target="_blank", cls="workspace-link"),
             A("e-resident.gov.ee", href="https://www.e-resident.gov.ee", target="_blank", cls="workspace-link"),
+            A("rik.ee (Registers)", href="https://www.rik.ee/en", target="_blank", cls="workspace-link"),
             A("emta.ee (Tax)", href="https://www.emta.ee", target="_blank", cls="workspace-link"),
             A("ria.ee (Digital)", href="https://www.ria.ee", target="_blank", cls="workspace-link"),
             A("err.ee (News)", href="https://www.err.ee", target="_blank", cls="workspace-link"),

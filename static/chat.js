@@ -11,6 +11,7 @@
     const AGENT_PROMPTS = readJsonScript("agent-prompts-data") || {};
     const AGENT_NAMES = readJsonScript("agent-names-data") || {};
     const AGENT_PREFIX_MAP = readJsonScript("agent-prefix-map") || {};
+    const I18N = readJsonScript("i18n-data") || {};
 
     function readJsonScript(id) {
         const el = document.getElementById(id);
@@ -160,13 +161,16 @@
 
         let prompts = (slug && AGENT_PROMPTS[slug]) || [];
         if (!prompts.length) {
-            prompts = [
-                "How do I apply for e-Residency and what does it cost?",
-                "How do I register an OÜ company online?",
-                "How does Estonia's corporate income tax work?",
-                "How do I set up Smart-ID or Mobiil-ID?",
-                "How do I get a residence permit to work in Estonia?",
-            ];
+            prompts = [I18N.sug1, I18N.sug2, I18N.sug3, I18N.sug4, I18N.sug5].filter(Boolean);
+            if (!prompts.length) {
+                prompts = [
+                    "How do I apply for e-Residency and what does it cost?",
+                    "How do I register an OÜ company online?",
+                    "How does Estonia's corporate income tax work?",
+                    "How do I set up Smart-ID or Mobiil-ID?",
+                    "How do I get a residence permit to work in Estonia?",
+                ];
+            }
         }
         row.innerHTML = "";
         prompts.slice(0, 6).forEach(p => {

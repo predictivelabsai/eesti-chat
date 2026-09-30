@@ -72,7 +72,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             Span("Results", cls="toggle-label"),
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
-        Script(_json.dumps(js_translations(lang)), id="i18n-data", type="application/json"),
+        Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
         Script(src="/static/chat.js?v=2"),
         cls="bg-white text-ink font-sans antialiased app",
     )

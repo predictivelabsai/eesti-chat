@@ -263,6 +263,28 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "js_calling": {"en": "Searching", "et": "Otsib"},
     "js_copy_csv": {"en": "Copy CSV", "et": "Kopeeri CSV"},
     "js_copied": {"en": "Copied!", "et": "Kopeeritud!"},
+
+    # -- Default suggestion prompts (welcome screen chips) --
+    "js_sug1": {
+        "en": "How do I apply for e-Residency and what does it cost?",
+        "et": "Kuidas taotleda e-residentsust ja kui palju see maksab?",
+    },
+    "js_sug2": {
+        "en": "How do I register an OÜ company online?",
+        "et": "Kuidas registreerida OÜ internetis?",
+    },
+    "js_sug3": {
+        "en": "How does Estonia's corporate income tax work?",
+        "et": "Kuidas toimib Eesti ettevõtte tulumaks?",
+    },
+    "js_sug4": {
+        "en": "How do I set up Smart-ID or Mobiil-ID?",
+        "et": "Kuidas seadistada Smart-ID või Mobiil-ID?",
+    },
+    "js_sug5": {
+        "en": "How do I get a residence permit to work in Estonia?",
+        "et": "Kuidas saada elamisluba Eestis töötamiseks?",
+    },
 }
 
 # -- Agent translations --

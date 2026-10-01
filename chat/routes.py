@@ -27,6 +27,23 @@ def _get_db():
     return SessionLocal()
 
 
+def _user_exists(uid) -> bool:
+    """Guard against a session cookie that references a deleted/stale user id
+    (e.g. after a DB reset) — otherwise inserts hit the FK and 500."""
+    if not uid or not DB_ENABLED:
+        return False
+    from sqlalchemy import text
+    db = _get_db()
+    try:
+        return db.execute(
+            text(f"SELECT 1 FROM {SCHEMA}.chat_users WHERE id = :id"), {"id": uid}
+        ).fetchone() is not None
+    except Exception:
+        return False
+    finally:
+        db.close()
+
+
 def _ensure_user(sess) -> tuple[int | None, str | None]:
     if not DB_ENABLED:
         return None, None
@@ -34,7 +51,7 @@ def _ensure_user(sess) -> tuple[int | None, str | None]:
     if not email:
         return None, None
     uid = get_user_id(sess)
-    if uid:
+    if uid and _user_exists(uid):
         return uid, email
     from sqlalchemy import text
     db = _get_db()
@@ -135,7 +152,7 @@ def _ensure_guest(sess) -> int | None:
     if not DB_ENABLED:
         return None
     uid = get_user_id(sess)
-    if uid:
+    if uid and _user_exists(uid):
         return uid
     key = sess.get("guest_key")
     if not key:
@@ -166,7 +183,8 @@ def register_chat_routes(rt):
         uid, email = _ensure_user(sess)
         if not uid and DB_ENABLED:
             # Returning guest: show their history without creating a new row.
-            uid = get_user_id(sess)
+            cached = get_user_id(sess)
+            uid = cached if _user_exists(cached) else None
         sessions = _list_sessions(uid) if uid else []
         messages = []
         current_agent = None
@@ -234,17 +252,22 @@ def register_chat_routes(rt):
         spec = by_slug(agent_slug)
         stripped_msg = agent_router.strip_prefix(user_msg)
 
+        session_id = 0
+        history = []
         if DB_ENABLED:
             # Persist history (multi-turn) for signed-in users and guests alike.
-            if not uid:
-                uid = _ensure_guest(sess)
-            session_id = _ensure_session(uid, sid_str, first_message=user_msg)
-            _persist_message(session_id, "user", user_msg)
-            history = _session_messages(session_id)[:-1]
-        else:
-            # No database configured: single-turn, nothing persisted.
-            session_id = 0
-            history = []
+            # Never let a DB hiccup (e.g. a stale user id) 500 the chat — fall
+            # back to an ephemeral, unpersisted turn instead.
+            try:
+                if not uid:
+                    uid = _ensure_guest(sess)
+                session_id = _ensure_session(uid, sid_str, first_message=user_msg)
+                _persist_message(session_id, "user", user_msg)
+                history = _session_messages(session_id)[:-1]
+            except Exception:
+                log.exception("chat persistence failed; continuing ephemerally")
+                session_id = 0
+                history = []
 
         async def event_stream():
             yield sse.event("session", {"sid": session_id})

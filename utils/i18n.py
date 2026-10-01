@@ -126,6 +126,11 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "hero_cta_start": {"en": "Ask a question", "et": "Esita küsimus"},
     "hero_cta_explore": {"en": "Explore topics", "et": "Vaata teemasid"},
 
+    "home_statement": {
+        "en": "Answers are [[AI-generated]]. They come only from [[official Estonian government sources]], are [[free of ads]], and are always shown with [[links]].",
+        "et": "Vastused on [[tehisintellekti loodud]]. Need pärinevad ainult [[Eesti riigi ametlikest allikatest]], on [[reklaamivabad]] ja alati koos [[linkidega]].",
+    },
+
     # -- Stats (numbers hardcoded in template; only labels translated) --
     "stat_services": {"en": "Public services available online", "et": "Avalikud teenused veebis"},
     "stat_xroad": {"en": "X-Road in use since", "et": "X-tee kasutusel alates"},

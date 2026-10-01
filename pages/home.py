@@ -3,7 +3,7 @@ from fasthtml.common import NotStr
 from utils.i18n import t, agent_t, get_lang
 from chat.components import signin_overlay
 from agents.registry import AGENTS_BY_SLUG
-from utils.brand import Icon, AGENT_ICONS
+from utils.brand import Icon, Mark, AGENT_ICONS
 
 
 def _stat(value, label):
@@ -11,6 +11,50 @@ def _stat(value, label):
         Span(value, cls='stat-value'),
         Span(label, cls='stat-label'),
         cls='stat-item',
+    )
+
+
+def _statement_parts(copy):
+    parts = []
+    for segment in copy.split('[['):
+        if ']]' not in segment:
+            parts.append(segment)
+            continue
+        accent, remainder = segment.split(']]', 1)
+        parts.append(
+            Span(
+                accent,
+                cls='statement-accent',
+            )
+        )
+        if remainder:
+            parts.append(remainder)
+    return parts
+
+
+def _feature_visual(kind):
+    if kind == 'ask':
+        return Div(
+            Icon('chat', 88, cls='editorial-visual-icon', stroke=1.5),
+            cls='editorial-visual editorial-visual-blue',
+            aria_hidden='true',
+        )
+    if kind == 'stone':
+        return Div(
+            Mark(88, cls='editorial-mark'),
+            cls='editorial-visual editorial-visual-blue',
+            aria_hidden='true',
+        )
+    if kind == 'sources':
+        return Div(
+            Icon('source', 68, cls='editorial-visual-icon', stroke=1.5),
+            cls='editorial-visual editorial-visual-ink',
+            aria_hidden='true',
+        )
+    return Div(
+        Mark(132, cls='editorial-mark editorial-mark-large'),
+        cls='editorial-visual editorial-visual-blue',
+        aria_hidden='true',
     )
 
 
@@ -31,23 +75,34 @@ def home_page(sess=None):
     hero = Section(
         Div(
             Div(
-                Span('e-Estonia · AI portal', cls='hero-kicker'),
+                Span(t('feat_estonia', lang), cls='hero-kicker'),
                 H1(t('hero_h1', lang), cls='hero-title'),
                 P(t('hero_h2', lang), cls='hero-subtitle'),
                 P(t('hero_body', lang), cls='hero-copy'),
-                Form(
-                    Input(type='search', name='q', placeholder=t('chat_placeholder', lang),
-                         autocomplete='off', cls='hero-prompt-input'),
-                    Button(
-                        Icon('send', 20),
-                        type='submit', cls='hero-prompt-submit', title=t('hero_cta_start', lang),
+                Div(
+                    Form(
+                        Label(t('chat_placeholder', lang), **{'for': 'hero-prompt-input'}, cls='visually-hidden'),
+                        Input(type='search', name='q', placeholder=t('chat_placeholder', lang),
+                             autocomplete='off', id='hero-prompt-input', cls='hero-prompt-input'),
+                        Button(
+                            Icon('arrow-right', 20),
+                            type='submit', cls='hero-prompt-submit', title=t('hero_cta_start', lang),
+                            aria_label=t('hero_cta_start', lang),
+                        ),
+                        action='/app', method='get', role='search', cls='hero-prompt-form',
                     ),
-                    action='/app', method='get', cls='hero-prompt-form',
+                    cls='hero-prompt-slot',
                 ),
                 Div(*hero_chips, cls='hero-chips'),
                 Div(
-                    A(t('hero_cta_start', lang), href='/app', cls='hero-action hero-action-primary'),
-                    A(t('hero_cta_explore', lang), href='#topics', cls='hero-action hero-action-secondary'),
+                    A(
+                        Span(t('hero_cta_start', lang)), Icon('arrow-right', 16),
+                        href='/app', cls='hero-action hero-action-primary',
+                    ),
+                    A(
+                        Span(t('hero_cta_explore', lang)), Icon('arrow-right', 16),
+                        href='#topics', cls='hero-action hero-action-secondary',
+                    ),
                     cls='hero-actions',
                 ),
                 cls='home-hero-content',
@@ -55,6 +110,14 @@ def home_page(sess=None):
             cls='home-hero-inner',
         ),
         cls='home-hero',
+    )
+
+    statement = Section(
+        Div(
+            H2(*_statement_parts(t('home_statement', lang)), cls='statement-copy'),
+            cls='portal-container statement-inner',
+        ),
+        cls='statement-section',
     )
 
     stats = Div(
@@ -66,25 +129,35 @@ def home_page(sess=None):
         cls='stats-band',
     )
 
+    feature_rows = [
+        ('ask', 'editorial-row', t('how_01_title', lang), t('feat_ask', lang),
+         t('feat_ask_body', lang), t('feat_ask_link', lang), '/app'),
+        ('sources', 'editorial-row-reverse', t('how_03_title', lang), t('feat_sources', lang),
+         t('feat_sources_body', lang), t('feat_sources_link', lang), '#how'),
+        ('estonia', 'editorial-row', t('feat_estonia_link', lang), t('feat_estonia', lang),
+         t('feat_estonia_body', lang), t('feat_estonia_link', lang), '/about'),
+    ]
+
     features = Section(
         Div(
             H2('Why eesti.chat', cls='visually-hidden'),
             Div(
                 *[Article(
-                    H3(title, cls='card-title'),
-                    P(body, cls='card-copy'),
-                    A(link, href=href, cls='card-link'),
-                    cls='portal-card feature-card',
-                ) for title, body, link, href in [
-                    (t('feat_ask', lang), t('feat_ask_body', lang), t('feat_ask_link', lang), '/app'),
-                    (t('feat_sources', lang), t('feat_sources_body', lang), t('feat_sources_link', lang), '#how'),
-                    (t('feat_estonia', lang), t('feat_estonia_body', lang), t('feat_estonia_link', lang), '/about'),
-                ]],
-                cls='feature-grid',
+                    _feature_visual(kind),
+                    Div(
+                        Span(eyebrow, cls='editorial-eyebrow'),
+                        H3(title, cls='editorial-title'),
+                        P(body, cls='editorial-copy'),
+                        A(Span(link), Icon('arrow-right', 16), href=href, cls='editorial-link'),
+                        cls='editorial-copy-column',
+                    ),
+                    cls=f'editorial-row-shell {direction}',
+                ) for kind, direction, eyebrow, title, body, link, href in feature_rows],
+                cls='editorial-list',
             ),
             cls='portal-container',
         ),
-        cls='public-section public-section-white',
+        cls='public-section feature-section',
     )
 
     agent_cards = [
@@ -111,20 +184,23 @@ def home_page(sess=None):
 
     how = Section(
         Div(
-            Span('How it works', cls='section-label-blue'),
+            Span(t('how_02_title', lang), cls='section-label-blue'),
             H2(t('how_title', lang), cls='section-title'),
             Div(
                 *[Article(
                     P(num, cls='step-number'),
-                    H3(title, cls='card-title'),
-                    P(body, cls='card-copy'),
-                    cls='portal-card step-card',
+                    Div(
+                        H3(title, cls='step-title'),
+                        P(body, cls='step-copy'),
+                        cls='step-content',
+                    ),
+                    cls='step-row',
                 ) for num, title, body in [
                     ('01', t('how_01_title', lang), t('how_01_body', lang)),
                     ('02', t('how_02_title', lang), t('how_02_body', lang)),
                     ('03', t('how_03_title', lang), t('how_03_body', lang)),
                 ]],
-                cls='steps-grid',
+                cls='steps-list',
             ),
             cls='portal-container',
         ),
@@ -136,10 +212,13 @@ def home_page(sess=None):
         Div(
             H2(t('cta_headline', lang), cls='section-title cta-title'),
             P(t('cta_body', lang), cls='cta-copy'),
-            A(t('hero_cta_start', lang), href='/app', cls='public-button public-button-primary'),
+            A(
+                Span(t('hero_cta_start', lang)), Icon('arrow-right', 16),
+                href='/app', cls='public-button public-button-primary',
+            ),
             cls='portal-container cta-inner',
         ),
-        cls='public-section public-section-alt',
+        cls='public-section cta-section',
     )
 
     auth_modal = signin_overlay(lang)
@@ -236,6 +315,47 @@ document.addEventListener('keydown', function(e) {
 });
 """))
 
+    dock_js = Script(NotStr("""
+(function() {
+    var slot = document.querySelector('.hero-prompt-slot');
+    var form = slot && slot.querySelector('.hero-prompt-form');
+    if (!slot || !form) return;
+    var docked = false;
+    var frame = 0;
+    var threshold = 40;
+
+    function setDocked(next) {
+        if (next === docked) return;
+        if (next) {
+            slot.style.height = form.getBoundingClientRect().height + 'px';
+            form.classList.add('hero-prompt-docked');
+        } else {
+            form.classList.remove('hero-prompt-docked');
+            slot.style.height = '';
+        }
+        docked = next;
+    }
+
+    function updateDock() {
+        frame = 0;
+        var naturalBottom = slot.getBoundingClientRect().bottom;
+        if (!docked && naturalBottom < threshold) setDocked(true);
+        if (docked && naturalBottom >= threshold) setDocked(false);
+    }
+
+    function scheduleDock() {
+        if (!frame) frame = window.requestAnimationFrame(updateDock);
+    }
+
+    updateDock();
+    window.addEventListener('scroll', scheduleDock, { passive: true });
+    window.addEventListener('resize', function() {
+        if (docked) slot.style.height = form.getBoundingClientRect().height + 'px';
+        scheduleDock();
+    });
+})();
+"""))
+
     auth_css = Style("""
 .signin-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.56); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
 .signin-overlay.visible { display:flex; }
@@ -251,6 +371,7 @@ document.addEventListener('keydown', function(e) {
 """)
 
     return Div(
-        hero, stats, features, agents_section, how, cta,
-        auth_modal, auth_css, auth_js,
+        hero, statement, stats, features, agents_section, how, cta,
+        auth_modal, auth_css, auth_js, dock_js,
+        cls='home-page',
     )

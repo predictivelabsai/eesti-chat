@@ -43,7 +43,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
         Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
-        Script(src="/static/chat.js?v=7"),
+        Script(src="/static/chat.js?v=9"),
         cls="bg-white text-ink font-sans antialiased app",
     )
     return (*_head("Ask eesti.chat", with_brand=False).children, body)
@@ -61,7 +61,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
         if role == "assistant" and agent:
             spec = AGENTS_BY_SLUG.get(agent)
             agent_label = Div(
-                Mark(20, cls="msg-agent-icon"),
+                Mark(16, cls="msg-agent-icon"),
                 Div(spec.name if spec else agent, cls="msg-agent-label"),
                 cls="msg-agent",
             )

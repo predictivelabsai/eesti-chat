@@ -222,7 +222,7 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
         if role == "assistant" and agent:
             spec = AGENTS_BY_SLUG.get(agent)
             agent_label = Div(
-                Mark(20, cls="msg-agent-icon"),
+                Mark(16, cls="msg-agent-icon"),
                 Span(spec.name if spec else agent, cls="msg-agent-label"),
                 cls="msg-agent",
             )

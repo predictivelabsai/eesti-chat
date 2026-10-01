@@ -202,6 +202,10 @@
     // -- SSE send --
     async function sendMessage(evt) {
         if (evt) evt.preventDefault();
+        const langMenu = document.getElementById("lang-dd-menu");
+        if (langMenu) langMenu.classList.remove("open");
+        const langTrigger = document.querySelector(".lang-trigger");
+        if (langTrigger) langTrigger.setAttribute("aria-expanded", "false");
         if (streaming) return;
         const ta = $("#chat-input");
         if (!ta) return;

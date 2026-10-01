@@ -1,7 +1,7 @@
 from fasthtml.common import *
 from utils.i18n import t, LANGUAGES, get_lang, DEFAULT_LANG
 from utils.i18n_flags import flag_svg
-from utils.brand import Icon, Wordmark, brand_head
+from utils.brand import Icon, Mark, Wordmark, brand_head
 
 
 def app_styles():
@@ -45,7 +45,7 @@ def app_styles():
         Meta(name='color-scheme', content='light'),
         Meta(name='viewport', content='width=device-width, initial-scale=1'),
         Link(rel='stylesheet', href='/static/tw.css'),
-        Link(rel='stylesheet', href='/static/app.css?v=6'),
+        Link(rel='stylesheet', href='/static/app.css?v=10'),
     )
 
 
@@ -139,7 +139,7 @@ def PageFooter(lang: str = "en"):
         Div(
             Div(
                 Div(
-                    Wordmark(tag=H3, cls='footer-wordmark', mark_size=30),
+                    Wordmark(tag=H3, cls='footer-wordmark', mark_size=38),
                     P(t('footer_desc', lang),
                       cls='footer-desc'),
                 ),
@@ -186,6 +186,57 @@ def Page(content, active='home', title='', sess=None):
         A('Skip to main content', href='#main-content', cls='skip-link'),
         Title(f'{title} | eesti.chat · AI portal for Estonia') if title else Title('eesti.chat · AI portal for Estonia'),
         NavBar(active, sess=sess),
-        Main(content, id='main-content'),
-        PageFooter(lang=lang)
+        Main(content, id='main-content', cls='public-page'),
+        PageFooter(lang=lang),
+        AskBubble(lang),
+        Script("""
+(function() {
+    var bubble = document.querySelector('.ask-bubble');
+    if (!bubble || document.querySelector('.home-page .hero-prompt-form')) return;
+    function updateAskBubble() {
+        var hero = document.querySelector('.home-hero');
+        var threshold = hero
+            ? hero.getBoundingClientRect().bottom + window.scrollY
+            : 480;
+        bubble.classList.toggle('visible', window.scrollY > threshold);
+    }
+    updateAskBubble();
+    window.addEventListener('scroll', updateAskBubble, { passive: true });
+    window.addEventListener('resize', updateAskBubble);
+})();
+"""),
+    )
+
+
+def AskBubble(lang: str = "en"):
+    return Div(
+        Form(
+            Label(
+                t('chat_placeholder', lang),
+                **{'for': 'ask-bubble-input'},
+                cls='visually-hidden',
+            ),
+            Mark(20, cls='ask-bubble-mark'),
+            Input(
+                type='search',
+                name='q',
+                id='ask-bubble-input',
+                placeholder=t('chat_placeholder', lang),
+                autocomplete='off',
+                cls='ask-bubble-input',
+            ),
+            Button(
+                Icon('arrow-right', 18),
+                type='submit',
+                title=t('hero_cta_start', lang),
+                aria_label=t('hero_cta_start', lang),
+                cls='ask-bubble-submit',
+            ),
+            action='/app',
+            method='get',
+            role='search',
+            aria_label=t('chat_welcome_title', lang),
+            cls='ask-bubble-form',
+        ),
+        cls='ask-bubble',
     )

@@ -2,7 +2,7 @@
 
 **A conversational AI portal to Estonia — the world's most advanced digital society.**
 
-![eesti.chat demo](media/eesti-demo.gif)
+![eesti.chat — the AI front door to Estonia](media/eesti-landing.gif)
 
 🔗 **Live:** [eesti.chat](https://eesti.chat)
 

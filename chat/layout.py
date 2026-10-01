@@ -3,54 +3,24 @@
 from __future__ import annotations
 
 from fasthtml.common import (
-    Html, Head, Body, Meta, Title, Link, Script, Style, NotStr,
+    Html, Head, Body, Meta, Title, Link, Script, NotStr,
     Div, Span,
 )
 
 from chat.components import left_pane, center_pane, right_pane, signin_overlay
+from utils.brand import Icon, Mark, brand_head
 
 
-TAILWIND_CONFIG = """
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        ink: { DEFAULT: '#0A0A0A', muted: '#4B5563', dim: '#9CA3AF' },
-        surface: { DEFAULT: '#FFFFFF', alt: '#F5F7FA' },
-        border: '#E5E7EB',
-        brand: { DEFAULT: '#0072CE', dark: '#005BA6', light: '#E6F1FB' },
-      },
-      fontFamily: {
-        display: ['DM Serif Display', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-      },
-    },
-  },
-}
-"""
-
-
-def _head(title: str = "eesti.chat") -> Head:
+def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
+    # Pages rendered through the app's global hdrs already get brand_head().
     return Head(
         Meta(charset="utf-8"),
         Meta(name="viewport", content="width=device-width, initial-scale=1, viewport-fit=cover"),
-        Meta(name="theme-color", content="#0072CE"),
-        Meta(name="color-scheme", content="light"),
-        Style(":root{color-scheme:light}html,body{background:#ffffff}"),
         Meta(name="apple-mobile-web-app-capable", content="yes"),
         Meta(name="apple-mobile-web-app-status-bar-style", content="black-translucent"),
-        Link(rel="icon", href="/static/favicon.svg", type="image/svg+xml"),
-        Link(rel="apple-touch-icon", href="/static/favicon.svg"),
-        Link(rel="manifest", href="/static/manifest.json"),
+        *(brand_head() if with_brand else ()),
         Title(f"{title} — eesti.chat"),
-        Link(rel="preconnect", href="https://fonts.googleapis.com"),
-        Link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin=""),
-        Link(rel="stylesheet",
-             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap"),
-        Script(src="https://cdn.tailwindcss.com"),
-        Script(NotStr(TAILWIND_CONFIG)),
-        Script(src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
-        Link(rel="stylesheet", href="/static/app.css"),
+        Script(src="/static/marked.min.js?v=1"),
     )
 
 
@@ -62,20 +32,21 @@ def chat_page(user_email=None, sessions=None, current_sid="",
     body = Body(
         signin_overlay(lang=lang),
         Div(id="left-overlay", cls="left-overlay", onclick="toggleLeftPane()"),
-        left_pane(user_email=user_email, sessions=sessions, current_sid=current_sid, lang=lang),
+        left_pane(user_email=user_email, sessions=sessions, current_sid=current_sid,
+                  current_agent_slug=current_agent_slug, lang=lang),
         center_pane(messages=messages, current_agent_slug=current_agent_slug, lang=lang),
         Div(id="right-overlay", cls="right-overlay", onclick="toggleArtifactPane()"),
         right_pane(lang=lang),
         Button(
-            NotStr('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>'),
+            Icon("panel", 16),
             Span("Results", cls="toggle-label"),
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
         Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
-        Script(src="/static/chat.js?v=3"),
+        Script(src="/static/chat.js?v=7"),
         cls="bg-white text-ink font-sans antialiased app",
     )
-    return Html(_head("Ask eesti.chat"), body)
+    return (*_head("Ask eesti.chat", with_brand=False).children, body)
 
 
 def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None):
@@ -90,7 +61,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
         if role == "assistant" and agent:
             spec = AGENTS_BY_SLUG.get(agent)
             agent_label = Div(
-                Div(spec.icon if spec else "*", cls="msg-agent-icon"),
+                Mark(20, cls="msg-agent-icon"),
                 Div(spec.name if spec else agent, cls="msg-agent-label"),
                 cls="msg-agent",
             )
@@ -103,7 +74,7 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
             Div(
                 Div(title, cls="chat-header-title"),
                 Div(
-                    Div("Shared via eesti.chat", cls="text-sm text-gray-400"),
+                    Div("Shared via eesti.chat", cls="shared-subtitle"),
                     cls="chat-header-actions",
                 ),
                 cls="chat-header",
@@ -112,7 +83,6 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
             cls="center-pane",
             style="max-width:800px;margin:0 auto;",
         ),
-        Script(src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
         Script(NotStr("""
             document.querySelectorAll('.msg-bubble').forEach(b => {
                 if (typeof marked !== 'undefined') b.innerHTML = marked.parse(b.textContent);
@@ -120,4 +90,4 @@ def shared_chat_page(title: str = "Shared Chat", messages=None, agent_slug=None)
         """)),
         cls="bg-white text-ink font-sans antialiased",
     )
-    return Html(_head(title), body)
+    return (*_head(title, with_brand=False).children, body)

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "direction": "official editorial state portal",
+  "mode": "persuade-and-operate",
+  "tokens": {
+    "blue": "#0030DE",
+    "blue-deep": "#000087",
+    "blue-ice": "#CEE2FD",
+    "ink": "#0F172A",
+    "ink-2": "#3D4B5E",
+    "ink-3": "#64748B",
+    "line": "#CBD5E1",
+    "bg-alt": "#F1F5F9",
+    "surface": "#FFFFFF"
+  },
+  "fonts": {
+    "display": "AinoHeadline",
+    "body": "Aino"
+  },
+  "radius": {
+    "card": "6px",
+    "control": "4px",
+    "chip": "3px"
+  }
+}

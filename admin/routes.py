@@ -44,7 +44,7 @@ def _require_admin(sess):
 ADMIN_CSS = """
 .admin-wrap { max-width:900px; margin:0 auto; padding:32px 24px; }
 .admin-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; }
-.admin-header h1 { font-family:'DM Serif Display',Georgia,serif; font-size:28px; color:#1A1A1A; margin:0; }
+.admin-header h1 { font-family:'AinoHeadline',Verdana,sans-serif; font-size:28px; color:#0F172A; margin:0; }
 .admin-card { background:#fff; border:1px solid #E5E5E5; border-radius:8px; padding:24px; margin-bottom:24px; }
 .admin-card h2 { font-size:16px; font-weight:600; margin:0 0 16px; color:#1A1A1A; }
 .admin-table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -312,7 +312,7 @@ async function sendInvite(e) {
         return Html(_head("Join eesti.chat"), Body(
             Div(
                 Div(
-                    NotStr('<span style="font-family:\'DM Serif Display\',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">eesti.chat</span>'),
+                    NotStr('<span style="font-family:\'Aino\',Verdana,sans-serif;font-size:22px;font-weight:700;color:#0F172A;">eesti.chat</span>'),
                     style="margin-bottom:20px;",
                 ),
                 H2("Create your account", cls="text-xl font-bold mb-2"),

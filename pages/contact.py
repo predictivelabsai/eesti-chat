@@ -1,46 +1,50 @@
 from fasthtml.common import *
 
 
-INPUT_CLS = 'w-full px-3 py-2 border border-gray-200 rounded-md text-sm mb-4 font-sans'
+INPUT_CLS = 'public-field'
 
 
-def contact_page():
+def contact_page(name='', email='', message='', error=''):
     return Div(
         Section(
             Div(
-                H1('Contact Us', cls='font-display text-4xl font-extrabold text-black mb-4'),
-                P('Questions or feedback about eesti.chat? We would love to hear from you. '
-                  'For official matters, please use the relevant government authority.',
-                  cls='text-lg text-gray-500'),
-                cls='max-w-7xl mx-auto relative z-10'
+                H1('Contact us', cls='public-page-title'),
+                P('Questions or feedback about eesti.chat? Send us a message. '
+                  'For official matters, contact the relevant government authority.',
+                  cls='public-page-intro'),
+                cls='portal-container public-hero-content'
             ),
-            cls='bg-white py-16 px-8'
+            cls='public-page-hero'
         ),
         Section(
             Div(
                 Div(
                     Form(
+                        *([P(error, cls='contact-error', role='alert')] if error else []),
                         Div(
-                            Label('Name', cls='block mb-1 font-semibold text-sm text-gray-900'),
-                            Input(type='text', name='name', placeholder='Your name', cls=INPUT_CLS),
+                            Label('Name', **{'for': 'contact-name'}, cls='field-label'),
+                            Input(type='text', id='contact-name', name='name', placeholder='Your name',
+                                  value=name, autocomplete='name', required=True, cls=INPUT_CLS),
                         ),
                         Div(
-                            Label('Email', cls='block mb-1 font-semibold text-sm text-gray-900'),
-                            Input(type='email', name='email', placeholder='you@example.com', cls=INPUT_CLS),
+                            Label('Email', **{'for': 'contact-email'}, cls='field-label'),
+                            Input(type='email', id='contact-email', name='email', placeholder='you@example.com',
+                                  value=email, autocomplete='email', required=True, cls=INPUT_CLS),
                         ),
                         Div(
-                            Label('Message', cls='block mb-1 font-semibold text-sm text-gray-900'),
-                            Textarea(name='message', placeholder='Your message...', rows=5,
+                            Label('Message', **{'for': 'contact-message'}, cls='field-label'),
+                            Textarea(message, id='contact-message', name='message', placeholder='Your message...', rows=5,
+                                     required=True,
                                      cls=INPUT_CLS + ' resize-none'),
                         ),
-                        Button('Send Message', type='submit',
-                               cls='w-full mt-2 px-6 py-2.5 rounded-full font-semibold text-sm bg-brand text-white hover:bg-brand-dark transition-colors cursor-pointer border-none'),
+                        Button('Send message', type='submit',
+                               cls='public-button public-button-primary public-button-full'),
                         method='post', action='/contact',
-                        cls='bg-white p-8 rounded-lg shadow-sm max-w-md mx-auto'
+                        cls='contact-form'
                     ),
                     cls='max-w-7xl mx-auto'
                 ),
             ),
-            cls='py-20 px-8 bg-gray-50'
+            cls='public-section public-section-alt contact-section'
         ),
     )

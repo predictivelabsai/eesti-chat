@@ -1,4 +1,4 @@
-"""Internationalisation — session-based language with IP detection.
+"""Language support: session-based language with IP detection.
 
 eesti.chat ships full copy in English (en) and Estonian (et); the other
 languages in the switcher fall back to English automatically via ``t()``.
@@ -10,6 +10,7 @@ from typing import Any
 
 DEFAULT_LANG = "en"
 
+# UI flags are rendered from utils.i18n_flags.py SVGs; these legacy emoji values are unused by the UI.
 LANGUAGES: dict[str, dict] = {
     "en": {"name": "English",    "native": "English",    "flag": "\U0001f1ec\U0001f1e7"},
     "et": {"name": "Estonian",   "native": "Eesti",      "flag": "\U0001f1ea\U0001f1ea"},
@@ -102,8 +103,8 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "nav_about": {"en": "About", "et": "Meist"},
     "nav_contact": {"en": "Contact", "et": "Kontakt"},
     "nav_open_app": {"en": "Ask eesti.chat", "et": "Küsi eesti.chat"},
-    "nav_login": {"en": "Log In", "et": "Logi sisse"},
-    "nav_logout": {"en": "Log Out", "et": "Logi välja"},
+    "nav_login": {"en": "Log in", "et": "Logi sisse"},
+    "nav_logout": {"en": "Log out", "et": "Logi välja"},
 
     # -- Hero --
     "hero_h1": {
@@ -116,18 +117,18 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     },
     "hero_body": {
         "en": "eesti.chat is a conversational portal to the world's most advanced digital society. "
-              "Ask in plain language and get clear answers drawn from official Estonian government "
-              "sources — with links so you can verify every step.",
+              "Ask in plain language. Get clear answers from official Estonian government sources, "
+              "with links to check each step.",
         "et": "eesti.chat on vestluspõhine värav maailma arenenuimasse digiühiskonda. "
-              "Küsi tavakeeles ja saa selged vastused, mis põhinevad Eesti riigi ametlikel allikatel — "
-              "koos linkidega, et saaksid iga sammu üle kontrollida.",
+              "Küsi tavakeeles. Saa selged vastused Eesti riigi ametlikest allikatest ja lingid, "
+              "mille abil iga sammu kontrollida.",
     },
     "hero_cta_start": {"en": "Ask a question", "et": "Esita küsimus"},
     "hero_cta_explore": {"en": "Explore topics", "et": "Vaata teemasid"},
 
     # -- Stats (numbers hardcoded in template; only labels translated) --
-    "stat_services": {"en": "Public services online", "et": "Avalikke teenuseid veebis"},
-    "stat_xroad": {"en": "X-Road live since", "et": "X-tee töös alates"},
+    "stat_services": {"en": "Public services available online", "et": "Avalikud teenused veebis"},
+    "stat_xroad": {"en": "X-Road in use since", "et": "X-tee kasutusel alates"},
     "stat_eres": {"en": "e-Residency since", "et": "e-residentsus alates"},
     "stat_signatures": {"en": "GDP saved by e-signatures", "et": "SKP-st säästavad e-allkirjad"},
 
@@ -135,94 +136,81 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "feat_ask": {"en": "Ask, don't navigate", "et": "Küsi, ära otsi"},
     "feat_ask_body": {
         "en": "Skip the maze of agency websites. Describe what you need in your own words and the "
-              "right specialist assistant answers — e-Residency, tax, digital ID, moving, or public services.",
+              "right specialist assistant answers about e-Residency, tax, digital ID, moving, or public services.",
         "et": "Jäta ametiasutuste veebilehtede rägastik vahele. Kirjelda oma sõnadega, mida vajad, "
-              "ja õige eriabiline vastab — e-residentsus, maksud, digi-ID, kolimine või avalikud teenused.",
+              "ja õige eriabiline vastab e-residentsuse, maksude, digi-ID, kolimise või avalike teenuste kohta.",
     },
     "feat_ask_link": {"en": "Start a conversation", "et": "Alusta vestlust"},
     "feat_sources": {"en": "Grounded in official sources", "et": "Põhineb ametlikel allikatel"},
     "feat_sources_body": {
-        "en": "Every answer is backed by live search across official domains — eesti.ee, ria.ee, "
-              "e-resident.gov.ee, emta.ee, politsei.ee — and cites its sources so you can check them.",
-        "et": "Iga vastus tugineb otsingule ametlikelt domeenidelt — eesti.ee, ria.ee, "
-              "e-resident.gov.ee, emta.ee, politsei.ee — ja viitab allikatele, et saaksid neid kontrollida.",
+        "en": "Every answer uses live search across official domains, including eesti.ee, ria.ee, "
+              "e-resident.gov.ee, emta.ee, and politsei.ee. It cites the sources so you can check them.",
+        "et": "Iga vastus põhineb reaalajas otsingul ametlikel domeenidel, sealhulgas eesti.ee, ria.ee, "
+              "e-resident.gov.ee, emta.ee ja politsei.ee. Allikaviited aitavad neid kontrollida.",
     },
     "feat_sources_link": {"en": "See how it works", "et": "Vaata, kuidas see töötab"},
     "feat_estonia": {"en": "Built on e-Estonia", "et": "Ehitatud e-Eestile"},
     "feat_estonia_body": {
-        "en": "A conversational layer over Estonia's mature digital state — X-Road data exchange, "
-              "e-ID, digital signatures, and the once-only principle that already power 99% of services.",
-        "et": "Vestluskiht Eesti küpse digiriigi peal — X-tee andmevahetus, e-ID, digiallkirjad "
-              "ja kord-ainult põhimõte, mis juba käitavad 99% teenustest.",
+        "en": "It adds a conversational layer to Estonia's mature digital state: X-Road data exchange, "
+              "e-ID, digital signatures, and the once-only principle already power 99% of services.",
+        "et": "See lisab vestluskihi Eesti küpsele digiriigile: X-tee andmevahetus, e-ID, digiallkirjad "
+              "ja kord-ainult põhimõte toimivad juba 99% teenuste alusena.",
     },
     "feat_estonia_link": {"en": "About Estonia", "et": "Eestist lähemalt"},
 
     # -- Topics / agents section --
     "topics_title": {"en": "Six specialist assistants", "et": "Kuus eriabilist"},
     "topics_subtitle": {
-        "en": "Each focused on one part of life in Estonia — and each answers from official sources.",
-        "et": "Igaüks keskendub ühele osale Eestiga suhtlemisest — ja igaüks vastab ametlike allikate põhjal.",
+        "en": "Each assistant focuses on one part of life in Estonia and uses official sources.",
+        "et": "Iga abiline keskendub ühele Eestiga seotud teemale ja vastab ametlike allikate põhjal.",
     },
 
     # -- How It Works --
     "how_title": {"en": "How eesti.chat works", "et": "Kuidas eesti.chat töötab"},
     "how_01_title": {"en": "Ask", "et": "Küsi"},
     "how_01_body": {
-        "en": "Type your question in any of our languages — “How do I apply for e-Residency?”, "
-              "“What tax do I pay as a sole trader?”. No forms, no jargon.",
-        "et": "Kirjuta oma küsimus ükskõik millises meie keeles — „Kuidas taotleda e-residentsust?“, "
-              "„Millist maksu maksan FIE-na?“. Ilma vormide ja ametikeeleta.",
+        "en": "Type your question in any of our languages. \"How do I apply for e-Residency?\", "
+              "\"What tax do I pay as a sole trader?\" No forms, no jargon.",
+        "et": "Kirjuta oma küsimus ükskõik millises meie keeles. Näiteks: „Kuidas taotleda e-residentsust?“ "
+              "või „Millist maksu maksan FIE-na?“. Sa ei vaja vorme ega ametikeelt.",
     },
     "how_02_title": {"en": "We search official sources", "et": "Otsime ametlikest allikatest"},
     "how_02_body": {
-        "en": "The right assistant searches live across official Estonian government sites, reads the "
-              "current guidance, and pulls together what actually applies to you.",
+        "en": "The right assistant searches official Estonian government sites in real time, reads the "
+              "current guidance, and brings together the parts that apply to you.",
         "et": "Õige abiline otsib reaalajas Eesti riigi ametlikelt veebilehtedelt, loeb kehtivat "
-              "juhendit ja koondab selle, mis sinu jaoks tegelikult kehtib.",
+              "juhendit ja koondab sinu olukorra jaoks vajaliku teabe.",
     },
     "how_03_title": {"en": "Answer with sources", "et": "Vastus koos allikatega"},
     "how_03_body": {
-        "en": "You get a clear, step-by-step answer with links to the official pages — so you can act "
-              "with confidence and verify everything yourself.",
-        "et": "Saad selge samm-sammult vastuse koos linkidega ametlikele lehtedele — et tegutseda "
-              "kindlalt ja kõike ise kontrollida.",
+        "en": "You get a clear answer with links to the official pages, so you can check each step yourself.",
+        "et": "Saad selge vastuse koos linkidega ametlikele lehtedele, et saaksid iga sammu ise kontrollida.",
     },
 
     # -- CTA --
     "cta_headline": {"en": "Everything Estonia, one conversation away.", "et": "Kogu Eesti ühe vestluse kaugusel."},
     "cta_body": {
-        "en": "From starting an EU company as an e-resident to renewing your ID card — ask eesti.chat "
-              "and get answers grounded in official sources.",
-        "et": "Alates EL-i ettevõtte asutamisest e-residendina kuni ID-kaardi uuendamiseni — küsi "
-              "eesti.chat ja saa vastused ametlike allikate põhjal.",
-    },
-
-    # -- Inspiration / credit --
-    "credit_label": {"en": "Inspired by", "et": "Inspireeritud"},
-    "credit_body": {
-        "en": "eesti.chat is an independent project inspired by america.gov's AI government portal "
-              "and the U.S. State Department's ShareAmerica, reimagined for e-Estonia. It is not an "
-              "official government service.",
-        "et": "eesti.chat on sõltumatu projekt, mis on inspireeritud america.gov tehisintellekti "
-              "riigiportaalist ja USA välisministeeriumi ShareAmerica'st, mõeldud ümber e-Eesti jaoks. "
-              "See ei ole ametlik riiklik teenus.",
+        "en": "Ask eesti.chat about starting an EU company as an e-resident or renewing your ID card. "
+              "The answers come from official sources.",
+        "et": "Küsi eesti.chatilt EL-i ettevõtte asutamise või ID-kaardi uuendamise kohta. "
+              "Vastused põhinevad ametlikel allikatel.",
     },
 
     # -- Footer --
     "footer_desc": {
-        "en": "A conversational AI portal to Estonia. We help residents and the world find, understand, "
-              "and act on Estonian public services — grounded in official sources.",
-        "et": "Vestluspõhine tehisintellekti portaal Eestisse. Aitame elanikel ja kogu maailmal leida, "
-              "mõista ja kasutada Eesti avalikke teenuseid — ametlike allikate põhjal.",
+        "en": "A conversational AI portal to Estonia. We help residents and people elsewhere find, "
+              "understand, and use Estonian public services. Answers are based on official sources.",
+        "et": "Vestluspõhine tehisintellektiportaal Eestisse. Aitame elanikel ja mujal elavatel inimestel "
+              "leida, mõista ja kasutada Eesti avalikke teenuseid. Vastused põhinevad ametlikel allikatel.",
     },
     "footer_platform": {"en": "Portal", "et": "Portaal"},
     "footer_resources": {"en": "Resources", "et": "Ressursid"},
     "footer_legal": {"en": "Legal", "et": "Juriidiline"},
-    "footer_terms": {"en": "Terms of Service", "et": "Kasutustingimused"},
-    "footer_privacy": {"en": "Privacy Policy", "et": "Privaatsuspoliitika"},
+    "footer_terms": {"en": "Terms of service", "et": "Kasutustingimused"},
+    "footer_privacy": {"en": "Privacy policy", "et": "Privaatsuspoliitika"},
     "footer_copyright": {
-        "en": "© 2026 eesti.chat. An independent project — not an official government service.",
-        "et": "© 2026 eesti.chat. Sõltumatu projekt — mitte ametlik riiklik teenus.",
+        "en": "© 2026 eesti.chat. An independent project, not an official government service.",
+        "et": "© 2026 eesti.chat. Sõltumatu projekt, mitte ametlik riiklik teenus.",
     },
     "footer_disclaimer": {
         "en": "Answers are AI-generated from public sources and may be incomplete or out of date. "
@@ -238,9 +226,9 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_welcome_title": {"en": "Ask eesti.chat", "et": "Küsi eesti.chat"},
     "chat_welcome_body": {
         "en": "Ask about e-Residency, digital ID, taxes, moving to Estonia, or any public service. "
-              "Answers come with links to official sources.",
+              "Each answer includes links to official sources.",
         "et": "Küsi e-residentsuse, digi-ID, maksude, Eestisse kolimise või ükskõik millise avaliku "
-              "teenuse kohta. Vastused tulevad koos linkidega ametlikele allikatele.",
+              "teenuse kohta. Iga vastus sisaldab linke ametlikele allikatele.",
     },
     "chat_placeholder": {
         "en": "Ask about e-Residency, taxes, digital ID, moving to Estonia...",
@@ -250,12 +238,12 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_copy": {"en": "Copy", "et": "Kopeeri"},
     "chat_share": {"en": "Share", "et": "Jaga"},
     "chat_canvas": {"en": "Canvas", "et": "Lõuend"},
-    "chat_signin_title": {"en": "Sign In", "et": "Logi sisse"},
-    "chat_signin_body": {"en": "Enter your email to save chat history.", "et": "Sisesta e-post vestlusajaloo salvestamiseks."},
-    "chat_sign_in": {"en": "Sign In", "et": "Logi sisse"},
-    "chat_sign_out": {"en": "Sign Out", "et": "Logi välja"},
+    "chat_signin_title": {"en": "Sign in", "et": "Logi sisse"},
+    "chat_signin_body": {"en": "Enter your email to save your chat history.", "et": "Sisesta oma e-post vestlusajaloo salvestamiseks."},
+    "chat_sign_in": {"en": "Sign in", "et": "Logi sisse"},
+    "chat_sign_out": {"en": "Sign out", "et": "Logi välja"},
     "chat_cancel": {"en": "Cancel", "et": "Tühista"},
-    "chat_artifacts_title": {"en": "Sources & Results", "et": "Allikad ja tulemused"},
+    "chat_artifacts_title": {"en": "Sources and results", "et": "Allikad ja tulemused"},
     "chat_artifacts_subtitle": {"en": "Official links, tables, and charts", "et": "Ametlikud lingid, tabelid ja graafikud"},
 
     # -- JS strings --
@@ -270,7 +258,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "et": "Kuidas taotleda e-residentsust ja kui palju see maksab?",
     },
     "js_sug2": {
-        "en": "How do I register an OÜ company online?",
+        "en": "How do I register an OÜ online?",
         "et": "Kuidas registreerida OÜ internetis?",
     },
     "js_sug3": {
@@ -290,35 +278,35 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
 # -- Agent translations --
 AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "eresidency": {
-        "name": {"en": "e-Residency & Company", "et": "e-residentsus ja ettevõte"},
+        "name": {"en": "e-Residency & company", "et": "e-residentsus ja ettevõte"},
         "one_liner": {
             "en": "Apply for e-Residency and start or run an EU company from anywhere.",
             "et": "Taotle e-residentsust ning asuta või juhi EL-i ettevõtet kõikjalt.",
         },
     },
     "moving": {
-        "name": {"en": "Living & Moving", "et": "Elamine ja kolimine"},
+        "name": {"en": "Living & moving", "et": "Elamine ja kolimine"},
         "one_liner": {
             "en": "Residence permits, visas, registering your address, and settling in.",
             "et": "Elamisload, viisad, elukoha registreerimine ja sisseelamine.",
         },
     },
     "tax": {
-        "name": {"en": "Taxes & Finance", "et": "Maksud ja rahandus"},
+        "name": {"en": "Taxes & finance", "et": "Maksud ja rahandus"},
         "one_liner": {
             "en": "Income tax, VAT, and filing through the e-Tax Board.",
             "et": "Tulumaks, käibemaks ja deklareerimine e-maksuametis.",
         },
     },
     "digital": {
-        "name": {"en": "Digital ID & e-Services", "et": "Digi-ID ja e-teenused"},
+        "name": {"en": "Digital ID & e-services", "et": "Digi-ID ja e-teenused"},
         "one_liner": {
             "en": "e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Road.",
             "et": "e-ID, Smart-ID, Mobiil-ID, digiallkirjad ja X-tee.",
         },
     },
     "services": {
-        "name": {"en": "Public Services", "et": "Avalikud teenused"},
+        "name": {"en": "Public services", "et": "Avalikud teenused"},
         "one_liner": {
             "en": "Health, education, family benefits, voting, and everyday state services.",
             "et": "Tervis, haridus, peretoetused, valimised ja igapäevased riigiteenused.",
@@ -335,8 +323,8 @@ AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
 
 # -- Category translations --
 CATEGORY_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
-    "business": {"name": {"en": "e-Residency & Business", "et": "e-residentsus ja ettevõtlus"}},
+    "business": {"name": {"en": "e-Residency & business", "et": "e-residentsus ja ettevõtlus"}},
     "living": {"name": {"en": "Living in Estonia", "et": "Elamine Eestis"}},
-    "digital": {"name": {"en": "Digital Society", "et": "Digiühiskond"}},
+    "digital": {"name": {"en": "Digital society", "et": "Digiühiskond"}},
     "discover": {"name": {"en": "Discover Estonia", "et": "Avasta Eesti"}},
 }

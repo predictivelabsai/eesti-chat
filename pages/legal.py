@@ -3,25 +3,25 @@ from fasthtml.common import *
 
 def _legal_section(title: str, *content):
     return Section(
-        H2(title, cls='text-xl font-semibold text-black mb-3'),
+        H2(title, cls='public-subtitle'),
         *content,
         cls='mb-8',
     )
 
 
 def _paragraph(text: str):
-    return P(text, cls='text-sm leading-7 text-gray-600 mb-3')
+    return P(text, cls='public-paragraph')
 
 
 def privacy_page():
     return Div(
         Section(
             Div(
-                H1('Privacy Policy', cls='font-display text-4xl font-extrabold text-black mb-4'),
-                P('Last updated: 3 September 2026', cls='text-sm text-gray-500'),
-                cls='max-w-4xl mx-auto',
+                H1('Privacy policy', cls='public-page-title'),
+                P('Last updated: 3 September 2026', cls='public-page-meta'),
+                cls='portal-container public-hero-content legal-hero-content',
             ),
-            cls='bg-white py-16 px-8',
+            cls='public-page-hero',
         ),
         Section(
             Div(
@@ -40,7 +40,7 @@ def privacy_page():
                         Li('Optional profile information, such as phone number, country, city, language and currency.'),
                         Li('Content and activity, including AI chat prompts and responses, shared-chat choices and contact messages.'),
                         Li('Technical information needed to operate and secure the service, such as IP address, request time, device or browser information and error logs.'),
-                        cls='list-disc pl-6 text-sm leading-7 text-gray-600 space-y-2',
+                        cls='legal-list',
                     ),
                 ),
                 _legal_section(
@@ -87,7 +87,7 @@ def privacy_page():
                         'Residual copies may remain in protected backups until their normal rotation.'
                     ),
                     A('Request account deletion', href='/delete-account',
-                      cls='inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-black text-white no-underline hover:bg-gray-800'),
+                      cls='public-button public-button-primary'),
                 ),
                 _legal_section(
                     'Your choices and rights',
@@ -114,9 +114,9 @@ def privacy_page():
                         'the updated version here and revise the date above.'
                     ),
                 ),
-                cls='max-w-4xl mx-auto',
+                cls='portal-container legal-reading-column',
             ),
-            cls='py-16 px-8 bg-gray-50',
+            cls='public-section public-section-alt legal-section',
         ),
     )
 
@@ -125,33 +125,33 @@ def delete_account_page():
     return Div(
         Section(
             Div(
-                H1('Delete your eesti.chat account', cls='font-display text-4xl font-extrabold text-black mb-4'),
-                P('Permanently remove your account and associated saved data.', cls='text-lg text-gray-500'),
-                cls='max-w-4xl mx-auto',
+                H1('Delete your eesti.chat account', cls='public-page-title'),
+                P('Permanently remove your account and associated saved data.', cls='public-page-intro'),
+                cls='portal-container public-hero-content',
             ),
-            cls='bg-white py-16 px-8',
+            cls='public-page-hero',
         ),
         Section(
             Div(
-                H2('Delete in the app', cls='text-xl font-semibold text-black mb-3'),
+                H2('Delete in the app', cls='public-subtitle'),
                 Ol(
                     Li('Open eesti.chat and sign in.'),
                     Li('Open the menu and select Profile.'),
                     Li('Scroll to Delete account and confirm permanent deletion.'),
-                    cls='list-decimal pl-6 text-sm leading-7 text-gray-600 space-y-2 mb-8',
+                    cls='legal-list legal-list-ordered',
                 ),
-                H2('Request deletion without the app', cls='text-xl font-semibold text-black mb-3'),
+                H2('Request deletion without the app', cls='public-subtitle'),
                 _paragraph(
                     'Email us from the address registered to your eesti.chat account. We will verify the request '
                     'before deleting the account and associated chat history and profile preferences.'
                 ),
                 A('Email an account-deletion request',
                   href='mailto:info@eesti.chat?subject=eesti.chat%20account%20deletion%20request',
-                  cls='inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-black text-white no-underline hover:bg-gray-800'),
+                  cls='public-button public-button-primary'),
                 P('We may retain information required by law and residual copies in protected backups until normal rotation.',
-                  cls='text-xs leading-6 text-gray-500 mt-6'),
-                cls='max-w-3xl mx-auto bg-white border border-gray-200 rounded-xl p-8',
+                  cls='legal-note'),
+                cls='legal-card',
             ),
-            cls='py-16 px-8 bg-gray-50',
+            cls='public-section public-section-alt',
         ),
     )

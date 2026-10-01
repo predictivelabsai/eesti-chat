@@ -2,13 +2,15 @@ from fasthtml.common import *
 from fasthtml.common import NotStr
 from utils.i18n import t, agent_t, get_lang
 from chat.components import signin_overlay
+from agents.registry import AGENTS_BY_SLUG
+from utils.brand import Icon, AGENT_ICONS
 
 
 def _stat(value, label):
     return Div(
-        Span(value, cls='text-2xl md:text-3xl font-semibold text-brand'),
-        Span(label, cls='text-[11px] tracking-[0.12em] uppercase text-gray-400 mt-1'),
-        cls='flex flex-col items-center md:items-start',
+        Span(value, cls='stat-value'),
+        Span(label, cls='stat-label'),
+        cls='stat-item',
     )
 
 
@@ -17,119 +19,127 @@ def home_page(sess=None):
 
     agents = ["eresidency", "moving", "tax", "digital", "services", "explore"]
 
+    hero_chips = [
+        A(
+            agent_t(slug, 'name', lang),
+            href=f"/app?q={AGENTS_BY_SLUG[slug].prefix.strip()}",
+            cls='hero-chip',
+        )
+        for slug in agents
+    ]
+
     hero = Section(
         Div(
-            Span('e-Estonia · AI portal', cls='inline-block text-[11px] tracking-[0.18em] uppercase text-brand bg-brand-light px-3 py-1 rounded-full mb-6'),
-            H1(t('hero_h1', lang),
-               cls='text-[36px] sm:text-5xl md:text-7xl font-medium tracking-tight text-black leading-[1.08] max-w-4xl'),
-            P(t('hero_h2', lang),
-              cls='mt-4 text-xl md:text-2xl text-gray-400 max-w-2xl'),
-            P(t('hero_body', lang),
-              cls='mt-5 text-base text-gray-500 max-w-2xl leading-relaxed'),
             Div(
-                A(t('hero_cta_start', lang), href='/app',
-                  cls='inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium no-underline bg-brand text-white hover:bg-brand-dark transition-colors cursor-pointer'),
-                A(t('hero_cta_explore', lang), href='#topics',
-                  cls='inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-medium no-underline bg-transparent text-black border border-gray-200 hover:border-brand hover:text-brand transition-colors'),
-                cls='mt-8 flex items-center gap-3 flex-wrap',
+                Span('e-Estonia · AI portal', cls='hero-kicker'),
+                H1(t('hero_h1', lang), cls='hero-title'),
+                P(t('hero_h2', lang), cls='hero-subtitle'),
+                P(t('hero_body', lang), cls='hero-copy'),
+                Form(
+                    Input(type='search', name='q', placeholder=t('chat_placeholder', lang),
+                         autocomplete='off', cls='hero-prompt-input'),
+                    Button(
+                        Icon('send', 20),
+                        type='submit', cls='hero-prompt-submit', title=t('hero_cta_start', lang),
+                    ),
+                    action='/app', method='get', cls='hero-prompt-form',
+                ),
+                Div(*hero_chips, cls='hero-chips'),
+                Div(
+                    A(t('hero_cta_start', lang), href='/app', cls='hero-action hero-action-primary'),
+                    A(t('hero_cta_explore', lang), href='#topics', cls='hero-action hero-action-secondary'),
+                    cls='hero-actions',
+                ),
+                cls='home-hero-content',
             ),
-            cls='max-w-7xl mx-auto px-5 md:px-6 py-20 md:py-28',
+            cls='home-hero-inner',
         ),
+        cls='home-hero',
     )
 
     stats = Div(
-        Div(
-            _stat('99%', t('stat_services', lang)),
+        Div(_stat('99%', t('stat_services', lang)),
             _stat('2001', t('stat_xroad', lang)),
             _stat('2014', t('stat_eres', lang)),
             _stat('~2%', t('stat_signatures', lang)),
-            cls='max-w-7xl mx-auto px-5 md:px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6',
-        ),
-        cls='border-y border-gray-100 bg-brand-light/40',
+            cls='portal-container stats-grid'),
+        cls='stats-band',
     )
 
     features = Section(
         Div(
+            H2('Why eesti.chat', cls='visually-hidden'),
             Div(
                 *[Article(
-                    H3(title, cls='text-black text-lg font-medium mb-2'),
-                    P(body, cls='text-gray-500 text-sm leading-relaxed'),
-                    A(link, href=href, cls='inline-block mt-3 text-sm font-medium text-brand no-underline hover:underline'),
-                    cls='p-6 rounded-xl bg-white border border-gray-100 hover:border-brand/40 transition-colors',
+                    H3(title, cls='card-title'),
+                    P(body, cls='card-copy'),
+                    A(link, href=href, cls='card-link'),
+                    cls='portal-card feature-card',
                 ) for title, body, link, href in [
                     (t('feat_ask', lang), t('feat_ask_body', lang), t('feat_ask_link', lang), '/app'),
                     (t('feat_sources', lang), t('feat_sources_body', lang), t('feat_sources_link', lang), '#how'),
                     (t('feat_estonia', lang), t('feat_estonia_body', lang), t('feat_estonia_link', lang), '/about'),
                 ]],
-                cls='grid md:grid-cols-3 gap-4',
+                cls='feature-grid',
             ),
-            cls='max-w-7xl mx-auto px-5 md:px-6',
+            cls='portal-container',
         ),
-        cls='py-14 md:py-20 border-t border-gray-100',
+        cls='public-section public-section-white',
     )
 
     agent_cards = [
         A(
-            Div(agent_t(slug, 'name', lang), cls='text-sm font-medium text-black mb-1'),
-            P(agent_t(slug, 'one_liner', lang), cls='text-xs text-gray-500 leading-relaxed'),
-            href='/app',
-            cls='block p-5 rounded-xl border border-gray-100 no-underline hover:border-brand hover:shadow-sm transition-all',
+            Span(Icon(AGENT_ICONS[slug], 28), cls='agent-card-icon'),
+            Div(agent_t(slug, 'name', lang), cls='agent-card-title'),
+            P(agent_t(slug, 'one_liner', lang), cls='agent-card-copy'),
+            href=f"/app?q={AGENTS_BY_SLUG[slug].prefix.strip()}",
+            cls='portal-card agent-card',
         )
         for slug in agents
     ]
 
     agents_section = Section(
         Div(
-            Span(t('topics_title', lang), cls='text-[11px] tracking-[0.18em] uppercase text-brand'),
-            H2(t('topics_subtitle', lang), cls='mt-3 text-2xl md:text-3xl font-medium text-black max-w-2xl mb-10'),
-            Div(*agent_cards, cls='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'),
-            cls='max-w-7xl mx-auto px-5 md:px-6',
+            Span(t('topics_title', lang), cls='section-label-blue'),
+            H2(t('topics_subtitle', lang), cls='section-title'),
+            Div(*agent_cards, cls='agent-grid'),
+            cls='portal-container',
         ),
         id='topics',
-        cls='py-14 md:py-20 border-t border-gray-100 scroll-mt-16',
+        cls='public-section public-section-alt scroll-mt-16',
     )
 
     how = Section(
         Div(
-            Span('How it works', cls='text-[11px] tracking-[0.18em] uppercase text-brand'),
-            H2(t('how_title', lang), cls='mt-3 text-2xl md:text-3xl font-medium text-black max-w-2xl mb-10'),
+            Span('How it works', cls='section-label-blue'),
+            H2(t('how_title', lang), cls='section-title'),
             Div(
                 *[Article(
-                    P(num, cls='text-[13px] tracking-widest font-semibold text-brand mb-3'),
-                    H3(title, cls='text-black text-lg font-medium mb-2'),
-                    P(body, cls='text-gray-500 text-sm leading-relaxed'),
-                    cls='p-6 rounded-xl bg-white border border-gray-100',
+                    P(num, cls='step-number'),
+                    H3(title, cls='card-title'),
+                    P(body, cls='card-copy'),
+                    cls='portal-card step-card',
                 ) for num, title, body in [
                     ('01', t('how_01_title', lang), t('how_01_body', lang)),
                     ('02', t('how_02_title', lang), t('how_02_body', lang)),
                     ('03', t('how_03_title', lang), t('how_03_body', lang)),
                 ]],
-                cls='grid md:grid-cols-3 gap-4',
+                cls='steps-grid',
             ),
-            cls='max-w-7xl mx-auto px-5 md:px-6',
+            cls='portal-container',
         ),
         id='how',
-        cls='py-14 md:py-20 border-t border-gray-100 bg-brand-light/40 scroll-mt-16',
+        cls='public-section public-section-white scroll-mt-16',
     )
 
     cta = Section(
         Div(
-            H2(t('cta_headline', lang), cls='text-2xl md:text-3xl font-medium text-black mb-4'),
-            P(t('cta_body', lang), cls='text-gray-500 text-sm max-w-xl mx-auto mb-8 leading-relaxed'),
-            A(t('hero_cta_start', lang), href='/app',
-              cls='inline-flex items-center px-6 py-3 rounded-full text-sm font-medium no-underline bg-brand text-white hover:bg-brand-dark transition-colors cursor-pointer'),
-            cls='max-w-7xl mx-auto px-5 md:px-6 text-center',
+            H2(t('cta_headline', lang), cls='section-title cta-title'),
+            P(t('cta_body', lang), cls='cta-copy'),
+            A(t('hero_cta_start', lang), href='/app', cls='public-button public-button-primary'),
+            cls='portal-container cta-inner',
         ),
-        cls='py-14 md:py-20 border-t border-gray-100',
-    )
-
-    sources = Div(
-        Div(
-            P(t('credit_label', lang), cls='text-[11px] tracking-[0.12em] uppercase text-gray-400 mb-2'),
-            P(t('credit_body', lang), cls='text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed'),
-            cls='max-w-7xl mx-auto px-5 md:px-6 text-center',
-        ),
-        cls='py-8 border-t border-gray-100 bg-gray-50',
+        cls='public-section public-section-alt',
     )
 
     auth_modal = signin_overlay(lang)
@@ -145,21 +155,24 @@ function switchAuthTab(tab) {
 }
 function showForgotPassword(e) { e && e.preventDefault(); switchAuthTab('forgot'); }
 function showSignIn() {
-    document.getElementById('signin-overlay').classList.add('visible');
+    var overlay = document.getElementById('signin-overlay');
+    overlay.classList.add('visible');
     switchAuthTab('login');
+    var first = Array.from(overlay.querySelectorAll('.auth-panel input')).find(function(input) { return input.offsetParent !== null; });
+    if (first) first.focus();
 }
 async function doLogin() {
     var email = document.getElementById('login-email').value.trim();
     var password = document.getElementById('login-password').value;
     var errEl = document.getElementById('login-error');
     errEl.textContent = '';
-    if (!email || !password) { errEl.textContent = 'Email and password required'; return; }
+    if (!email || !password) { errEl.textContent = 'Enter your email and password'; return; }
     var resp = await fetch('/auth/login', { method: 'POST', body: new URLSearchParams({ email: email, password: password }) });
     var data = await resp.json();
     if (data.ok) { window.location.href = '/app'; }
     else if (data.error === 'no_password') {
-        errEl.innerHTML = 'No password set. <a href="#" onclick="showSetPassword(\\'' + email + '\\');return false" style="color:#000;font-weight:600;">Set one now</a>';
-    } else { errEl.textContent = data.error || 'Login failed'; }
+        errEl.innerHTML = 'No password is set. <a href="#" onclick="showSetPassword(\\'' + email + '\\');return false" style="color:var(--blue);font-weight:700;">Set one now</a>';
+    } else { errEl.textContent = data.error || 'Sign-in failed'; }
 }
 async function doRegister() {
     var name = document.getElementById('reg-name').value.trim();
@@ -168,7 +181,7 @@ async function doRegister() {
     var errEl = document.getElementById('reg-error');
     var okEl = document.getElementById('reg-success');
     errEl.textContent = ''; okEl.textContent = '';
-    if (!email || !password) { errEl.textContent = 'Email and password required'; return; }
+    if (!email || !password) { errEl.textContent = 'Enter your email and password'; return; }
     var resp = await fetch('/auth/register', { method: 'POST', body: new URLSearchParams({ email: email, password: password, name: name }) });
     var data = await resp.json();
     if (data.ok) { okEl.textContent = data.message || 'Check your email to verify'; }
@@ -178,33 +191,44 @@ async function doForgot() {
     var email = document.getElementById('forgot-email').value.trim();
     var msgEl = document.getElementById('forgot-msg');
     msgEl.textContent = '';
-    if (!email) { msgEl.textContent = 'Enter your email'; msgEl.style.color = '#DC2626'; return; }
+    if (!email) { msgEl.textContent = 'Enter your email address'; msgEl.style.color = 'var(--danger)'; return; }
     var resp = await fetch('/auth/forgot', { method: 'POST', body: new URLSearchParams({ email: email }) });
     var data = await resp.json();
-    msgEl.style.color = '#16A34A';
+    msgEl.style.color = 'var(--success)';
     msgEl.textContent = data.message || 'Reset link sent if account exists';
 }
 function showSetPassword(email) {
     var form = document.getElementById('auth-form-login');
-    form.innerHTML = '<p style="font-size:13px;color:#4B5563;margin-bottom:12px;">Set a password for <strong>' + email + '</strong></p>'
-        + '<input type="password" id="set-pw-input" placeholder="New password (min 6 chars)" style="width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:14px;margin-bottom:12px;">'
-        + '<div id="set-pw-error" style="color:#DC2626;font-size:12px;margin-bottom:8px;"></div>'
-        + '<button onclick="doSetPassword(\\'' + email + '\\')" style="padding:8px 16px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">Set Password</button>';
+    form.innerHTML = '<p style="font-size:13px;color:var(--ink-2);margin-bottom:12px;">Set a password for <strong>' + email + '</strong></p>'
+        + '<input type="password" id="set-pw-input" placeholder="New password (6 characters minimum)" aria-label="New password (6 characters minimum)" style="width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;margin-bottom:12px;">'
+        + '<div id="set-pw-error" role="alert" style="color:var(--danger);font-size:12px;margin-bottom:8px;"></div>'
+        + '<button onclick="doSetPassword(\\'' + email + '\\')" style="padding:8px 16px;background:var(--blue);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;">Set password</button>';
 }
 async function doSetPassword(email) {
     var password = document.getElementById('set-pw-input').value;
     var errEl = document.getElementById('set-pw-error');
-    if (!password || password.length < 6) { errEl.textContent = 'Min 6 characters'; return; }
+    if (!password || password.length < 6) { errEl.textContent = 'Use at least 6 characters'; return; }
     var resp = await fetch('/auth/set-password', { method: 'POST', body: new URLSearchParams({ email: email, password: password }) });
     var data = await resp.json();
     if (data.ok) window.location.href = '/app';
-    else errEl.textContent = data.error || 'Failed';
+    else errEl.textContent = data.error || 'Could not set the password';
 }
 document.addEventListener('click', function(e) {
     var overlay = document.getElementById('signin-overlay');
     if (e.target === overlay) overlay.classList.remove('visible');
 });
 document.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+        var overlay = document.getElementById('signin-overlay');
+        if (overlay && overlay.classList.contains('visible')) {
+            var focusable = Array.from(overlay.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(function(el) { return !el.disabled && el.offsetParent !== null; });
+            if (focusable.length) {
+                var first = focusable[0], last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+                else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            }
+        }
+    }
     if (e.key === 'Escape') {
         var overlay = document.getElementById('signin-overlay');
         if (overlay) overlay.classList.remove('visible');
@@ -213,21 +237,20 @@ document.addEventListener('keydown', function(e) {
 """))
 
     auth_css = Style("""
-.signin-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); display:none; align-items:center; justify-content:center; z-index:100; }
+.signin-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.56); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
 .signin-overlay.visible { display:flex; }
-.auth-tab { padding:8px 16px; font-size:13px; font-weight:500; background:transparent; border:none; border-bottom:2px solid transparent; color:#6B7280; cursor:pointer; }
-.auth-tab.active { color:#1A1A1A; border-bottom-color:#1A1A1A; }
-.google-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:10px 16px; border:1px solid #dadce0; border-radius:6px; background:#fff; font-size:14px; font-weight:500; color:#3c4043; text-decoration:none; cursor:pointer; transition:background 0.15s, box-shadow 0.15s; }
-.google-btn:hover { background:#f7f8f8; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.auth-tab { padding:10px 16px; font-size:13px; font-weight:700; background:transparent; border:none; border-bottom:2px solid transparent; color:var(--ink-3); cursor:pointer; }
+.auth-tab.active { color:var(--ink); border-bottom-color:var(--blue); }
+.google-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:10px 16px; border:1px solid var(--line); border-radius:4px; background:#fff; font-size:14px; font-weight:700; color:var(--ink-2); text-decoration:none; cursor:pointer; transition:background 0.15s, box-shadow 0.15s; }
+.google-btn:hover { background:var(--bg-alt); box-shadow:0 1px 3px rgba(15,23,42,0.08); }
 .google-btn-icon { display:flex; align-items:center; }
-.google-btn-text { font-family:'Inter',sans-serif; }
+.google-btn-text { font-family:'Aino', Verdana, system-ui, sans-serif; }
 .google-divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
-.google-divider-line { flex:1; height:1px; background:#e5e7eb; }
-.google-divider-text { font-size:12px; color:#9ca3af; }
+.google-divider-line { flex:1; height:1px; background:var(--line); }
+.google-divider-text { font-size:12px; color:var(--ink-3); }
 """)
 
     return Div(
-        hero, stats, features, agents_section, how, cta, sources,
+        hero, stats, features, agents_section, how, cta,
         auth_modal, auth_css, auth_js,
-        style='overflow-x:hidden',
     )

@@ -11,10 +11,7 @@ e-Residency, starting a company, taxes, digital identity, moving to Estonia, or 
 public service, and a specialist assistant answers — grounded in **official Estonian
 sources** and with links so you can verify every step.
 
-> **Inspiration & credit.** eesti.chat is an independent project inspired by
-> [america.gov](https://www.america.gov) — the U.S. government's AI-powered services
-> portal — and the U.S. State Department's [ShareAmerica](https://share.america.gov),
-> reimagined for e-Estonia. It is **not** an official government service.
+> eesti.chat is an independent project. It is **not** an official government service.
 
 ## The six specialist assistants
 

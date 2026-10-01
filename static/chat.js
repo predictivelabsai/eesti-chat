@@ -24,6 +24,15 @@
         const p = new URLSearchParams(window.location.search);
         return p.get("sid") || "";
     }
+    function getQuestionFromURL() {
+        const p = new URLSearchParams(window.location.search);
+        return (p.get("q") || "").trim();
+    }
+    function syncActiveAgent(slug) {
+        $$(".agent-item").forEach((item) => {
+            item.classList.toggle("active", item.dataset.slug === slug);
+        });
+    }
     function setSid(sid) {
         currentSessionId = sid;
         const u = new URL(window.location);
@@ -38,7 +47,7 @@
             const hdr = document.createElement("div");
             hdr.className = "msg-agent";
             const nice = AGENT_NAMES[agentSlug] || agentSlug;
-            hdr.innerHTML = `<span class="msg-agent-icon">*</span><span class="msg-agent-label">${nice}</span>`;
+            hdr.innerHTML = `<svg class="msg-agent-icon" width="20" height="20" viewBox="6 6 52 52" aria-hidden="true" focusable="false"><path d="M6 58V22A16 16 0 0 1 22 6h20a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16Z" fill="#0030DE"/><path d="M19 32h26a13 13 0 1 0-4.6 10" fill="none" stroke="#FFFFFF" stroke-width="7.5" stroke-linecap="round"/></svg><span class="msg-agent-label">${nice}</span>`;
             wrap.appendChild(hdr);
         }
         const bubble = document.createElement("div");
@@ -251,6 +260,7 @@
                         const label = $("#current-agent-label");
                         if (label) label.textContent = nice;
                         currentAgentSlug = payload.slug;
+                        syncActiveAgent(payload.slug);
                         updateSampleCards(payload.slug);
                         bubble = addBubble("assistant", "", payload.slug);
                         bubble.classList.add("streaming");
@@ -359,7 +369,7 @@
             return p.items.map(it => `
                 <div style="margin-bottom:.6rem;">
                     <div style="color:var(--ink);font-size:.8rem;font-weight:500;">${it.title || ""}</div>
-                    <div style="color:var(--ink-dim);font-size:.68rem;font-family:monospace;">${it.url ? `<a href="${it.url}" target="_blank" style="color:var(--ink-muted)">link</a>` : ""} ${it.score ? `score ${Number(it.score).toFixed(2)}` : ""}</div>
+                    <div style="color:var(--ink-dim);font-size:.68rem;font-family:monospace;">${it.url ? `<a href="${it.url}" target="_blank" rel="noopener noreferrer" style="color:var(--ink-muted)">link</a>` : ""} ${it.score ? `score ${Number(it.score).toFixed(2)}` : ""}</div>
                     <div style="color:var(--ink-muted);font-size:.75rem;margin-top:.25rem;">${(it.snippet || "").replace(/\n/g,"<br>")}</div>
                 </div>
             `).join("");
@@ -383,6 +393,8 @@
         const lo = $(".left-overlay");
         if (lp) lp.classList.toggle("open");
         if (lo) lo.classList.toggle("visible");
+        const menuBtn = $(".mobile-menu-btn");
+        if (menuBtn) menuBtn.setAttribute("aria-expanded", lp && lp.classList.contains("open") ? "true" : "false");
         const rp = $("#right-pane");
         if (rp && rp.classList.contains("open")) {
             rp.classList.remove("open");
@@ -411,9 +423,13 @@
             if (ab) ab.classList.add("active");
         }
     };
-    window.toggleGroup = (id) => {
+    window.toggleGroup = (ev, id) => {
+        ev.stopPropagation();
         const el = document.getElementById(id);
-        if (el) el.classList.toggle("open");
+        if (el) {
+            const isOpen = el.classList.toggle("open");
+            if (ev.currentTarget) ev.currentTarget.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        }
     };
     window.handleKey = (ev) => {
         if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); sendMessage(ev); }
@@ -422,6 +438,14 @@
         el.style.height = "auto";
         el.style.height = Math.min(el.scrollHeight, 240) + "px";
     };
+    function primeQuestionFromURL() {
+        const question = getQuestionFromURL();
+        const ta = $("#chat-input");
+        if (!question || !ta) return;
+        ta.value = question;
+        window.autoResize(ta);
+        setTimeout(() => sendMessage(null), 0);
+    }
     window.fillChat = (text) => {
         const ta = $("#chat-input");
         if (!ta) return;
@@ -432,15 +456,16 @@
         const slug = AGENT_PREFIX_MAP[prefix];
         if (slug) {
             currentAgentSlug = slug;
+            syncActiveAgent(slug);
             const label = $("#current-agent-label");
             if (label) label.textContent = AGENT_NAMES[slug] || slug;
             updateSampleCards(slug);
         }
     };
     window.newChat = () => { window.location.href = "/app"; };
-    const _checkSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
-    const _shareSvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
-    const _copySvg = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    const _checkSvg = '<svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-10.5"/></svg>';
+    const _shareSvg = '<svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M8 11H6v9h12v-9h-2"/></svg>';
+    const _copySvg = '<svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 9h9.5a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 9 18.5zM15 6v-.5A1.5 1.5 0 0 0 13.5 4h-8A1.5 1.5 0 0 0 4 5.5v8A1.5 1.5 0 0 0 5.5 15H6"/></svg>';
     const _linkSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
 
     function _flashIcon(btn, origSvg, duration) {
@@ -505,11 +530,17 @@
     window.toggleLangDropdown = (ev) => {
         ev.stopPropagation();
         const menu = document.getElementById("lang-dd-menu");
-        if (menu) menu.classList.toggle("open");
+        const trigger = ev.currentTarget;
+        if (menu) {
+            const isOpen = menu.classList.toggle("open");
+            if (trigger) trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        }
     };
     document.addEventListener("click", () => {
         const menu = document.getElementById("lang-dd-menu");
         if (menu) menu.classList.remove("open");
+        const trigger = document.querySelector(".lang-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
     });
 
     // On mobile, ensure right pane starts closed
@@ -523,6 +554,7 @@
     window.sendMessage = sendMessage;
     window.renderMarkdownLite = renderMarkdownLite;
     window.enhanceTables = enhanceTables;
+    primeQuestionFromURL();
 
 })();
 
@@ -543,8 +575,11 @@ function showForgotPassword(e) {
 }
 
 function showSignIn() {
-    document.getElementById('signin-overlay').classList.add('visible');
+    const overlay = document.getElementById('signin-overlay');
+    overlay.classList.add('visible');
     switchAuthTab('login');
+    const first = Array.from(overlay.querySelectorAll('.auth-panel input')).find(input => input.offsetParent !== null);
+    if (first) first.focus();
 }
 
 async function doLogin() {
@@ -562,7 +597,7 @@ async function doLogin() {
     if (data.ok) {
         location.reload();
     } else if (data.error === 'no_password') {
-        errEl.innerHTML = 'No password set. <a href="#" onclick="showSetPassword(\'' + email + '\');return false" style="color:#000;font-weight:600;">Set one now</a>';
+        errEl.innerHTML = 'No password set. <a href="#" onclick="showSetPassword(\'' + email + '\');return false" style="color:var(--blue);font-weight:700;">Set one now</a>';
     } else {
         errEl.textContent = data.error || 'Login failed';
     }
@@ -593,24 +628,39 @@ async function doForgot() {
     const email = document.getElementById('forgot-email').value.trim();
     const msgEl = document.getElementById('forgot-msg');
     msgEl.textContent = '';
-    if (!email) { msgEl.textContent = 'Enter your email'; msgEl.style.color = '#DC2626'; return; }
+    if (!email) { msgEl.textContent = 'Enter your email'; msgEl.style.color = 'var(--danger)'; return; }
 
     const resp = await fetch('/auth/forgot', {
         method: 'POST',
         body: new URLSearchParams({ email }),
     });
     const data = await resp.json();
-    msgEl.style.color = '#16A34A';
+    msgEl.style.color = 'var(--success)';
     msgEl.textContent = data.message || 'Reset link sent if account exists';
 }
 
 function showSetPassword(email) {
     const form = document.getElementById('auth-form-login');
-    form.innerHTML = '<p style="font-size:13px;color:#4B5563;margin-bottom:12px;">Set a password for <strong>' + email + '</strong></p>'
-        + '<input type="password" id="set-pw-input" placeholder="New password (min 6 chars)" style="width:100%;padding:8px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:14px;margin-bottom:12px;">'
-        + '<div id="set-pw-error" style="color:#DC2626;font-size:12px;margin-bottom:8px;"></div>'
-        + '<button onclick="doSetPassword(\'' + email + '\')" style="padding:8px 16px;background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">Set Password</button>';
+    form.innerHTML = '<p style="font-size:13px;color:var(--ink-2);margin-bottom:12px;">Set a password for <strong>' + email + '</strong></p>'
+        + '<input type="password" id="set-pw-input" placeholder="New password (min 6 chars)" aria-label="New password (min 6 chars)" style="width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:4px;font-size:14px;margin-bottom:12px;">'
+        + '<div id="set-pw-error" role="alert" style="color:var(--danger);font-size:12px;margin-bottom:8px;"></div>'
+        + '<button onclick="doSetPassword(\'' + email + '\')" style="padding:8px 16px;background:var(--blue);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;">Set Password</button>';
 }
+
+document.addEventListener('keydown', function(e) {
+    const overlay = document.getElementById('signin-overlay');
+    if (e.key === 'Escape') {
+        if (overlay) overlay.classList.remove('visible');
+        return;
+    }
+    if (e.key !== 'Tab') return;
+    if (!overlay || !overlay.classList.contains('visible')) return;
+    const focusable = Array.from(overlay.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])')).filter(el => !el.disabled && el.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 
 async function doSetPassword(email) {
     const password = document.getElementById('set-pw-input').value;

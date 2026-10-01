@@ -32,7 +32,7 @@ def send_verification_email(email: str, token: str, name: str = ""):
     greeting = f"Hi {name}," if name else "Hi,"
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F5F5F5;font-family:'Inter',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">
@@ -76,11 +76,11 @@ def send_invite_email(email: str, token: str, inviter_name: str = "", message: s
     invited_by = f" by {inviter_name}" if inviter_name else ""
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F5F5F5;font-family:'Inter',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <div style="margin:0 0 24px;">
-      <span style="font-family:'DM Serif Display',Georgia,serif;font-size:22px;font-weight:700;color:#1A1A1A;">eesti.chat</span>
+      <span style="font-family:'Aino',Arial,sans-serif;font-size:22px;font-weight:700;color:#0F172A;">eesti.chat</span>
     </div>
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 12px;">
       You're invited to join eesti.chat
@@ -129,7 +129,7 @@ def send_reset_email(email: str, token: str):
     reset_url = f"{BASE_URL}/auth/reset/{token}"
     html = f"""<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#F5F5F5;font-family:'Inter',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:#F1F5F9;font-family:'Aino',Arial,sans-serif;">
 <div style="max-width:500px;margin:0 auto;padding:40px 20px;">
   <div style="background:#fff;border-radius:8px;padding:32px;border:1px solid #E5E7EB;">
     <h1 style="font-size:20px;font-weight:700;color:#1A1A1A;margin:0 0 16px;">

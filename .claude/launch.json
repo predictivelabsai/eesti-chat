@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "eesti-chat",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["main.py"],
+      "port": 5011,
+      "autoPort": true
+    }
+  ]
+}

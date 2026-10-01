@@ -1,4 +1,6 @@
 import os
+import re
+import secrets
 from fasthtml.common import *
 from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
@@ -15,7 +17,12 @@ from db import init_db
 
 app, rt = fast_app(
     hdrs=(app_styles(),),
-    secret_key=os.environ.get('APP_SECRET', 'carhero-app-2026'),
+    default_hdrs=False,
+    pico=False,
+    surreal=False,
+    htmx=False,
+    htmlkw={'lang': 'en'},
+    secret_key=os.environ.get('APP_SECRET') or secrets.token_hex(32),
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -47,16 +54,24 @@ def about(sess):
     return Page(about_page(), active='about', title='About', sess=sess)
 
 @rt
-def contact(sess):
-    return Page(contact_page(), active='contact', title='Contact', sess=sess)
+def contact(sess, name: str = '', email: str = '', message: str = '', request=None):
+    error = ''
+    if request and request.method == 'POST':
+        valid_email = re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', (email or '').strip())
+        if not valid_email or not (message or '').strip():
+            error = 'Please enter a valid email address and a message.'
+    return Page(
+        contact_page(name=name, email=email, message=message, error=error),
+        active='contact', title='Contact', sess=sess,
+    )
 
 @rt
 def privacy(sess):
-    return Page(privacy_page(), title='Privacy Policy', sess=sess)
+    return Page(privacy_page(), title='Privacy policy', sess=sess)
 
 @rt('/delete-account')
 def delete_account(sess):
-    return Page(delete_account_page(), title='Delete Account', sess=sess)
+    return Page(delete_account_page(), title='Delete account', sess=sess)
 
 
 # --- Chat routes ---

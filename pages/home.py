@@ -315,47 +315,6 @@ document.addEventListener('keydown', function(e) {
 });
 """))
 
-    dock_js = Script(NotStr("""
-(function() {
-    var slot = document.querySelector('.hero-prompt-slot');
-    var form = slot && slot.querySelector('.hero-prompt-form');
-    if (!slot || !form) return;
-    var docked = false;
-    var frame = 0;
-    var threshold = 40;
-
-    function setDocked(next) {
-        if (next === docked) return;
-        if (next) {
-            slot.style.height = form.getBoundingClientRect().height + 'px';
-            form.classList.add('hero-prompt-docked');
-        } else {
-            form.classList.remove('hero-prompt-docked');
-            slot.style.height = '';
-        }
-        docked = next;
-    }
-
-    function updateDock() {
-        frame = 0;
-        var naturalBottom = slot.getBoundingClientRect().bottom;
-        if (!docked && naturalBottom < threshold) setDocked(true);
-        if (docked && naturalBottom >= threshold) setDocked(false);
-    }
-
-    function scheduleDock() {
-        if (!frame) frame = window.requestAnimationFrame(updateDock);
-    }
-
-    updateDock();
-    window.addEventListener('scroll', scheduleDock, { passive: true });
-    window.addEventListener('resize', function() {
-        if (docked) slot.style.height = form.getBoundingClientRect().height + 'px';
-        scheduleDock();
-    });
-})();
-"""))
-
     auth_css = Style("""
 .signin-overlay { position:fixed; inset:0; background:rgba(15,23,42,0.56); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
 .signin-overlay.visible { display:flex; }
@@ -372,6 +331,6 @@ document.addEventListener('keydown', function(e) {
 
     return Div(
         hero, statement, stats, features, agents_section, how, cta,
-        auth_modal, auth_css, auth_js, dock_js,
+        auth_modal, auth_css, auth_js,
         cls='home-page',
     )

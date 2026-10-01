@@ -2,7 +2,7 @@
 
 ## Direction
 
-An official, editorial state-portal interface: precise typography, thin rules, confident blue, and generous white space. The home page opens with one dark AI-first hero; all other public surfaces remain light. The /app workspace is operational and quiet, with the same blue system carried through active states and focus.
+An official, editorial state-portal interface: precise typography, thin rules, confident blue, and generous white space. The home page opens with an ivory editorial hero whose ask bar is pinned to the viewport bottom and stays there while scrolling; all other public surfaces remain light. The /app workspace is operational and quiet, with the same blue system carried through active states and focus.
 
 ## Tokens
 

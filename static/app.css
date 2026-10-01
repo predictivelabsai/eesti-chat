@@ -352,6 +352,11 @@ html { scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
 .followups:empty { display: none; }
 .followup-chip { display: inline-flex; align-items: center; max-width: 100%; padding: 7px 14px; border: 1px solid rgba(203, 213, 225, 0.85); border-radius: 999px; background: var(--surface); color: var(--ink-2); font-size: 12.5px; line-height: 1.3; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease; }
 .followup-chip:hover { border-color: rgba(0, 48, 222, 0.45); background: var(--bg-alt); color: var(--ink); }
+
+/* "Powered by Predictive Labs OÜ" in the chat sidebar */
+.powered-by { margin: 0; padding: 10px 16px 14px; font-size: 11px; line-height: 1.3; color: var(--ink-3); text-align: center; }
+.powered-by-link { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid transparent; }
+.powered-by-link:hover { color: var(--ink); border-bottom-color: currentColor; }
 .msg { width: min(100%, 720px); margin-bottom: 28px; }
 .msg-user { max-width: min(100%, 520px); margin-left: auto; }
 .msg-assistant { max-width: 720px; margin-right: auto; }

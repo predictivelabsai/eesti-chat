@@ -206,6 +206,10 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             cls="agents-section",
         ),
         Div(auth_section, cls="auth-section"),
+        P("Powered by ",
+          A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
+            rel="noopener noreferrer", cls="powered-by-link"),
+          cls="powered-by"),
         cls="left-pane",
     )
 

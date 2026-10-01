@@ -91,6 +91,38 @@ def js_translations(lang: str = DEFAULT_LANG) -> dict[str, str]:
     return {k.removeprefix("js_"): t(k, lang) for k in js_keys}
 
 
+def thinking_words(lang: str = DEFAULT_LANG) -> list[str]:
+    """Playful 'thinking' synonyms rotated in the working indicator (never the
+    underlying tool name). Falls back to English."""
+    return THINKING_WORDS.get(lang) or THINKING_WORDS["en"]
+
+
+# ---------------------------------------------------------------------------
+# "Thinking" synonyms rotated in the working indicator (per language)
+# ---------------------------------------------------------------------------
+
+THINKING_WORDS: dict[str, list[str]] = {
+    "en": ["Thinking", "Pondering", "Contemplating", "Ruminating", "Mulling it over",
+           "Reflecting", "Deliberating", "Considering", "Reasoning", "Cogitating"],
+    "et": ["Mõtleb", "Juurdleb", "Mõtiskleb", "Kaalub", "Arutleb",
+           "Nuputab", "Süveneb", "Analüüsib", "Mõlgutab", "Peab aru"],
+    "ru": ["Думает", "Размышляет", "Обдумывает", "Рассуждает", "Анализирует",
+           "Прикидывает", "Взвешивает", "Соображает", "Вникает", "Осмысляет"],
+    "de": ["Denkt nach", "Überlegt", "Grübelt", "Sinniert", "Erwägt",
+           "Reflektiert", "Wägt ab", "Analysiert", "Tüftelt", "Brütet"],
+    "fr": ["Réfléchit", "Médite", "Rumine", "Analyse", "Cogite",
+           "Délibère", "Examine", "Raisonne", "Considère", "Planche"],
+    "sv": ["Tänker", "Funderar", "Begrundar", "Överväger", "Grubblar",
+           "Resonerar", "Analyserar", "Reflekterar", "Väger", "Klurar"],
+    "fi": ["Ajattelee", "Pohtii", "Miettii", "Harkitsee", "Puntaroi",
+           "Tuumii", "Järkeilee", "Analysoi", "Syventyy", "Mietiskelee"],
+    "lv": ["Domā", "Pārdomā", "Apsver", "Analizē", "Prāto",
+           "Spriež", "Izsver", "Pēta", "Apcer", "Gudro"],
+    "lt": ["Mąsto", "Svarsto", "Apmąsto", "Analizuoja", "Galvoja",
+           "Dūmoja", "Sveria", "Gilinasi", "Protauja", "Narplioja"],
+}
+
+
 # ---------------------------------------------------------------------------
 # Translation catalog  (en + et; other languages fall back to en)
 # ---------------------------------------------------------------------------

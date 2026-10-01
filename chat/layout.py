@@ -26,7 +26,7 @@ def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
 
 def chat_page(user_email=None, sessions=None, current_sid="",
               messages=None, current_agent_slug=None, readonly=False, lang="en"):
-    from utils.i18n import js_translations
+    from utils.i18n import js_translations, thinking_words
     import json as _json
     from fasthtml.common import Button
     body = Body(
@@ -43,7 +43,8 @@ def chat_page(user_email=None, sessions=None, current_sid="",
             id="right-pane-toggle-btn", cls="right-pane-toggle", onclick="toggleArtifactPane()",
         ),
         Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
-        Script(src="/static/chat.js?v=11"),
+        Script(_json.dumps(thinking_words(lang), ensure_ascii=False), id="thinking-words-data", type="application/json"),
+        Script(src="/static/chat.js?v=12"),
         cls="bg-white text-ink font-sans antialiased app",
     )
     return (*_head("Ask eesti.chat", with_brand=False).children, body)

@@ -171,7 +171,13 @@ def PageFooter(lang: str = "en"):
                 cls='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12'
             ),
             Div(
-                P(t('footer_copyright', lang), cls='footer-meta'),
+                Div(
+                    P(t('footer_copyright', lang), cls='footer-meta'),
+                    P('Powered by ',
+                      A('Predictive Labs OÜ', href='https://predictivelabs.ai', target='_blank',
+                        rel='noopener', cls='footer-link'),
+                      cls='footer-meta'),
+                ),
                 P(t('footer_disclaimer', lang), cls='footer-meta'),
                 cls='max-w-7xl mx-auto mt-12 pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center text-sm gap-4'
             ),

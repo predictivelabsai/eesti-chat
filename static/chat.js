@@ -12,6 +12,10 @@
     const AGENT_NAMES = readJsonScript("agent-names-data") || {};
     const AGENT_PREFIX_MAP = readJsonScript("agent-prefix-map") || {};
     const I18N = readJsonScript("i18n-data") || {};
+    const THINKING_WORDS = (function () {
+        const w = readJsonScript("thinking-words-data");
+        return (Array.isArray(w) && w.length) ? w : ["Thinking"];
+    })();
 
     function readJsonScript(id) {
         const el = document.getElementById(id);
@@ -151,6 +155,8 @@
     }
 
     function appendToolLog(bubble, name, args) {
+        // Don't surface tool calls (e.g. web_search) to the user — only in trace mode.
+        if (!document.body.classList.contains("show-trace")) return;
         let log = bubble.parentElement.querySelector(".tool-log");
         if (!log) {
             log = document.createElement("div");
@@ -230,17 +236,21 @@
             timerId: null,
         };
         thinker.el.className = "thinking-indicator";
-        thinker.el.innerHTML = `<span class="dot"></span><span class="label">Thinking... <span class="secs">0s</span></span>`;
+        thinker.wordStart = Math.floor(Math.random() * THINKING_WORDS.length);
+        const first = THINKING_WORDS[thinker.wordStart % THINKING_WORDS.length];
+        thinker.el.innerHTML = `<span class="dot"></span><span class="label">${first}... <span class="secs">0s</span></span>`;
         bubble.parentElement.insertBefore(thinker.el, bubble);
         thinker.timerId = setInterval(updateThinking, 500);
     }
     function updateThinking() {
         if (!thinker) return;
-        const secs = Math.floor((Date.now() - thinker.started) / 1000);
-        const label = thinker.tool
-            ? `Thinking... <span class="secs">${secs}s</span> -- calling <code>${thinker.tool}</code>`
-            : `Thinking... <span class="secs">${secs}s</span>`;
-        thinker.el.querySelector(".label").innerHTML = label;
+        const elapsed = Date.now() - thinker.started;
+        const secs = Math.floor(elapsed / 1000);
+        // Rotate through playful "thinking" synonyms (~every 2.2s); never surface
+        // the underlying tool (e.g. web_search) to the user.
+        const idx = (thinker.wordStart + Math.floor(elapsed / 2200)) % THINKING_WORDS.length;
+        const word = THINKING_WORDS[idx] || "Thinking";
+        thinker.el.querySelector(".label").innerHTML = `${word}... <span class="secs">${secs}s</span>`;
     }
     function setThinkingTool(name) {
         if (!thinker) return;

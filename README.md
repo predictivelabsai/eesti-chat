@@ -2,6 +2,10 @@
 
 **A conversational AI portal to Estonia — the world's most advanced digital society.**
 
+![eesti.chat demo](media/eesti-demo.gif)
+
+🔗 **Live:** [eesti.chat](https://eesti.chat)
+
 eesti.chat is an AI "front door" to Estonia: ask a question in plain language about
 e-Residency, starting a company, taxes, digital identity, moving to Estonia, or any
 public service, and a specialist assistant answers — grounded in **official Estonian

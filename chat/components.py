@@ -247,6 +247,7 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
         Div(
             Div(
                 Button(Icon("menu", 20), cls="mobile-menu-btn", aria_expanded="false", aria_label="Open conversation list", onclick="toggleLeftPane()"),
+                A(Mark(20, cls="chat-header-logo"), href="/", aria_label="eesti.chat home"),
                 Span(header_title, id="current-agent-label", cls="chat-header-title"),
                 cls="chat-header-left",
             ),

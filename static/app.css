@@ -244,7 +244,7 @@ html { scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
 
 /* Chat workspace: layout mechanics are intentionally preserved. -------- */
 
-.app { display: flex; height: 100vh; overflow: hidden; background: var(--surface); }
+.app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; background: var(--surface); }
 .left-pane { width: 280px; min-width: 280px; display: flex; flex-direction: column; overflow-y: auto; background: var(--surface); border-right: 1px solid rgba(203, 213, 225, 0.6); }
 .workspace-wordmark { margin-bottom: 16px; font-size: 19px; }
 .new-chat-btn { display: block; width: 100%; padding: 10px 12px; border: 1px solid var(--blue); border-radius: 4px; background: var(--blue); color: var(--surface); font-size: 13px; font-weight: 700; cursor: pointer; }
@@ -304,6 +304,7 @@ html { scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
 .header-icon-btn[title]:hover::after { position: absolute; top: 100%; left: 50%; z-index: 10; margin-top: 4px; padding: 3px 8px; border-radius: 3px; background: var(--ink); color: var(--surface); content: attr(title); font-size: 11px; pointer-events: none; transform: translateX(-50%); white-space: nowrap; }
 .mobile-menu-btn { display: none; align-items: center; justify-content: center; width: 40px; height: 40px; flex-shrink: 0; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--ink); cursor: pointer; }
 .mobile-menu-btn:hover { background: var(--bg-alt); }
+.chat-header-logo { display: none; align-items: center; flex-shrink: 0; padding: 2px; border-radius: 4px; text-decoration: none; }
 
 .messages { display: flex; min-height: 0; flex: 1; flex-direction: column; overflow-y: auto; padding: 32px clamp(16px, 4vw, 52px) 36px; background: var(--chat-canvas); scrollbar-color: rgba(100, 116, 139, 0.45) transparent; scrollbar-width: thin; }
 .welcome-hero { width: min(100%, 860px); max-width: 860px; margin: auto; padding: clamp(86px, 13vh, 148px) 24px 72px; text-align: center; }
@@ -465,6 +466,7 @@ html { scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
 
 @media (max-width: 1023px) {
   .nav-burger { display: flex; }
+  .public-nav-actions .public-nav-cta { display: none; }
 }
 
 @media (pointer: coarse) {
@@ -521,8 +523,8 @@ html { scrollbar-color: var(--line) transparent; scrollbar-width: thin; }
   .messages { padding: 16px 12px; }
   .chat-header { padding: 8px 12px; }
   .chat-form { width: calc(100% - 24px); margin-bottom: 12px; padding: 8px 8px 8px 14px; border-radius: 16px; }
-  .mobile-menu-btn { position: fixed; top: 8px; left: 8px; z-index: 65; background: var(--surface); }
-  .chat-header-left { padding-left: 48px; }
+  .chat-form textarea { min-height: 64px; }
+  .chat-header-logo { display: inline-flex; }
   #artifact-btn { display: none; }
 }
 

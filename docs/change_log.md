@@ -1,5 +1,12 @@
 # Change Log
 
+## v1.0.3 — 2026-10-01
+
+**Add visitestonia.com to the official links in the chat sidebar.**
+
+- New sidebar link: visitestonia.com (official tourism), alongside eesti.ee, eesti.ai,
+  e-resident.gov.ee, rik.ee, emta.ee, ria.ee and err.ee.
+
 ## v1.0.2 — 2026-10-01
 
 **Full UI localization for all nine languages — German, French, Swedish, Russian, Finnish, Latvian and Lithuanian now render natively (no more English fallback).**

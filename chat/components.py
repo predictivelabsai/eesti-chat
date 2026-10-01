@@ -204,6 +204,7 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             A("emta.ee (Tax)", href="https://www.emta.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
             A("ria.ee (Digital)", href="https://www.ria.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
             A("err.ee (News)", href="https://www.err.ee", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
+            A("visitestonia.com", href="https://visitestonia.com", target="_blank", rel="noopener noreferrer", cls="workspace-link"),
             cls="agents-section",
         ),
         Div(auth_section, cls="auth-section"),

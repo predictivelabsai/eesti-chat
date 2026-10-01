@@ -219,6 +219,18 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
         content = m.get("content", "")
         agent = m.get("agent_slug")
         bubble = Div(content, cls="msg-bubble")
+        feedback = Div(
+            Button(
+                Icon("thumbs-up", 14), type="button", cls="feedback-btn feedback-up",
+                data_rating="up", aria_label=t("chat_fb_up", lang),
+            ),
+            Button(
+                Icon("thumbs-down", 14), type="button", cls="feedback-btn feedback-down",
+                data_rating="down", aria_label=t("chat_fb_down", lang),
+            ),
+            Span(t("chat_fb_thanks", lang), cls="feedback-note", style="display:none"),
+            cls="feedback-row", data_content=content, data_agent_slug=agent or "",
+        )
         if role == "assistant" and agent:
             spec = AGENTS_BY_SLUG.get(agent)
             agent_label = Div(
@@ -226,7 +238,9 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
                 Span(spec.name if spec else agent, cls="msg-agent-label"),
                 cls="msg-agent",
             )
-            msg_els.append(Div(agent_label, bubble, cls=f"msg msg-{role}"))
+            msg_els.append(Div(agent_label, bubble, feedback, cls=f"msg msg-{role}"))
+        elif role == "assistant":
+            msg_els.append(Div(bubble, feedback, cls=f"msg msg-{role}"))
         else:
             msg_els.append(Div(bubble, cls=f"msg msg-{role}"))
 

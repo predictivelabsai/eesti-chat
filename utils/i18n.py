@@ -86,8 +86,9 @@ def category_t(key: str, field: str, lang: str = DEFAULT_LANG) -> str:
 
 
 def js_translations(lang: str = DEFAULT_LANG) -> dict[str, str]:
-    return {k.removeprefix("js_"): t(k, lang)
-            for k in TRANSLATIONS if k.startswith("js_")}
+    js_keys = {k for k in TRANSLATIONS if k.startswith("js_")}
+    js_keys.update({"chat_fb_up", "chat_fb_down", "chat_fb_thanks", "chat_retry"})
+    return {k.removeprefix("js_"): t(k, lang) for k in js_keys}
 
 
 # ---------------------------------------------------------------------------
@@ -250,6 +251,26 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_cancel": {"en": "Cancel", "et": "Tühista"},
     "chat_artifacts_title": {"en": "Sources and results", "et": "Allikad ja tulemused"},
     "chat_artifacts_subtitle": {"en": "Official links, tables, and charts", "et": "Ametlikud lingid, tabelid ja graafikud"},
+    "chat_fb_up": {
+        "en": "Helpful", "et": "Kasulik", "ru": "Полезно", "de": "Hilfreich",
+        "fr": "Utile", "sv": "Hjälpsamt", "lv": "Noderīgi", "fi": "Hyödyllinen",
+        "lt": "Naudinga",
+    },
+    "chat_fb_down": {
+        "en": "Not helpful", "et": "Pole kasulik", "ru": "Не помогло", "de": "Nicht hilfreich",
+        "fr": "Pas utile", "sv": "Inte hjälpsamt", "lv": "Nederīgi", "fi": "Ei hyödyllinen",
+        "lt": "Nenaudinga",
+    },
+    "chat_fb_thanks": {
+        "en": "Feedback noted", "et": "Tagasiside salvestatud", "ru": "Отзыв сохранён",
+        "de": "Feedback gespeichert", "fr": "Avis enregistré", "sv": "Feedback sparad",
+        "lv": "Atsauksme saglabāta", "fi": "Palaute tallennettu", "lt": "Atsiliepimas išsaugotas",
+    },
+    "chat_retry": {
+        "en": "Try again", "et": "Proovi uuesti", "ru": "Повторить — попробовать снова",
+        "de": "Erneut versuchen", "fr": "Réessayer", "sv": "Försök igen", "lv": "Mēģināt vēlreiz",
+        "fi": "Yritä uudelleen", "lt": "Bandyti dar kartą",
+    },
 
     # -- JS strings --
     "js_thinking": {"en": "Thinking", "et": "Mõtleb"},

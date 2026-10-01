@@ -59,6 +59,97 @@
         return bubble;
     }
 
+    const _thumbsUpSvg = '<svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 10v11M4 10h3v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2ZM7 10l4-7a3 3 0 0 1 3 3v4h5a2 2 0 0 1 1.9 2.6l-2 7A2 2 0 0 1 17 21H7"/></svg>';
+    const _thumbsDownSvg = '<svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 14V3M4 14h3v-11H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2ZM7 14l4 7a3 3 0 0 0 3-3v-4h5a2 2 0 0 0 1.9-2.6l-2-7A2 2 0 0 0 17 3H7"/></svg>';
+
+    function i18n(key, fallback) {
+        return I18N[key] || fallback;
+    }
+
+    function addFeedbackControls(wrap, content, agentSlug) {
+        if (!wrap || wrap.querySelector(".feedback-row")) return;
+        const row = document.createElement("div");
+        row.className = "feedback-row";
+        row.dataset.content = content || "";
+        row.dataset.agentSlug = agentSlug || "";
+        row.innerHTML = `
+            <button type="button" class="feedback-btn feedback-up" data-rating="up" aria-label="${i18n("chat_fb_up", "Helpful")}">${_thumbsUpSvg}</button>
+            <button type="button" class="feedback-btn feedback-down" data-rating="down" aria-label="${i18n("chat_fb_down", "Not helpful")}">${_thumbsDownSvg}</button>
+            <span class="feedback-note" style="display:none">${i18n("chat_fb_thanks", "Feedback noted")}</span>
+        `;
+        wrap.appendChild(row);
+        bindFeedbackRow(row);
+    }
+
+    function bindFeedbackRow(row) {
+        if (!row || row.dataset.bound) return;
+        row.dataset.bound = "1";
+        row.querySelectorAll(".feedback-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                if (row.dataset.submitted) return;
+                row.dataset.submitted = "1";
+                const buttons = Array.from(row.querySelectorAll(".feedback-btn"));
+                buttons.forEach(button => { button.disabled = true; });
+                fetch("/app/feedback", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        sid: currentSessionId || "",
+                        rating: btn.dataset.rating,
+                        agent_slug: row.dataset.agentSlug || currentAgentSlug || "",
+                        content: row.dataset.content || "",
+                    }),
+                }).then(resp => resp.json()).then(data => {
+                    if (!data.ok) throw new Error("feedback rejected");
+                    btn.classList.add("active");
+                    buttons.forEach(button => { button.style.display = "none"; });
+                    const note = row.querySelector(".feedback-note");
+                    if (note) {
+                        note.style.display = "inline";
+                        setTimeout(() => {
+                            note.classList.add("fading");
+                            setTimeout(() => { if (row.parentElement) row.remove(); }, 280);
+                        }, 2500);
+                    }
+                }).catch(() => {
+                    delete row.dataset.submitted;
+                    buttons.forEach(button => { button.disabled = false; });
+                });
+            });
+        });
+    }
+
+    function bindFeedbackControls() {
+        $$(".feedback-row").forEach(bindFeedbackRow);
+    }
+
+    function addRetryControl(wrap) {
+        if (!wrap || wrap.querySelector(".retry-row")) return;
+        const row = document.createElement("div");
+        row.className = "retry-row";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "retry-btn";
+        button.textContent = i18n("chat_retry", "Try again");
+        button.setAttribute("aria-label", button.textContent);
+        button.addEventListener("click", () => retryFailedTurn(wrap));
+        row.appendChild(button);
+        wrap.appendChild(row);
+    }
+
+    function retryFailedTurn(wrap) {
+        if (streaming || !wrap) return;
+        let userWrap = wrap.previousElementSibling;
+        while (userWrap && !userWrap.classList.contains("msg-user")) {
+            userWrap = userWrap.previousElementSibling;
+        }
+        const userBubble = userWrap && userWrap.querySelector(".msg-bubble");
+        const message = userBubble ? userBubble.textContent.trim() : "";
+        if (!message) return;
+        wrap.remove();
+        sendMessage(null, { message, reuseUserBubble: true });
+    }
+
     function appendToolLog(bubble, name, args) {
         let log = bubble.parentElement.querySelector(".tool-log");
         if (!log) {
@@ -200,7 +291,7 @@
     if ($("#sample-cards-row")) updateSampleCards(null);
 
     // -- SSE send --
-    async function sendMessage(evt) {
+    async function sendMessage(evt, options = {}) {
         if (evt) evt.preventDefault();
         const langMenu = document.getElementById("lang-dd-menu");
         if (langMenu) langMenu.classList.remove("open");
@@ -209,7 +300,7 @@
         if (streaming) return;
         const ta = $("#chat-input");
         if (!ta) return;
-        const msg = ta.value.trim();
+        const msg = (options.message !== undefined ? options.message : ta.value).trim();
         if (!msg) return;
 
         streaming = true;
@@ -219,100 +310,130 @@
         const wh = $("#welcome-hero");
         if (wh) wh.style.display = "none";
 
-        addBubble("user", msg);
+        if (!options.reuseUserBubble) addBubble("user", msg);
         ta.value = "";
         ta.style.height = "";
 
-        const body = new URLSearchParams({ msg, sid: currentSessionId || "" });
-        const resp = await fetch("/app/chat", { method: "POST", body });
-        if (resp.status === 402) {
-            // Free-query limit reached — prompt sign in.
-            let data = {};
-            try { data = await resp.json(); } catch (e) {}
-            addBubble("assistant", data.message ||
-                "You've reached the free limit. Please sign in to continue.");
-            streaming = false;
-            if (sendBtn) sendBtn.disabled = false;
-            if (typeof showSignIn === "function") showSignIn();
-            return;
-        }
-        if (!resp.ok) {
-            addBubble("assistant", "Error: " + resp.status);
-            streaming = false;
-            if (sendBtn) sendBtn.disabled = false;
-            return;
-        }
-
-        const reader = resp.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = "";
         let bubble = null;
         let accumulated = "";
+        let failed = false;
+        let doneReceived = false;
+        let terminalWithoutStream = false;
 
-        while (true) {
-            const { value, done } = await reader.read();
-            if (done) break;
-            buffer += decoder.decode(value, { stream: true });
-
-            let idx;
-            while ((idx = buffer.indexOf("\n\n")) !== -1) {
-                const raw = buffer.slice(0, idx);
-                buffer = buffer.slice(idx + 2);
-                handleEvent(raw, (type, payload) => {
-                    if (type === "agent_route") {
-                        const nice = payload.agent || AGENT_NAMES[payload.slug] || payload.slug;
-                        const label = $("#current-agent-label");
-                        if (label) label.textContent = nice;
-                        currentAgentSlug = payload.slug;
-                        syncActiveAgent(payload.slug);
-                        updateSampleCards(payload.slug);
-                        bubble = addBubble("assistant", "", payload.slug);
-                        bubble.classList.add("streaming");
-                        showThinking(bubble);
-                    } else if (type === "token") {
-                        if (!bubble) bubble = addBubble("assistant", "", "");
-                        if (accumulated === "") hideThinking();
-                        accumulated += payload.text;
-                        bubble.innerHTML = renderMarkdownLite(accumulated);
-                        scrollMessagesBottom();
-                    } else if (type === "tool_start") {
-                        setThinkingTool(payload.name);
-                        appendToolLog(bubble || addBubble("assistant", "", ""), payload.name, payload.args);
-                    } else if (type === "tool_end") {
-                        // noop
-                    } else if (type === "artifact_show") {
-                        showArtifact(payload);
-                    } else if (type === "error") {
-                        hideThinking();
-                        if (!bubble) bubble = addBubble("assistant", "", "");
-                        bubble.textContent = "Error: " + (payload.message || "unknown");
-                    } else if (type === "session") {
-                        if (payload.sid) setSid(payload.sid);
-                    } else if (type === "done") {
-                        hideThinking();
-                        if (bubble) {
-                            bubble.classList.remove("streaming");
-                            // Hide the "-> web_search" trace once the answer is complete
-                            // (kept only while streaming / when a thinking trace is enabled).
-                            const tl = bubble.parentElement && bubble.parentElement.querySelector(".tool-log");
-                            if (tl && !document.body.classList.contains("show-trace")) tl.remove();
-                        }
-                        enhanceTables(bubble);
-                        const fr = payload.free_remaining;
-                        if (typeof fr === "number" && fr >= 0 && fr <= 2) {
-                            const note = fr === 0
-                                ? "That was your last free question. Sign in to keep asking."
-                                : fr + " free question" + (fr === 1 ? "" : "s") + " left — sign in for unlimited.";
-                            const el = addBubble("assistant", note);
-                            el.style.opacity = "0.6";
-                            el.style.fontSize = "13px";
-                        }
-                    }
-                });
+        const markFailed = (message) => {
+            failed = true;
+            hideThinking();
+            if (!bubble) bubble = addBubble("assistant", "", currentAgentSlug || "");
+            bubble.classList.remove("streaming");
+            if (!bubble.textContent.trim() && message) bubble.textContent = message;
+            const wrap = bubble.parentElement;
+            if (wrap) {
+                wrap.classList.add("msg-failed");
+                addRetryControl(wrap);
             }
+            scrollMessagesBottom();
+        };
+
+        try {
+            const body = new URLSearchParams({ msg, sid: currentSessionId || "" });
+            const resp = await fetch("/app/chat", { method: "POST", body });
+            if (resp.status === 402) {
+                // Free-query limit reached — prompt sign in.
+                let data = {};
+                try { data = await resp.json(); } catch (e) {}
+                addBubble("assistant", data.message ||
+                    "You've reached the free limit. Please sign in to continue.");
+                terminalWithoutStream = true;
+                if (typeof showSignIn === "function") showSignIn();
+                return;
+            }
+            if (!resp.ok) {
+                let data = {};
+                try { data = await resp.json(); } catch (e) {}
+                markFailed(data.message || "Error: " + resp.status);
+                return;
+            }
+
+            const reader = resp.body && resp.body.getReader();
+            if (!reader) {
+                markFailed("Connection lost. Please try again.");
+                return;
+            }
+            const decoder = new TextDecoder();
+            let buffer = "";
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                let idx;
+                while ((idx = buffer.indexOf("\n\n")) !== -1) {
+                    const raw = buffer.slice(0, idx);
+                    buffer = buffer.slice(idx + 2);
+                    handleEvent(raw, (type, payload) => {
+                        if (type === "agent_route") {
+                            const nice = payload.agent || AGENT_NAMES[payload.slug] || payload.slug;
+                            const label = $("#current-agent-label");
+                            if (label) label.textContent = nice;
+                            currentAgentSlug = payload.slug;
+                            syncActiveAgent(payload.slug);
+                            updateSampleCards(payload.slug);
+                            bubble = addBubble("assistant", "", payload.slug);
+                            bubble.classList.add("streaming");
+                            showThinking(bubble);
+                        } else if (type === "token") {
+                            if (!bubble) bubble = addBubble("assistant", "", currentAgentSlug || "");
+                            if (accumulated === "") hideThinking();
+                            accumulated += payload.text;
+                            bubble.innerHTML = renderMarkdownLite(accumulated);
+                            scrollMessagesBottom();
+                        } else if (type === "tool_start") {
+                            setThinkingTool(payload.name);
+                            appendToolLog(bubble || addBubble("assistant", "", currentAgentSlug || ""), payload.name, payload.args);
+                        } else if (type === "tool_end") {
+                            // noop
+                        } else if (type === "artifact_show") {
+                            showArtifact(payload);
+                        } else if (type === "error") {
+                            markFailed("Error: " + (payload.message || "unknown"));
+                        } else if (type === "session") {
+                            if (payload.sid) setSid(payload.sid);
+                        } else if (type === "done") {
+                            doneReceived = true;
+                            hideThinking();
+                            if (failed) return;
+                            if (bubble) {
+                                bubble.classList.remove("streaming");
+                                // Hide the "-> web_search" trace once the answer is complete
+                                // (kept only while streaming / when a thinking trace is enabled).
+                                const tl = bubble.parentElement && bubble.parentElement.querySelector(".tool-log");
+                                if (tl && !document.body.classList.contains("show-trace")) tl.remove();
+                                enhanceTables(bubble);
+                                addFeedbackControls(bubble.parentElement, accumulated, currentAgentSlug);
+                            }
+                            const fr = payload.free_remaining;
+                            if (typeof fr === "number" && fr >= 0 && fr <= 2) {
+                                const note = fr === 0
+                                    ? "That was your last free question. Sign in to keep asking."
+                                    : fr + " free question" + (fr === 1 ? "" : "s") + " left — sign in for unlimited.";
+                                const el = addBubble("assistant", note);
+                                el.style.opacity = "0.6";
+                                el.style.fontSize = "13px";
+                            }
+                        }
+                    });
+                }
+            }
+        } catch (e) {
+            if (!terminalWithoutStream) markFailed("Connection lost. Please try again.");
+        } finally {
+            if (!doneReceived && !failed && !terminalWithoutStream) {
+                markFailed("Connection lost. Please try again.");
+            }
+            streaming = false;
+            if (sendBtn) sendBtn.disabled = false;
         }
-        streaming = false;
-        if (sendBtn) sendBtn.disabled = false;
     }
 
     function handleEvent(raw, cb) {
@@ -530,6 +651,7 @@
     };
 
     document.querySelectorAll(".msg-bubble").forEach(b => enhanceTables(b));
+    bindFeedbackControls();
 
     window.toggleLangDropdown = (ev) => {
         ev.stopPropagation();
@@ -556,6 +678,7 @@
     }
 
     window.sendMessage = sendMessage;
+    window.retryFailedTurn = retryFailedTurn;
     window.renderMarkdownLite = renderMarkdownLite;
     window.enhanceTables = enhanceTables;
     primeQuestionFromURL();

@@ -93,6 +93,14 @@ def _init_chat_tables():
             tool_calls JSONB,
             created_at TIMESTAMPTZ DEFAULT NOW()
         )""",
+        f"""CREATE TABLE IF NOT EXISTS {SCHEMA}.chat_feedback (
+            id SERIAL PRIMARY KEY,
+            session_id INTEGER,
+            msg_content_text VARCHAR(200) NOT NULL,
+            rating VARCHAR(10) NOT NULL,
+            agent_slug VARCHAR(100),
+            created_at TIMESTAMPTZ DEFAULT NOW()
+        )""",
         f"""CREATE TABLE IF NOT EXISTS {SCHEMA}.user_profiles (
             id SERIAL PRIMARY KEY,
             user_id INTEGER NOT NULL REFERENCES {SCHEMA}.chat_users(id) ON DELETE CASCADE UNIQUE,

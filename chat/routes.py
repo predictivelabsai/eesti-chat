@@ -5,6 +5,9 @@ from __future__ import annotations
 import json
 import logging
 import os
+import time
+from datetime import datetime, timezone
+from pathlib import Path
 
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from starlette.requests import Request
@@ -20,6 +23,53 @@ log = logging.getLogger(__name__)
 
 # Number of free questions an anonymous visitor may ask before sign-in is required.
 FREE_QUERIES = int(os.getenv("FREE_QUERIES", "5"))
+
+# Light in-memory request throttling. The window is intentionally shared by
+# anonymous and authenticated visitors; only the request budget differs.
+RATE_LIMIT_ANON = int(os.getenv("RATE_LIMIT_ANON", "20"))
+RATE_LIMIT_AUTH = int(os.getenv("RATE_LIMIT_AUTH", "60"))
+RATE_LIMIT_WINDOW = 60
+_RATE_LIMIT_REQUESTS: dict[str, list[float]] = {}
+
+
+def _client_ip(request: Request) -> str:
+    forwarded = request.headers.get("x-forwarded-for", "")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    client = request.client
+    return client.host if client else ""
+
+
+def _prune_rate_limit_cache(cutoff: float) -> None:
+    if len(_RATE_LIMIT_REQUESTS) <= 10_000:
+        return
+    for key, stamps in list(_RATE_LIMIT_REQUESTS.items()):
+        if not stamps or stamps[-1] <= cutoff:
+            _RATE_LIMIT_REQUESTS.pop(key, None)
+    if len(_RATE_LIMIT_REQUESTS) > 10_000:
+        oldest = sorted(_RATE_LIMIT_REQUESTS, key=lambda key: _RATE_LIMIT_REQUESTS[key][-1])
+        for key in oldest[:len(_RATE_LIMIT_REQUESTS) - 10_000]:
+            _RATE_LIMIT_REQUESTS.pop(key, None)
+
+
+def _rate_limited(request: Request, authenticated: bool) -> bool:
+    now = time.monotonic()
+    cutoff = now - RATE_LIMIT_WINDOW
+    ip = _client_ip(request)
+    recent = [stamp for stamp in _RATE_LIMIT_REQUESTS.get(ip, []) if stamp > cutoff]
+    if recent:
+        _RATE_LIMIT_REQUESTS[ip] = recent
+    else:
+        _RATE_LIMIT_REQUESTS.pop(ip, None)
+
+    _prune_rate_limit_cache(cutoff)
+
+    limit = RATE_LIMIT_AUTH if authenticated else RATE_LIMIT_ANON
+    if len(recent) >= limit:
+        return True
+    _RATE_LIMIT_REQUESTS.setdefault(ip, []).append(now)
+    _prune_rate_limit_cache(cutoff)
+    return False
 
 
 def _get_db():
@@ -226,6 +276,12 @@ def register_chat_routes(rt):
         if not user_msg:
             return JSONResponse({"error": "empty message"}, status_code=400)
 
+        if _rate_limited(request, bool(get_user_email(sess))):
+            return JSONResponse({
+                "error": "rate_limited",
+                "message": "Too many questions too quickly. Please wait a moment and try again.",
+            }, status_code=429)
+
         uid, email = _ensure_user(sess)
 
         # --- Free-query gate: N free questions, then require sign-in ---
@@ -351,6 +407,61 @@ def register_chat_routes(rt):
                                        "free_remaining": free_remaining})
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")
+
+    @rt("/app/feedback", methods=["POST"])
+    async def chat_feedback(request: Request):
+        try:
+            try:
+                payload = await request.json()
+            except Exception:
+                payload = dict(await request.form())
+
+            rating = str(payload.get("rating") or "").strip().lower()
+            if rating not in {"up", "down"}:
+                return JSONResponse({"ok": False, "error": "invalid rating"}, status_code=400)
+
+            sid_value = payload.get("sid")
+            session_id = None
+            if sid_value not in (None, ""):
+                try:
+                    session_id = int(sid_value)
+                    if session_id < 0:
+                        session_id = None
+                except (TypeError, ValueError):
+                    session_id = None
+            content = str(payload.get("content") or "")[:200]
+            agent_slug = str(payload.get("agent_slug") or "").strip()[:100] or None
+
+            if DB_ENABLED:
+                from sqlalchemy import text
+                db = _get_db()
+                try:
+                    db.execute(
+                        text(f"INSERT INTO {SCHEMA}.chat_feedback "
+                             "(session_id, msg_content_text, rating, agent_slug) "
+                             "VALUES (:sid, :content, :rating, :agent)"),
+                        {"sid": session_id, "content": content,
+                         "rating": rating, "agent": agent_slug},
+                    )
+                    db.commit()
+                finally:
+                    db.close()
+            else:
+                data_dir = Path("data")
+                data_dir.mkdir(parents=True, exist_ok=True)
+                record = {
+                    "session_id": session_id,
+                    "msg_content_text": content,
+                    "rating": rating,
+                    "agent_slug": agent_slug,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                }
+                with (data_dir / "feedback.jsonl").open("a", encoding="utf-8") as handle:
+                    handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+            return JSONResponse({"ok": True})
+        except Exception:
+            log.exception("chat feedback failed; continuing without feedback")
+            return JSONResponse({"ok": False, "error": "feedback unavailable"})
 
     @rt("/app/config", methods=["POST"])
     async def app_config(request: Request):

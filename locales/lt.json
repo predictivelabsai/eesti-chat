@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Pradžia",
+    "nav_ask": "Klauskite DI",
+    "nav_topics": "Temos",
+    "nav_about": "Apie",
+    "nav_contact": "Kontaktai",
+    "nav_open_app": "Klauskite eesti.chat",
+    "nav_login": "Prisijungti",
+    "nav_logout": "Atsijungti",
+    "hero_h1": "Dirbtiniu intelektu grįsti vartai į Estiją.",
+    "hero_h2": "Klauskite visko apie e-Residency, skaitmeninę tapatybę, mokesčius, persikėlimą ir viešąsias paslaugas.",
+    "hero_body": "eesti.chat yra pokalbinis portalas į pažangiausią pasaulyje skaitmeninę visuomenę. Klauskite paprasta kalba. Gaukite aiškius atsakymus iš oficialių Estijos valstybės šaltinių su nuorodomis kiekvienam žingsniui pasitikrinti.",
+    "hero_cta_start": "Užduokite klausimą",
+    "hero_cta_explore": "Naršyti temas",
+    "home_statement": "Atsakymai yra [[sukurti dirbtinio intelekto]]. Jie gaunami tik iš [[oficialių Estijos valstybės šaltinių]], yra [[be reklamos]] ir visada pateikiami su [[nuorodomis]].",
+    "stat_services": "Internete prieinamos viešosios paslaugos",
+    "stat_xroad": "X-Tee naudojama nuo",
+    "stat_eres": "e-Residency nuo",
+    "stat_signatures": "BVP sutaupo e-parašai",
+    "feat_ask": "Klauskite, o ne ieškokite",
+    "feat_ask_body": "Pamirškite valstybės įstaigų svetainių labirintą. Aprašykite savo žodžiais, ko jums reikia, ir tinkamas specializuotas asistentas atsakys apie e-Residency, mokesčius, skaitmeninę tapatybę, persikėlimą ar viešąsias paslaugas.",
+    "feat_ask_link": "Pradėti pokalbį",
+    "feat_sources": "Pagrįsta oficialiais šaltiniais",
+    "feat_sources_body": "Kiekvienas atsakymas remiasi tiesiogine paieška oficialiuose domenuose, įskaitant eesti.ee, ria.ee, e-resident.gov.ee, emta.ee ir politsei.ee. Jis nurodo šaltinius, kad galėtumėte juos pasitikrinti.",
+    "feat_sources_link": "Pažiūrėkite, kaip tai veikia",
+    "feat_estonia": "Sukurta ant e-Estonia pagrindo",
+    "feat_estonia_body": "Jis prideda pokalbinį sluoksnį prie brandžios Estijos skaitmeninės valstybės: X-Tee duomenų mainai, e-ID, skaitmeniniai parašai ir vienkartinio pateikimo principas jau užtikrina 99 % paslaugų.",
+    "feat_estonia_link": "Apie Estiją",
+    "topics_title": "Šeši specializuoti asistentai",
+    "topics_subtitle": "Kiekvienas asistentas skirtas vienai gyvenimo Estijoje sričiai ir naudoja oficialius šaltinius.",
+    "how_title": "Kaip veikia eesti.chat",
+    "how_01_title": "Klauskite",
+    "how_01_body": "Įrašykite savo klausimą bet kuria iš mūsų kalbų. „Kaip pateikti e-Residency paraišką?“, „Kokį mokestį moku kaip individualios veiklos vykdytojas?“ Jokių formų, jokio biurokratinio žargono.",
+    "how_02_title": "Ieškome oficialiuose šaltiniuose",
+    "how_02_body": "Tinkamas asistentas tiesiogiai ieško oficialiose Estijos valstybės svetainėse, perskaito galiojančias gaires ir sujungia tai, kas aktualu būtent jums.",
+    "how_03_title": "Atsakymas su šaltiniais",
+    "how_03_body": "Gaunate aiškų atsakymą su nuorodomis į oficialius puslapius, kad galėtumėte patys pasitikrinti kiekvieną žingsnį.",
+    "cta_headline": "Visa Estija vieno pokalbio atstumu.",
+    "cta_body": "Paklauskite eesti.chat apie ES įmonės steigimą būnant e-rezidentu ar tapatybės kortelės atnaujinimą. Atsakymai gaunami iš oficialių šaltinių.",
+    "footer_desc": "Pokalbinis dirbtinio intelekto portalas į Estiją. Padedame gyventojams ir žmonėms visame pasaulyje rasti, suprasti ir naudotis Estijos viešosiomis paslaugomis. Atsakymai pagrįsti oficialiais šaltiniais.",
+    "footer_platform": "Portalas",
+    "footer_resources": "Ištekliai",
+    "footer_legal": "Teisinė informacija",
+    "footer_terms": "Naudojimosi sąlygos",
+    "footer_privacy": "Privatumo politika",
+    "footer_copyright": "© 2026 eesti.chat. Nepriklausomas projektas, ne oficiali valstybės paslauga.",
+    "footer_disclaimer": "Atsakymus dirbtinis intelektas kuria iš viešų šaltinių, todėl jie gali būti neišsamūs ar pasenę. Prieš imdamiesi veiksmų, visada pasitikrinkite oficialiame šaltinyje. Tai nėra teisinė konsultacija.",
+    "chat_new": "+ Naujas pokalbis",
+    "chat_history": "Istorija",
+    "chat_agents": "Asistentai",
+    "chat_welcome_title": "Klauskite eesti.chat",
+    "chat_welcome_body": "Klauskite apie e-Residency, skaitmeninę tapatybę, mokesčius, persikėlimą į Estiją ar bet kurią viešąją paslaugą. Kiekviename atsakyme yra nuorodos į oficialius šaltinius.",
+    "chat_placeholder": "Klauskite apie e-Residency, mokesčius, skaitmeninę tapatybę, persikėlimą į Estiją...",
+    "chat_no_sessions": "Pokalbių kol kas nėra",
+    "chat_copy": "Kopijuoti",
+    "chat_share": "Dalytis",
+    "chat_canvas": "Drobė",
+    "chat_signin_title": "Prisijungti",
+    "chat_signin_body": "Įveskite savo el. paštą, kad išsaugotumėte pokalbių istoriją.",
+    "chat_sign_in": "Prisijungti",
+    "chat_sign_out": "Atsijungti",
+    "chat_cancel": "Atšaukti",
+    "chat_suggestions_label": "Pasiūlymai",
+    "chat_artifacts_title": "Šaltiniai ir rezultatai",
+    "chat_artifacts_subtitle": "Oficialios nuorodos, lentelės ir grafikai",
+    "chat_fb_up": "Naudinga",
+    "chat_fb_down": "Nenaudinga",
+    "chat_fb_thanks": "Atsiliepimas užfiksuotas",
+    "chat_retry": "Bandyti dar kartą",
+    "js_thinking": "Mąsto",
+    "js_calling": "Ieško",
+    "js_copy_csv": "Kopijuoti CSV",
+    "js_copied": "Nukopijuota!",
+    "js_sug1": "Kaip pateikti e-Residency paraišką ir kiek tai kainuoja?",
+    "js_sug2": "Kaip internetu įregistruoti OÜ?",
+    "js_sug3": "Kaip veikia Estijos pelno mokestis?",
+    "js_sug4": "Kaip nustatyti Smart-ID arba Mobiil-ID?",
+    "js_sug5": "Kaip gauti leidimą gyventi, kad galėčiau dirbti Estijoje?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency ir įmonė",
+      "one_liner": "Pateikite e-Residency paraišką ir steikite ar valdykite ES įmonę iš bet kur."
+    },
+    "moving": {
+      "name": "Gyvenimas ir persikėlimas",
+      "one_liner": "Leidimai gyventi, vizos, gyvenamosios vietos registracija ir įsikūrimas."
+    },
+    "tax": {
+      "name": "Mokesčiai ir finansai",
+      "one_liner": "Pajamų mokestis, PVM ir deklaravimas per e. mokesčių inspekciją."
+    },
+    "digital": {
+      "name": "Skaitmeninė tapatybė ir e. paslaugos",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, skaitmeniniai parašai ir X-Tee."
+    },
+    "services": {
+      "name": "Viešosios paslaugos",
+      "one_liner": "Sveikata, švietimas, išmokos šeimai, balsavimas ir kasdienės valstybės paslaugos."
+    },
+    "explore": {
+      "name": "Atraskite Estiją",
+      "one_liner": "e-Estonia istorija, skaitmeninė visuomenė, kultūra ir kodėl Estija."
+    }
+  },
+  "categories": {
+    "business": "e-Residency ir verslas",
+    "living": "Gyvenimas Estijoje",
+    "digital": "Skaitmeninė visuomenė",
+    "discover": "Atraskite Estiją"
+  }
+}

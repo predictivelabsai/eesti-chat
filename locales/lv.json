@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Sākums",
+    "nav_ask": "Jautāt MI",
+    "nav_topics": "Tēmas",
+    "nav_about": "Par mums",
+    "nav_contact": "Kontakti",
+    "nav_open_app": "Jautā eesti.chat",
+    "nav_login": "Pieslēgties",
+    "nav_logout": "Iziet",
+    "hero_h1": "Mākslīgā intelekta durvis uz Igauniju.",
+    "hero_h2": "Jautā jebko par e-Residency, digitālo ID, nodokļiem, pārcelšanos un publiskajiem pakalpojumiem.",
+    "hero_body": "eesti.chat ir sarunu portāls uz pasaules attīstītāko digitālo sabiedrību. Jautā vienkāršā valodā. Saņem skaidras atbildes no oficiāliem Igaunijas valdības avotiem ar saitēm, kur pārbaudīt katru soli.",
+    "hero_cta_start": "Uzdot jautājumu",
+    "hero_cta_explore": "Apskatīt tēmas",
+    "home_statement": "Atbildes ir [[mākslīgā intelekta veidotas]]. Tās nāk tikai no [[oficiāliem Igaunijas valdības avotiem]], ir [[bez reklāmām]] un vienmēr tiek rādītas ar [[saitēm]].",
+    "stat_services": "Publiskie pakalpojumi pieejami tiešsaistē",
+    "stat_xroad": "X-Tee izmantošanā kopš",
+    "stat_eres": "e-Residency kopš",
+    "stat_signatures": "IKP ietaupīts ar e-parakstiem",
+    "feat_ask": "Jautā, nevis meklē",
+    "feat_ask_body": "Izlaid iestāžu tīmekļvietņu labirintu. Apraksti saviem vārdiem, kas tev vajadzīgs, un pareizais speciālists atbild par e-Residency, nodokļiem, digitālo ID, pārcelšanos vai publiskajiem pakalpojumiem.",
+    "feat_ask_link": "Sākt sarunu",
+    "feat_sources": "Balstīts oficiālos avotos",
+    "feat_sources_body": "Katra atbilde izmanto tiešo meklēšanu oficiālajos domēnos, tostarp eesti.ee, ria.ee, e-resident.gov.ee, emta.ee un politsei.ee. Tā norāda avotus, lai tu tos varētu pārbaudīt.",
+    "feat_sources_link": "Uzzini, kā tas darbojas",
+    "feat_estonia": "Veidots uz e-Estonia",
+    "feat_estonia_body": "Tas pievieno sarunu slāni Igaunijas nobriedušajai digitālajai valstij: X-Tee datu apmaiņa, e-ID, digitālie paraksti un vienreizējības princips jau nodrošina 99% pakalpojumu.",
+    "feat_estonia_link": "Par Igauniju",
+    "topics_title": "Seši speciālisti",
+    "topics_subtitle": "Katrs palīgs koncentrējas uz vienu dzīves jomu Igaunijā un izmanto oficiālos avotus.",
+    "how_title": "Kā darbojas eesti.chat",
+    "how_01_title": "Jautā",
+    "how_01_body": "Ieraksti savu jautājumu jebkurā no mūsu valodām. „Kā pieteikties e-Residency?“, „Kādu nodokli maksāju kā pašnodarbinātais?“ Nav veidlapu, nav žargona.",
+    "how_02_title": "Mēs meklējam oficiālajos avotos",
+    "how_02_body": "Pareizais palīgs meklē Igaunijas valdības oficiālajās vietnēs reāllaikā, izlasa spēkā esošās norādes un apkopo tev piemērotās daļas.",
+    "how_03_title": "Atbilde ar avotiem",
+    "how_03_body": "Tu saņem skaidru atbildi ar saitēm uz oficiālajām lapām, lai pats varētu pārbaudīt katru soli.",
+    "cta_headline": "Visa Igaunija — vienas sarunas attālumā.",
+    "cta_body": "Jautā eesti.chat par ES uzņēmuma dibināšanu kā e-rezidentam vai ID kartes atjaunošanu. Atbildes nāk no oficiāliem avotiem.",
+    "footer_desc": "Sarunu MI portāls uz Igauniju. Palīdzam iedzīvotājiem un cilvēkiem citur atrast, saprast un izmantot Igaunijas publiskos pakalpojumus. Atbildes balstās oficiālos avotos.",
+    "footer_platform": "Portāls",
+    "footer_resources": "Resursi",
+    "footer_legal": "Juridiskā informācija",
+    "footer_terms": "Lietošanas noteikumi",
+    "footer_privacy": "Privātuma politika",
+    "footer_copyright": "© 2026 eesti.chat. Neatkarīgs projekts, nevis oficiāls valsts pakalpojums.",
+    "footer_disclaimer": "Atbildes ir mākslīgā intelekta veidotas no publiskiem avotiem un var būt nepilnīgas vai novecojušas. Pirms rīkojies, vienmēr pārbaudi oficiālajā avotā. Nav juridiska konsultācija.",
+    "chat_new": "+ Jauna saruna",
+    "chat_history": "Vēsture",
+    "chat_agents": "Palīgi",
+    "chat_welcome_title": "Jautā eesti.chat",
+    "chat_welcome_body": "Jautā par e-Residency, digitālo ID, nodokļiem, pārcelšanos uz Igauniju vai jebkuru publisko pakalpojumu. Katra atbilde ietver saites uz oficiāliem avotiem.",
+    "chat_placeholder": "Jautā par e-Residency, nodokļiem, digitālo ID, pārcelšanos uz Igauniju...",
+    "chat_no_sessions": "Vēl nav sarunu",
+    "chat_copy": "Kopēt",
+    "chat_share": "Dalīties",
+    "chat_canvas": "Audekls",
+    "chat_signin_title": "Pieslēgties",
+    "chat_signin_body": "Ievadi savu e-pastu, lai saglabātu sarunu vēsturi.",
+    "chat_sign_in": "Pieslēgties",
+    "chat_sign_out": "Iziet",
+    "chat_cancel": "Atcelt",
+    "chat_suggestions_label": "Ieteikumi",
+    "chat_artifacts_title": "Avoti un rezultāti",
+    "chat_artifacts_subtitle": "Oficiālās saites, tabulas un diagrammas",
+    "chat_fb_up": "Noderīgi",
+    "chat_fb_down": "Nav noderīgi",
+    "chat_fb_thanks": "Atsauksme pieņemta",
+    "chat_retry": "Mēģināt vēlreiz",
+    "js_thinking": "Domā",
+    "js_calling": "Meklē",
+    "js_copy_csv": "Kopēt CSV",
+    "js_copied": "Nokopēts!",
+    "js_sug1": "Kā pieteikties e-Residency un cik tas maksā?",
+    "js_sug2": "Kā reģistrēt OÜ tiešsaistē?",
+    "js_sug3": "Kā darbojas Igaunijas uzņēmumu ienākuma nodoklis?",
+    "js_sug4": "Kā iestatīt Smart-ID vai Mobiil-ID?",
+    "js_sug5": "Kā iegūt uzturēšanās atļauju, lai strādātu Igaunijā?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency un uzņēmums",
+      "one_liner": "Piesakies e-Residency un dibini vai vadi ES uzņēmumu no jebkuras vietas."
+    },
+    "moving": {
+      "name": "Dzīvošana un pārcelšanās",
+      "one_liner": "Uzturēšanās atļaujas, vīzas, adreses reģistrēšana un iedzīvošanās."
+    },
+    "tax": {
+      "name": "Nodokļi un finanses",
+      "one_liner": "Ienākuma nodoklis, PVN un deklarēšana e-Nodokļu pārvaldē."
+    },
+    "digital": {
+      "name": "Digitālais ID un e-pakalpojumi",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, digitālie paraksti un X-Tee."
+    },
+    "services": {
+      "name": "Publiskie pakalpojumi",
+      "one_liner": "Veselība, izglītība, ģimenes pabalsti, vēlēšanas un ikdienas valsts pakalpojumi."
+    },
+    "explore": {
+      "name": "Iepazīsti Igauniju",
+      "one_liner": "e-Estonia stāsts, digitālā sabiedrība, kultūra un kāpēc Igaunija."
+    }
+  },
+  "categories": {
+    "business": "e-Residency un uzņēmējdarbība",
+    "living": "Dzīvošana Igaunijā",
+    "digital": "Digitālā sabiedrība",
+    "discover": "Iepazīsti Igauniju"
+  }
+}

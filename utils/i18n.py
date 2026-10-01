@@ -1,7 +1,9 @@
 """Language support: session-based language with IP detection.
 
-eesti.chat ships full copy in English (en) and Estonian (et); the other
-languages in the switcher fall back to English automatically via ``t()``.
+English (en) and Estonian (et) live inline below; the other UI languages
+(ru, de, fr, sv, lv, fi, lt) are supplied as JSON files in ``locales/`` and
+merged in at import by ``_merge_locales()``. Anything still missing for a
+language falls back to English via ``t()``.
 """
 
 from __future__ import annotations
@@ -405,3 +407,39 @@ CATEGORY_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "digital": {"name": {"en": "Digital society", "et": "Digiühiskond"}},
     "discover": {"name": {"en": "Discover Estonia", "et": "Avasta Eesti"}},
 }
+
+
+# ---------------------------------------------------------------------------
+# Merge per-language locale files (locales/<lang>.json) into the catalogs above.
+# en + et live inline; ru/de/fr/sv/lv/fi/lt are supplied as JSON locale files.
+# Schema: {"ui": {key: str}, "agents": {slug: {name, one_liner}}, "categories": {key: str}}
+# ---------------------------------------------------------------------------
+
+def _merge_locales() -> None:
+    import json
+    from pathlib import Path
+    locales_dir = Path(__file__).resolve().parent.parent / "locales"
+    if not locales_dir.is_dir():
+        return
+    for path in locales_dir.glob("*.json"):
+        lang = path.stem
+        if lang.startswith("_") or lang not in SUPPORTED_LANGS:
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        for key, val in (data.get("ui") or {}).items():
+            if key in TRANSLATIONS and isinstance(val, str) and val.strip():
+                TRANSLATIONS[key][lang] = val
+        for slug, fields in (data.get("agents") or {}).items():
+            if slug in AGENT_TRANSLATIONS and isinstance(fields, dict):
+                for field, val in fields.items():
+                    if field in AGENT_TRANSLATIONS[slug] and isinstance(val, str) and val.strip():
+                        AGENT_TRANSLATIONS[slug][field][lang] = val
+        for key, val in (data.get("categories") or {}).items():
+            if key in CATEGORY_TRANSLATIONS and isinstance(val, str) and val.strip():
+                CATEGORY_TRANSLATIONS[key]["name"][lang] = val
+
+
+_merge_locales()

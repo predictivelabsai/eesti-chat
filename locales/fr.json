@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Accueil",
+    "nav_ask": "Demander à l'IA",
+    "nav_topics": "Thèmes",
+    "nav_about": "À propos",
+    "nav_contact": "Contact",
+    "nav_open_app": "Demander à eesti.chat",
+    "nav_login": "Se connecter",
+    "nav_logout": "Se déconnecter",
+    "hero_h1": "La porte d'entrée vers l'Estonie, propulsée par l'IA.",
+    "hero_h2": "Posez toutes vos questions sur l'e-Residency, l'identité numérique, les impôts, l'installation et les services publics.",
+    "hero_body": "eesti.chat est un portail conversationnel vers la société numérique la plus avancée au monde. Posez vos questions en langage courant. Obtenez des réponses claires issues des sources officielles du gouvernement estonien, avec des liens pour vérifier chaque étape.",
+    "hero_cta_start": "Poser une question",
+    "hero_cta_explore": "Explorer les thèmes",
+    "home_statement": "Les réponses sont [[générées par IA]]. Elles proviennent uniquement de [[sources officielles du gouvernement estonien]], sont [[sans publicité]] et toujours accompagnées de [[liens]].",
+    "stat_services": "Services publics disponibles en ligne",
+    "stat_xroad": "X-Tee en service depuis",
+    "stat_eres": "e-Residency depuis",
+    "stat_signatures": "du PIB économisé grâce aux signatures électroniques",
+    "feat_ask": "Demandez, sans chercher",
+    "feat_ask_body": "Oubliez le labyrinthe des sites administratifs. Décrivez ce dont vous avez besoin avec vos propres mots et le bon assistant spécialisé vous répond sur l'e-Residency, les impôts, l'identité numérique, l'installation ou les services publics.",
+    "feat_ask_link": "Démarrer une conversation",
+    "feat_sources": "Fondé sur des sources officielles",
+    "feat_sources_body": "Chaque réponse s'appuie sur une recherche en temps réel sur les domaines officiels, dont eesti.ee, ria.ee, e-resident.gov.ee, emta.ee et politsei.ee. Elle cite les sources pour que vous puissiez les vérifier.",
+    "feat_sources_link": "Voir comment ça marche",
+    "feat_estonia": "Construit sur l'e-Estonia",
+    "feat_estonia_body": "Il ajoute une couche conversationnelle à l'État numérique mature de l'Estonie : l'échange de données X-Tee, l'e-ID, les signatures numériques et le principe « une seule fois » font déjà fonctionner 99 % des services.",
+    "feat_estonia_link": "À propos de l'Estonie",
+    "topics_title": "Six assistants spécialisés",
+    "topics_subtitle": "Chaque assistant se consacre à un aspect de la vie en Estonie et s'appuie sur des sources officielles.",
+    "how_title": "Comment fonctionne eesti.chat",
+    "how_01_title": "Demandez",
+    "how_01_body": "Tapez votre question dans l'une de nos langues. « Comment demander l'e-Residency ? », « Quel impôt dois-je payer en tant qu'indépendant ? » Sans formulaires, sans jargon.",
+    "how_02_title": "Nous consultons les sources officielles",
+    "how_02_body": "Le bon assistant consulte en temps réel les sites officiels du gouvernement estonien, lit les directives en vigueur et rassemble les éléments qui vous concernent.",
+    "how_03_title": "Réponse avec sources",
+    "how_03_body": "Vous obtenez une réponse claire avec des liens vers les pages officielles, afin de vérifier vous-même chaque étape.",
+    "cta_headline": "Toute l'Estonie, à une conversation près.",
+    "cta_body": "Demandez à eesti.chat comment créer une entreprise dans l'UE en tant qu'e-resident ou renouveler votre carte d'identité. Les réponses proviennent de sources officielles.",
+    "footer_desc": "Un portail d'IA conversationnelle vers l'Estonie. Nous aidons les résidents et les personnes de l'étranger à trouver, comprendre et utiliser les services publics estoniens. Les réponses s'appuient sur des sources officielles.",
+    "footer_platform": "Portail",
+    "footer_resources": "Ressources",
+    "footer_legal": "Mentions légales",
+    "footer_terms": "Conditions d'utilisation",
+    "footer_privacy": "Politique de confidentialité",
+    "footer_copyright": "© 2026 eesti.chat. Un projet indépendant, pas un service public officiel.",
+    "footer_disclaimer": "Les réponses sont générées par IA à partir de sources publiques et peuvent être incomplètes ou obsolètes. Vérifiez toujours auprès de la source officielle avant d'agir. Ne constitue pas un conseil juridique.",
+    "chat_new": "+ Nouvelle conversation",
+    "chat_history": "Historique",
+    "chat_agents": "Assistants",
+    "chat_welcome_title": "Demander à eesti.chat",
+    "chat_welcome_body": "Posez vos questions sur l'e-Residency, l'identité numérique, les impôts, l'installation en Estonie ou n'importe quel service public. Chaque réponse comprend des liens vers des sources officielles.",
+    "chat_placeholder": "Posez une question sur l'e-Residency, les impôts, l'identité numérique, l'installation en Estonie...",
+    "chat_no_sessions": "Aucune conversation pour l'instant",
+    "chat_copy": "Copier",
+    "chat_share": "Partager",
+    "chat_canvas": "Canevas",
+    "chat_signin_title": "Se connecter",
+    "chat_signin_body": "Saisissez votre e-mail pour enregistrer votre historique de conversations.",
+    "chat_sign_in": "Se connecter",
+    "chat_sign_out": "Se déconnecter",
+    "chat_cancel": "Annuler",
+    "chat_suggestions_label": "Suggestions",
+    "chat_artifacts_title": "Sources et résultats",
+    "chat_artifacts_subtitle": "Liens officiels, tableaux et graphiques",
+    "chat_fb_up": "Utile",
+    "chat_fb_down": "Peu utile",
+    "chat_fb_thanks": "Retour enregistré",
+    "chat_retry": "Réessayer",
+    "js_thinking": "Réflexion",
+    "js_calling": "Recherche",
+    "js_copy_csv": "Copier le CSV",
+    "js_copied": "Copié !",
+    "js_sug1": "Comment demander l'e-Residency et combien ça coûte ?",
+    "js_sug2": "Comment enregistrer une OÜ en ligne ?",
+    "js_sug3": "Comment fonctionne l'impôt sur les sociétés en Estonie ?",
+    "js_sug4": "Comment configurer Smart-ID ou Mobiil-ID ?",
+    "js_sug5": "Comment obtenir un permis de séjour pour travailler en Estonie ?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency et entreprise",
+      "one_liner": "Demandez l'e-Residency et créez ou gérez une entreprise dans l'UE depuis n'importe où."
+    },
+    "moving": {
+      "name": "Vivre et s'installer",
+      "one_liner": "Permis de séjour, visas, enregistrement de votre adresse et installation."
+    },
+    "tax": {
+      "name": "Impôts et finances",
+      "one_liner": "Impôt sur le revenu, TVA et déclarations via l'administration fiscale en ligne."
+    },
+    "digital": {
+      "name": "Identité numérique et e-services",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, signatures numériques et X-Tee."
+    },
+    "services": {
+      "name": "Services publics",
+      "one_liner": "Santé, éducation, prestations familiales, vote et services publics du quotidien."
+    },
+    "explore": {
+      "name": "Découvrir l'Estonie",
+      "one_liner": "L'histoire de l'e-Estonia, la société numérique, la culture et pourquoi l'Estonie."
+    }
+  },
+  "categories": {
+    "business": "e-Residency et entrepreneuriat",
+    "living": "Vivre en Estonie",
+    "digital": "Société numérique",
+    "discover": "Découvrir l'Estonie"
+  }
+}

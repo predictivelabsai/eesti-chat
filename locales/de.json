@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Startseite",
+    "nav_ask": "KI fragen",
+    "nav_topics": "Themen",
+    "nav_about": "Über uns",
+    "nav_contact": "Kontakt",
+    "nav_open_app": "eesti.chat fragen",
+    "nav_login": "Anmelden",
+    "nav_logout": "Abmelden",
+    "hero_h1": "Die KI-Tür nach Estland.",
+    "hero_h2": "Frag alles zu e-Residency, digitaler ID, Steuern, Umzug und öffentlichen Diensten.",
+    "hero_body": "eesti.chat ist ein dialogbasiertes Portal zur fortschrittlichsten digitalen Gesellschaft der Welt. Frag in einfacher Sprache. Erhalte klare Antworten aus offiziellen estnischen Behördenquellen, mit Links zum Prüfen jedes Schritts.",
+    "hero_cta_start": "Eine Frage stellen",
+    "hero_cta_explore": "Themen entdecken",
+    "home_statement": "Antworten sind [[KI-generiert]]. Sie stammen ausschließlich aus [[offiziellen estnischen Behördenquellen]], sind [[werbefrei]] und werden stets mit [[Links]] angezeigt.",
+    "stat_services": "Öffentliche Dienste online verfügbar",
+    "stat_xroad": "X-Tee im Einsatz seit",
+    "stat_eres": "e-Residency seit",
+    "stat_signatures": "BIP durch E-Signaturen gespart",
+    "feat_ask": "Fragen statt suchen",
+    "feat_ask_body": "Lass das Labyrinth der Behördenwebsites hinter dir. Beschreibe in eigenen Worten, was du brauchst, und der passende Fachassistent antwortet zu e-Residency, Steuern, digitaler ID, Umzug oder öffentlichen Diensten.",
+    "feat_ask_link": "Ein Gespräch beginnen",
+    "feat_sources": "Auf offiziellen Quellen basierend",
+    "feat_sources_body": "Jede Antwort nutzt die Echtzeitsuche über offizielle Domains, darunter eesti.ee, ria.ee, e-resident.gov.ee, emta.ee und politsei.ee. Die Quellen werden angegeben, damit du sie prüfen kannst.",
+    "feat_sources_link": "So funktioniert es",
+    "feat_estonia": "Auf e-Estonia aufgebaut",
+    "feat_estonia_body": "Es fügt dem ausgereiften digitalen Staat Estlands eine Gesprächsebene hinzu: X-Tee-Datenaustausch, e-ID, digitale Signaturen und das Once-only-Prinzip betreiben bereits 99 % der Dienste.",
+    "feat_estonia_link": "Über Estland",
+    "topics_title": "Sechs Fachassistenten",
+    "topics_subtitle": "Jeder Assistent konzentriert sich auf einen Lebensbereich in Estland und nutzt offizielle Quellen.",
+    "how_title": "So funktioniert eesti.chat",
+    "how_01_title": "Fragen",
+    "how_01_body": "Gib deine Frage in einer unserer Sprachen ein. „Wie beantrage ich e-Residency?“, „Welche Steuer zahle ich als Einzelunternehmer?“ Keine Formulare, kein Fachjargon.",
+    "how_02_title": "Wir durchsuchen offizielle Quellen",
+    "how_02_body": "Der passende Assistent durchsucht offizielle estnische Behördenseiten in Echtzeit, liest die aktuellen Hinweise und führt die für dich relevanten Teile zusammen.",
+    "how_03_title": "Antwort mit Quellen",
+    "how_03_body": "Du erhältst eine klare Antwort mit Links zu den offiziellen Seiten, sodass du jeden Schritt selbst prüfen kannst.",
+    "cta_headline": "Ganz Estland, nur ein Gespräch entfernt.",
+    "cta_body": "Frag eesti.chat, wie du als e-Resident ein EU-Unternehmen gründest oder deine ID-Karte verlängerst. Die Antworten stammen aus offiziellen Quellen.",
+    "footer_desc": "Ein dialogbasiertes KI-Portal nach Estland. Wir helfen Einwohnern und Menschen anderswo, estnische öffentliche Dienste zu finden, zu verstehen und zu nutzen. Antworten basieren auf offiziellen Quellen.",
+    "footer_platform": "Portal",
+    "footer_resources": "Ressourcen",
+    "footer_legal": "Rechtliches",
+    "footer_terms": "Nutzungsbedingungen",
+    "footer_privacy": "Datenschutzrichtlinie",
+    "footer_copyright": "© 2026 eesti.chat. Ein unabhängiges Projekt, kein offizieller staatlicher Dienst.",
+    "footer_disclaimer": "Antworten sind KI-generiert aus öffentlichen Quellen und können unvollständig oder veraltet sein. Prüfe vor dem Handeln stets die offizielle Quelle. Keine Rechtsberatung.",
+    "chat_new": "+ Neuer Chat",
+    "chat_history": "Verlauf",
+    "chat_agents": "Assistenten",
+    "chat_welcome_title": "eesti.chat fragen",
+    "chat_welcome_body": "Frag zu e-Residency, digitaler ID, Steuern, Umzug nach Estland oder jedem öffentlichen Dienst. Jede Antwort enthält Links zu offiziellen Quellen.",
+    "chat_placeholder": "Frag zu e-Residency, Steuern, digitaler ID, Umzug nach Estland ...",
+    "chat_no_sessions": "Noch keine Gespräche",
+    "chat_copy": "Kopieren",
+    "chat_share": "Teilen",
+    "chat_canvas": "Canvas",
+    "chat_signin_title": "Anmelden",
+    "chat_signin_body": "Gib deine E-Mail-Adresse ein, um deinen Chatverlauf zu speichern.",
+    "chat_sign_in": "Anmelden",
+    "chat_sign_out": "Abmelden",
+    "chat_cancel": "Abbrechen",
+    "chat_suggestions_label": "Vorschläge",
+    "chat_artifacts_title": "Quellen und Ergebnisse",
+    "chat_artifacts_subtitle": "Offizielle Links, Tabellen und Diagramme",
+    "chat_fb_up": "Hilfreich",
+    "chat_fb_down": "Nicht hilfreich",
+    "chat_fb_thanks": "Feedback gespeichert",
+    "chat_retry": "Erneut versuchen",
+    "js_thinking": "Denkt nach",
+    "js_calling": "Sucht",
+    "js_copy_csv": "CSV kopieren",
+    "js_copied": "Kopiert!",
+    "js_sug1": "Wie beantrage ich e-Residency und was kostet das?",
+    "js_sug2": "Wie registriere ich online eine OÜ?",
+    "js_sug3": "Wie funktioniert die estnische Körperschaftsteuer?",
+    "js_sug4": "Wie richte ich Smart-ID oder Mobiil-ID ein?",
+    "js_sug5": "Wie bekomme ich eine Aufenthaltserlaubnis zum Arbeiten in Estland?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency & Unternehmen",
+      "one_liner": "Beantrage e-Residency und gründe oder führe von überall ein EU-Unternehmen."
+    },
+    "moving": {
+      "name": "Leben & Umzug",
+      "one_liner": "Aufenthaltserlaubnisse, Visa, Wohnsitzanmeldung und Eingewöhnung."
+    },
+    "tax": {
+      "name": "Steuern & Finanzen",
+      "one_liner": "Einkommensteuer, Mehrwertsteuer und Abgabe über das e-Steueramt."
+    },
+    "digital": {
+      "name": "Digitale ID & E-Dienste",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, digitale Signaturen und X-Tee."
+    },
+    "services": {
+      "name": "Öffentliche Dienste",
+      "one_liner": "Gesundheit, Bildung, Familienleistungen, Wahlen und alltägliche staatliche Dienste."
+    },
+    "explore": {
+      "name": "Estland entdecken",
+      "one_liner": "Die Geschichte von e-Estonia, digitale Gesellschaft, Kultur und warum Estland."
+    }
+  },
+  "categories": {
+    "business": "e-Residency & Unternehmen",
+    "living": "Leben in Estland",
+    "digital": "Digitale Gesellschaft",
+    "discover": "Estland entdecken"
+  }
+}

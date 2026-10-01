@@ -1,5 +1,17 @@
 # Change Log
 
+## v1.0.2 — 2026-10-01
+
+**Full UI localization for all nine languages — German, French, Swedish, Russian, Finnish, Latvian and Lithuanian now render natively (no more English fallback).**
+
+- Translated the entire UI catalog (nav, hero, features, how-it-works, footer, chat,
+  suggestions, the six assistant names/descriptions and four categories) into de, fr, sv,
+  ru, fi, lv, lt — alongside the existing en and et.
+- Translations now live in per-language `locales/<lang>.json` files, merged into the catalog
+  at import by `_merge_locales()`; en + et remain inline. Easy to extend/edit going forward.
+- Combined with IP geolocation (v1.0.1): a visitor from Sweden now sees Swedish, Germany
+  German, etc., and the language switcher shows fully localized pages.
+
 ## v1.0.1 — 2026-10-01
 
 **IP-based language defaulting — Estonian from an Estonian IP, each language from its own country, English everywhere else.**

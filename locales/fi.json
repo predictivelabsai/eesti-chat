@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Etusivu",
+    "nav_ask": "Kysy tekoälyltä",
+    "nav_topics": "Aiheet",
+    "nav_about": "Tietoa",
+    "nav_contact": "Yhteystiedot",
+    "nav_open_app": "Kysy eesti.chat",
+    "nav_login": "Kirjaudu sisään",
+    "nav_logout": "Kirjaudu ulos",
+    "hero_h1": "Tekoälyn etuovi Viroon.",
+    "hero_h2": "Kysy mitä tahansa e-Residencystä, digitaalisesta henkilöllisyydestä, veroista, muutosta ja julkisista palveluista.",
+    "hero_body": "eesti.chat on keskusteleva portaali maailman kehittyneimpään digitaaliyhteiskuntaan. Kysy tavallisella kielellä. Saat selkeät vastaukset Viron valtion virallisista lähteistä sekä linkit, joilla voit tarkistaa jokaisen vaiheen.",
+    "hero_cta_start": "Esitä kysymys",
+    "hero_cta_explore": "Tutustu aiheisiin",
+    "home_statement": "Vastaukset ovat [[tekoälyn luomia]]. Ne perustuvat vain [[Viron valtion virallisiin lähteisiin]], ovat [[mainoksettomia]] ja näytetään aina [[linkkien]] kanssa.",
+    "stat_services": "Julkiset palvelut verkossa",
+    "stat_xroad": "X-Tee käytössä vuodesta",
+    "stat_eres": "e-Residency vuodesta",
+    "stat_signatures": "BKT:ta säästävät sähköiset allekirjoitukset",
+    "feat_ask": "Kysy, älä etsi",
+    "feat_ask_body": "Unohda viranomaissivustojen sokkelo. Kerro omin sanoin, mitä tarvitset, ja oikea asiantuntija-avustaja vastaa e-Residencystä, veroista, digitaalisesta henkilöllisyydestä, muutosta tai julkisista palveluista.",
+    "feat_ask_link": "Aloita keskustelu",
+    "feat_sources": "Perustuu virallisiin lähteisiin",
+    "feat_sources_body": "Jokainen vastaus perustuu reaaliaikaiseen hakuun virallisilta verkkotunnuksilta, kuten eesti.ee, ria.ee, e-resident.gov.ee, emta.ee ja politsei.ee. Lähdeviitteet auttavat tarkistamaan tiedot.",
+    "feat_sources_link": "Katso, miten se toimii",
+    "feat_estonia": "Rakennettu e-Estonian päälle",
+    "feat_estonia_body": "Se lisää keskustelukerroksen Viron kypsään digitaalivaltioon: X-Tee-tiedonvaihto, e-ID, sähköiset allekirjoitukset ja vain kerran -periaate tukevat jo 99 % palveluista.",
+    "feat_estonia_link": "Tietoa Virosta",
+    "topics_title": "Kuusi asiantuntija-avustajaa",
+    "topics_subtitle": "Jokainen avustaja keskittyy yhteen Viron elämän osa-alueeseen ja käyttää virallisia lähteitä.",
+    "how_title": "Miten eesti.chat toimii",
+    "how_01_title": "Kysy",
+    "how_01_body": "Kirjoita kysymyksesi millä tahansa kielellämme. \"Miten haen e-Residencyä?\", \"Mitä veroa maksan yksityisyrittäjänä?\" Ei lomakkeita, ei ammattikieltä.",
+    "how_02_title": "Haemme virallisista lähteistä",
+    "how_02_body": "Oikea avustaja etsii reaaliajassa Viron valtion virallisilta sivustoilta, lukee ajantasaiset ohjeet ja kokoaa yhteen sinua koskevat osat.",
+    "how_03_title": "Vastaus lähteineen",
+    "how_03_body": "Saat selkeän vastauksen linkkeineen virallisille sivuille, jotta voit tarkistaa jokaisen vaiheen itse.",
+    "cta_headline": "Koko Viro yhden keskustelun päässä.",
+    "cta_body": "Kysy eesti.chatilta EU-yrityksen perustamisesta e-residenttinä tai henkilökortin uusimisesta. Vastaukset perustuvat virallisiin lähteisiin.",
+    "footer_desc": "Keskusteleva tekoälyportaali Viroon. Autamme asukkaita ja muualla asuvia löytämään, ymmärtämään ja käyttämään Viron julkisia palveluita. Vastaukset perustuvat virallisiin lähteisiin.",
+    "footer_platform": "Portaali",
+    "footer_resources": "Resurssit",
+    "footer_legal": "Juridiikka",
+    "footer_terms": "Käyttöehdot",
+    "footer_privacy": "Tietosuojakäytäntö",
+    "footer_copyright": "© 2026 eesti.chat. Itsenäinen projekti, ei virallinen valtion palvelu.",
+    "footer_disclaimer": "Vastaukset ovat tekoälyn luomia julkisista lähteistä ja voivat olla puutteellisia tai vanhentuneita. Tarkista aina virallisesta lähteestä ennen toimimista. Ei ole oikeudellista neuvontaa.",
+    "chat_new": "+ Uusi keskustelu",
+    "chat_history": "Historia",
+    "chat_agents": "Avustajat",
+    "chat_welcome_title": "Kysy eesti.chat",
+    "chat_welcome_body": "Kysy e-Residencystä, digitaalisesta henkilöllisyydestä, veroista, Viroon muuttamisesta tai mistä tahansa julkisesta palvelusta. Jokainen vastaus sisältää linkit virallisiin lähteisiin.",
+    "chat_placeholder": "Kysy e-Residencystä, veroista, digitaalisesta henkilöllisyydestä, Viroon muuttamisesta...",
+    "chat_no_sessions": "Ei vielä keskusteluja",
+    "chat_copy": "Kopioi",
+    "chat_share": "Jaa",
+    "chat_canvas": "Kanvas",
+    "chat_signin_title": "Kirjaudu sisään",
+    "chat_signin_body": "Anna sähköpostiosoitteesi tallentaaksesi keskusteluhistoriasi.",
+    "chat_sign_in": "Kirjaudu sisään",
+    "chat_sign_out": "Kirjaudu ulos",
+    "chat_cancel": "Peruuta",
+    "chat_suggestions_label": "Ehdotukset",
+    "chat_artifacts_title": "Lähteet ja tulokset",
+    "chat_artifacts_subtitle": "Viralliset linkit, taulukot ja kaaviot",
+    "chat_fb_up": "Hyödyllinen",
+    "chat_fb_down": "Ei hyödyllinen",
+    "chat_fb_thanks": "Palaute tallennettu",
+    "chat_retry": "Yritä uudelleen",
+    "js_thinking": "Ajattelee",
+    "js_calling": "Hakee",
+    "js_copy_csv": "Kopioi CSV",
+    "js_copied": "Kopioitu!",
+    "js_sug1": "Miten haen e-Residencyä ja paljonko se maksaa?",
+    "js_sug2": "Miten rekisteröin OÜ:n verkossa?",
+    "js_sug3": "Miten Viron yhteisövero toimii?",
+    "js_sug4": "Miten otan käyttöön Smart-ID:n tai Mobiil-ID:n?",
+    "js_sug5": "Miten saan oleskeluluvan työskennelläkseni Virossa?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency ja yritys",
+      "one_liner": "Hae e-Residencyä ja perusta tai johda EU-yritystä mistä tahansa."
+    },
+    "moving": {
+      "name": "Asuminen ja muutto",
+      "one_liner": "Oleskeluluvat, viisumit, osoitteen rekisteröinti ja kotiutuminen."
+    },
+    "tax": {
+      "name": "Verot ja talous",
+      "one_liner": "Tulovero, arvonlisävero ja ilmoittaminen sähköisessä verovirastossa."
+    },
+    "digital": {
+      "name": "Digitaalinen henkilöllisyys ja e-palvelut",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, sähköiset allekirjoitukset ja X-Tee."
+    },
+    "services": {
+      "name": "Julkiset palvelut",
+      "one_liner": "Terveys, koulutus, perhe-etuudet, äänestäminen ja arjen valtion palvelut."
+    },
+    "explore": {
+      "name": "Tutustu Viroon",
+      "one_liner": "e-Estonian tarina, digitaaliyhteiskunta, kulttuuri ja miksi Viro."
+    }
+  },
+  "categories": {
+    "business": "e-Residency ja yrittäjyys",
+    "living": "Asuminen Virossa",
+    "digital": "Digitaaliyhteiskunta",
+    "discover": "Tutustu Viroon"
+  }
+}

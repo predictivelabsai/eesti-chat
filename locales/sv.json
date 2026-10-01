@@ -1,0 +1,113 @@
+{
+  "ui": {
+    "nav_home": "Hem",
+    "nav_ask": "Fråga AI",
+    "nav_topics": "Ämnen",
+    "nav_about": "Om oss",
+    "nav_contact": "Kontakt",
+    "nav_open_app": "Fråga eesti.chat",
+    "nav_login": "Logga in",
+    "nav_logout": "Logga ut",
+    "hero_h1": "AI-porten till Estland.",
+    "hero_h2": "Fråga vad som helst om e-Residency, digital ID, skatter, flytt och offentliga tjänster.",
+    "hero_body": "eesti.chat är en samtalsbaserad portal till världens mest avancerade digitala samhälle. Fråga på vanligt språk. Få tydliga svar från officiella estniska myndighetskällor, med länkar för att kontrollera varje steg.",
+    "hero_cta_start": "Ställ en fråga",
+    "hero_cta_explore": "Utforska ämnen",
+    "home_statement": "Svaren är [[AI-genererade]]. De kommer enbart från [[officiella estniska myndighetskällor]], är [[reklamfria]] och visas alltid med [[länkar]].",
+    "stat_services": "Offentliga tjänster tillgängliga online",
+    "stat_xroad": "X-Tee i bruk sedan",
+    "stat_eres": "e-Residency sedan",
+    "stat_signatures": "BNP som sparas av e-signaturer",
+    "feat_ask": "Fråga, navigera inte",
+    "feat_ask_body": "Hoppa över myndighetswebbplatsernas labyrint. Beskriv vad du behöver med egna ord, så svarar rätt specialistassistent om e-Residency, skatter, digital ID, flytt eller offentliga tjänster.",
+    "feat_ask_link": "Starta ett samtal",
+    "feat_sources": "Grundat i officiella källor",
+    "feat_sources_body": "Varje svar bygger på sökning i realtid över officiella domäner, däribland eesti.ee, ria.ee, e-resident.gov.ee, emta.ee och politsei.ee. Det anger källorna så att du kan kontrollera dem.",
+    "feat_sources_link": "Se hur det fungerar",
+    "feat_estonia": "Byggt på e-Estonia",
+    "feat_estonia_body": "Det lägger till ett samtalslager på Estlands mogna digitala stat: X-Tee-dataväxling, e-ID, digitala signaturer och engångsprincipen driver redan 99 % av tjänsterna.",
+    "feat_estonia_link": "Om Estland",
+    "topics_title": "Sex specialistassistenter",
+    "topics_subtitle": "Varje assistent fokuserar på en del av livet i Estland och använder officiella källor.",
+    "how_title": "Så fungerar eesti.chat",
+    "how_01_title": "Fråga",
+    "how_01_body": "Skriv din fråga på något av våra språk. \"Hur ansöker jag om e-Residency?\", \"Vilken skatt betalar jag som enskild näringsidkare?\" Inga formulär, ingen jargong.",
+    "how_02_title": "Vi söker i officiella källor",
+    "how_02_body": "Rätt assistent söker på Estlands officiella myndighetssidor i realtid, läser den aktuella vägledningen och sammanställer de delar som gäller dig.",
+    "how_03_title": "Svar med källor",
+    "how_03_body": "Du får ett tydligt svar med länkar till de officiella sidorna, så att du själv kan kontrollera varje steg.",
+    "cta_headline": "Hela Estland, ett samtal bort.",
+    "cta_body": "Fråga eesti.chat om att starta ett EU-företag som e-resident eller att förnya ditt ID-kort. Svaren kommer från officiella källor.",
+    "footer_desc": "En samtalsbaserad AI-portal till Estland. Vi hjälper invånare och människor på andra håll att hitta, förstå och använda estniska offentliga tjänster. Svaren bygger på officiella källor.",
+    "footer_platform": "Portal",
+    "footer_resources": "Resurser",
+    "footer_legal": "Juridik",
+    "footer_terms": "Användarvillkor",
+    "footer_privacy": "Integritetspolicy",
+    "footer_copyright": "© 2026 eesti.chat. Ett oberoende projekt, inte en officiell myndighetstjänst.",
+    "footer_disclaimer": "Svaren är AI-genererade från offentliga källor och kan vara ofullständiga eller inaktuella. Kontrollera alltid med den officiella källan innan du agerar. Inte juridisk rådgivning.",
+    "chat_new": "+ Ny chatt",
+    "chat_history": "Historik",
+    "chat_agents": "Assistenter",
+    "chat_welcome_title": "Fråga eesti.chat",
+    "chat_welcome_body": "Fråga om e-Residency, digital ID, skatter, att flytta till Estland eller vilken offentlig tjänst som helst. Varje svar innehåller länkar till officiella källor.",
+    "chat_placeholder": "Fråga om e-Residency, skatter, digital ID, att flytta till Estland...",
+    "chat_no_sessions": "Inga samtal än",
+    "chat_copy": "Kopiera",
+    "chat_share": "Dela",
+    "chat_canvas": "Arbetsyta",
+    "chat_signin_title": "Logga in",
+    "chat_signin_body": "Ange din e-postadress för att spara din chatthistorik.",
+    "chat_sign_in": "Logga in",
+    "chat_sign_out": "Logga ut",
+    "chat_cancel": "Avbryt",
+    "chat_suggestions_label": "Förslag",
+    "chat_artifacts_title": "Källor och resultat",
+    "chat_artifacts_subtitle": "Officiella länkar, tabeller och diagram",
+    "chat_fb_up": "Användbart",
+    "chat_fb_down": "Inte användbart",
+    "chat_fb_thanks": "Feedback mottagen",
+    "chat_retry": "Försök igen",
+    "js_thinking": "Tänker",
+    "js_calling": "Söker",
+    "js_copy_csv": "Kopiera CSV",
+    "js_copied": "Kopierat!",
+    "js_sug1": "Hur ansöker jag om e-Residency och vad kostar det?",
+    "js_sug2": "Hur registrerar jag en OÜ online?",
+    "js_sug3": "Hur fungerar Estlands bolagsskatt?",
+    "js_sug4": "Hur ställer jag in Smart-ID eller Mobiil-ID?",
+    "js_sug5": "Hur får jag uppehållstillstånd för att arbeta i Estland?"
+  },
+  "agents": {
+    "eresidency": {
+      "name": "e-Residency och företag",
+      "one_liner": "Ansök om e-Residency och starta eller driv ett EU-företag var du än är."
+    },
+    "moving": {
+      "name": "Boende och flytt",
+      "one_liner": "Uppehållstillstånd, visum, folkbokföring och att komma till rätta."
+    },
+    "tax": {
+      "name": "Skatter och ekonomi",
+      "one_liner": "Inkomstskatt, moms och deklaration via e-skattemyndigheten."
+    },
+    "digital": {
+      "name": "Digital ID och e-tjänster",
+      "one_liner": "e-ID, Smart-ID, Mobiil-ID, digitala signaturer och X-Tee."
+    },
+    "services": {
+      "name": "Offentliga tjänster",
+      "one_liner": "Vård, utbildning, familjeförmåner, röstning och vardagliga statliga tjänster."
+    },
+    "explore": {
+      "name": "Upptäck Estland",
+      "one_liner": "Berättelsen om e-Estonia, det digitala samhället, kulturen och varför Estland."
+    }
+  },
+  "categories": {
+    "business": "e-Residency och företagande",
+    "living": "Att bo i Estland",
+    "digital": "Digitalt samhälle",
+    "discover": "Upptäck Estland"
+  }
+}

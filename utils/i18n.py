@@ -25,25 +25,42 @@ LANGUAGES: dict[str, dict] = {
 
 SUPPORTED_LANGS = set(LANGUAGES.keys())
 
-_ESTONIAN_IP_PREFIXES = (
-    "85.253.", "90.190.", "84.50.", "213.168.", "195.50.",
-    "62.65.", "88.196.", "86.43.", "193.40.", "194.126.",
-)
+# IP-country → UI language. A visitor from each language's country defaults to
+# that language; everyone else defaults to English.
+COUNTRY_LANG: dict[str, str] = {
+    "ee": "et",   # Estonia
+    "ru": "ru",   # Russia
+    "de": "de",   # Germany
+    "at": "de",   # Austria
+    "fr": "fr",   # France
+    "se": "sv",   # Sweden
+    "lv": "lv",   # Latvia
+    "fi": "fi",   # Finland
+    "lt": "lt",   # Lithuania
+}
 
 
-def _get_client_ip(request) -> str:
-    forwarded = (getattr(request, "headers", {}) or {}).get("x-forwarded-for", "")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
-    client = getattr(request, "client", None)
-    return client.host if client else ""
+def detect_language(request) -> str | None:
+    """Map the request's IP-country to a UI language. Returns a supported language
+    code, or None if the country could not be determined (caller keeps the default)."""
+    try:
+        from utils.geo import country_from_request
+        country = country_from_request(request)
+    except Exception:
+        country = None
+    if not country:
+        return None
+    return COUNTRY_LANG.get(country, DEFAULT_LANG)
 
 
-def detect_language(request) -> str:
-    ip = _get_client_ip(request)
-    if any(ip.startswith(p) for p in _ESTONIAN_IP_PREFIXES):
-        return "et"
-    return DEFAULT_LANG
+def ensure_detected_lang(sess: dict[str, Any], request) -> None:
+    """On first visit, set the session language from IP geolocation. A manual
+    choice (set_lang) is already stored and is never overwritten here."""
+    if (sess.get("lang") or "").lower() in SUPPORTED_LANGS:
+        return
+    detected = detect_language(request)
+    if detected in SUPPORTED_LANGS:
+        sess["lang"] = detected
 
 
 def get_lang(sess: dict[str, Any], request=None) -> str:
@@ -52,8 +69,9 @@ def get_lang(sess: dict[str, Any], request=None) -> str:
         return lang
     if request:
         detected = detect_language(request)
-        sess["lang"] = detected
-        return detected
+        if detected in SUPPORTED_LANGS:
+            sess["lang"] = detected
+            return detected
     return DEFAULT_LANG
 
 

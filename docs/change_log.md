@@ -1,5 +1,15 @@
 # Change Log
 
+## v1.0.1 — 2026-10-01
+
+**IP-based language defaulting — Estonian from an Estonian IP, each language from its own country, English everywhere else.**
+
+- New `utils/geo.py`: layered IP→country detection (CDN country headers → ipapi.co / ip-api.com →
+  emergency EE prefixes), stdlib-only, cached per IP, skips private IPs, short timeout, never blocks render.
+- Country→language map: EE→et, RU→ru, DE/AT→de, FR→fr, SE→sv, LV→lv, FI→fi, LT→lt; anything else → English.
+- A beforeware now sets the session language from the visitor's IP on first visit (a manual language
+  choice always takes precedence). Previously the IP detection code never actually ran.
+
 ## v1.0.0 — 2026-10-01
 
 **First versioned release of eesti.chat — the AI front door to Estonia.**

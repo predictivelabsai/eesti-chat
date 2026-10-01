@@ -15,6 +15,15 @@ from starlette.responses import JSONResponse as _JSONResponse
 
 from db import init_db
 
+def _detect_lang_before(req, sess):
+    """On first visit, default the UI language from the visitor's IP country."""
+    try:
+        from utils.i18n import ensure_detected_lang
+        ensure_detected_lang(sess, req)
+    except Exception:
+        pass
+
+
 app, rt = fast_app(
     hdrs=(app_styles(),),
     default_hdrs=False,
@@ -23,6 +32,10 @@ app, rt = fast_app(
     htmx=False,
     htmlkw={'lang': 'en'},
     secret_key=os.environ.get('APP_SECRET') or secrets.token_hex(32),
+    before=Beforeware(
+        _detect_lang_before,
+        skip=[r'/health', r'/static/.*', r'/api/.*', r'/set-lang/.*', r'/favicon\.ico'],
+    ),
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

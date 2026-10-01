@@ -23,3 +23,12 @@ Never add AI attribution anywhere in repos or docs: no "Co-Authored-By: Claude" 
 ## Notes
 - Serve locally with `python main.py` (port 5011); needs `.env` with `XAI_API_KEY` (or `OPENAI_API_KEY` + `LLM_PROVIDER=openai`), `EXA_API_KEY`, optional `DB_URL`.
 - JS/UI changes are cache-busted via `?v=` query strings in templates (see recent commits) — bump those when editing frontend JS.
+## Versioning & changelog
+
+- **`VERSION`** (repo root) is the single source of truth: line 1 = semver, line 2 = ISO date.
+  It also cache-busts static assets (`chat.js`/`app.css` use `?v={app_version()}` via `utils/version.py`).
+- **Every change that gets pushed must bump `VERSION` and prepend an entry to `docs/change_log.md`
+  in the same commit** — never ship undocumented changes.
+- Changelog format: newest first, `## vX.Y.Z — YYYY-MM-DD`, a bold one-line summary, then bullets.
+- Always stamp with **today's** actual date (`date -u +%Y-%m-%d`); don't copy the previous date.
+- The version is shown near sign-in (chat sidebar) and in the home footer, linking to `/changelog`.

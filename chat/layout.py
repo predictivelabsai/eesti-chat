@@ -9,6 +9,7 @@ from fasthtml.common import (
 
 from chat.components import left_pane, center_pane, right_pane, signin_overlay
 from utils.brand import Icon, Mark, brand_head
+from utils.version import app_version
 
 
 def _head(title: str = "eesti.chat", with_brand: bool = True) -> Head:
@@ -44,7 +45,7 @@ def chat_page(user_email=None, sessions=None, current_sid="",
         ),
         Script(_json.dumps(js_translations(lang), ensure_ascii=False), id="i18n-data", type="application/json"),
         Script(_json.dumps(thinking_words(lang), ensure_ascii=False), id="thinking-words-data", type="application/json"),
-        Script(src="/static/chat.js?v=12"),
+        Script(src=f"/static/chat.js?v={app_version()}"),
         cls="bg-white text-ink font-sans antialiased app",
     )
     return (*_head("Ask eesti.chat", with_brand=False).children, body)

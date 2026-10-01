@@ -2,6 +2,7 @@ from fasthtml.common import *
 from utils.i18n import t, LANGUAGES, get_lang, DEFAULT_LANG
 from utils.i18n_flags import flag_svg
 from utils.brand import Icon, Mark, Wordmark, brand_head
+from utils.version import app_version
 
 
 def app_styles():
@@ -45,7 +46,7 @@ def app_styles():
         Meta(name='color-scheme', content='light'),
         Meta(name='viewport', content='width=device-width, initial-scale=1'),
         Link(rel='stylesheet', href='/static/tw.css'),
-        Link(rel='stylesheet', href='/static/app.css?v=17'),
+        Link(rel='stylesheet', href=f'/static/app.css?v={app_version()}'),
     )
 
 
@@ -173,7 +174,9 @@ def PageFooter(lang: str = "en"):
             Div(
                 Div(
                     P(t('footer_copyright', lang), cls='footer-meta'),
-                    P('Powered by ',
+                    P(
+                      A(f'v{app_version()}', href='/changelog', cls='footer-link'),
+                      ' · Powered by ',
                       A('Predictive Labs OÜ', href='https://predictivelabs.ai', target='_blank',
                         rel='noopener', cls='footer-link'),
                       cls='footer-meta'),

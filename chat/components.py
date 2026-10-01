@@ -12,6 +12,7 @@ from agents.registry import CATEGORIES, AGENTS, AGENTS_BY_SLUG
 from utils.i18n import t, agent_t, category_t, LANGUAGES, js_translations
 from utils.i18n_flags import flag_svg
 from utils.brand import Icon, Mark, Wordmark, AGENT_ICONS, CATEGORY_ICONS
+from utils.version import app_version
 
 
 def _chat_lang_dropdown(lang: str = "en"):
@@ -206,10 +207,12 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             cls="agents-section",
         ),
         Div(auth_section, cls="auth-section"),
-        P("Powered by ",
-          A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
-            rel="noopener noreferrer", cls="powered-by-link"),
-          cls="powered-by"),
+        P(
+            A(f"v{app_version()}", href="/changelog", cls="powered-by-link", title="Changelog"),
+            " · Powered by ",
+            A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
+              rel="noopener noreferrer", cls="powered-by-link"),
+            cls="powered-by"),
         cls="left-pane",
     )
 

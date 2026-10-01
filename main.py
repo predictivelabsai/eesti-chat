@@ -54,6 +54,11 @@ def about(sess):
     return Page(about_page(), active='about', title='About', sess=sess)
 
 @rt
+def changelog(sess):
+    from pages.changelog import changelog_page
+    return Page(changelog_page(), title='Changelog', sess=sess)
+
+@rt
 def contact(sess, name: str = '', email: str = '', message: str = '', request=None):
     error = ''
     if request and request.method == 'POST':

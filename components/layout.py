@@ -45,7 +45,7 @@ def app_styles():
         Meta(name='color-scheme', content='light'),
         Meta(name='viewport', content='width=device-width, initial-scale=1'),
         Link(rel='stylesheet', href='/static/tw.css'),
-        Link(rel='stylesheet', href='/static/app.css?v=10'),
+        Link(rel='stylesheet', href='/static/app.css?v=11'),
     )
 
 

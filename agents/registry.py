@@ -121,17 +121,17 @@ AGENTS: tuple[AgentSpec, ...] = (
     AgentSpec(
         slug="digital", name="Digital ID & e-Services",
         category="digital", icon="#", prefix="id:",
-        one_liner="e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Road.",
+        one_liner="e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Tee.",
         description=(
             "Explains Estonia's digital identity and e-service infrastructure: the e-ID / ID card, "
             "Smart-ID and Mobiil-ID, giving legally binding digital signatures, logging into state "
-            "e-services, and how X-Road and the once-only principle connect it all. Grounds answers in "
+            "e-services, and how X-Tee and the once-only principle connect it all. Grounds answers in "
             "official sources such as ria.ee (Information System Authority), id.ee and e-estonia.com."
         ),
         example_prompts=(
             "id: how do I set up Smart-ID or Mobiil-ID?",
             "id: how do I digitally sign a document and is it legally binding?",
-            "id: what is X-Road and how does it protect my data?",
+            "id: what is X-Tee and how does it protect my data?",
             "id: how do I log in to state e-services from abroad?",
         ),
     ),

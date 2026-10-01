@@ -20,7 +20,7 @@ sources** and with links so you can verify every step.
 | **e-Residency & Company** | apply for e-Residency, register/run an EU company remotely | e-resident.gov.ee, rik.ee, emta.ee |
 | **Living & Moving** | residence permits, visas, digital nomad visa, registering address | politsei.ee, eesti.ee |
 | **Taxes & Finance** | income tax, VAT, corporate distributed-profit tax, e-Tax filing | emta.ee |
-| **Digital ID & e-Services** | e-ID, Smart-ID, Mobiil-ID, digital signatures, X-Road | ria.ee, id.ee |
+| **Digital ID & e-Services** | e-ID, Smart-ID, Mobiil-ID, digital signatures, X-Tee | ria.ee, id.ee |
 | **Public Services** | health, education, benefits, voting, documents | eesti.ee, tervisekassa.ee |
 | **Discover Estonia** | the e-Estonia story, culture, why Estonia (explainer) | e-estonia.com |
 

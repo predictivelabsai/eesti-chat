@@ -133,7 +133,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
 
     # -- Stats (numbers hardcoded in template; only labels translated) --
     "stat_services": {"en": "Public services available online", "et": "Avalikud teenused veebis"},
-    "stat_xroad": {"en": "X-Road in use since", "et": "X-tee kasutusel alates"},
+    "stat_xroad": {"en": "X-Tee in use since", "et": "X-tee kasutusel alates"},
     "stat_eres": {"en": "e-Residency since", "et": "e-residentsus alates"},
     "stat_signatures": {"en": "GDP saved by e-signatures", "et": "SKP-st säästavad e-allkirjad"},
 
@@ -156,7 +156,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "feat_sources_link": {"en": "See how it works", "et": "Vaata, kuidas see töötab"},
     "feat_estonia": {"en": "Built on e-Estonia", "et": "Ehitatud e-Eestile"},
     "feat_estonia_body": {
-        "en": "It adds a conversational layer to Estonia's mature digital state: X-Road data exchange, "
+        "en": "It adds a conversational layer to Estonia's mature digital state: X-Tee data exchange, "
               "e-ID, digital signatures, and the once-only principle already power 99% of services.",
         "et": "See lisab vestluskihi Eesti küpsele digiriigile: X-tee andmevahetus, e-ID, digiallkirjad "
               "ja kord-ainult põhimõte toimivad juba 99% teenuste alusena.",
@@ -306,7 +306,7 @@ AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "digital": {
         "name": {"en": "Digital ID & e-services", "et": "Digi-ID ja e-teenused"},
         "one_liner": {
-            "en": "e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Road.",
+            "en": "e-ID, Smart-ID, Mobiil-ID, digital signatures, and X-Tee.",
             "et": "e-ID, Smart-ID, Mobiil-ID, digiallkirjad ja X-tee.",
         },
     },

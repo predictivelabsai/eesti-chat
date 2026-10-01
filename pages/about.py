@@ -27,7 +27,7 @@ def about_page():
                       'your question to the right assistant. It searches official domains in real time, including '
                       'eesti.ee, ria.ee, emta.ee, e-resident.gov.ee, politsei.ee and more, reads the current '
                       'guidance, and returns a clear answer with citations. eesti.chat adds a conversational layer '
-                      'to Estonia\'s mature digital state: X-Road, e-ID, digital signatures, and the once-only '
+                      'to Estonia\'s mature digital state: X-Tee, e-ID, digital signatures, and the once-only '
                       'principle.',
                       cls='public-paragraph'),
                     H2('Technology', cls='public-subtitle'),

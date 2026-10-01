@@ -249,6 +249,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_sign_in": {"en": "Sign in", "et": "Logi sisse"},
     "chat_sign_out": {"en": "Sign out", "et": "Logi välja"},
     "chat_cancel": {"en": "Cancel", "et": "Tühista"},
+    "chat_suggestions_label": {"en": "Suggestions", "et": "Soovitused"},
     "chat_artifacts_title": {"en": "Sources and results", "et": "Allikad ja tulemused"},
     "chat_artifacts_subtitle": {"en": "Official links, tables, and charts", "et": "Ametlikud lingid, tabelid ja graafikud"},
     "chat_fb_up": {

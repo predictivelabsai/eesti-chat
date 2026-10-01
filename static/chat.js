@@ -288,7 +288,41 @@
 
     window.onInputChange = (ta) => {};
 
+    // -- Follow-up / starter chips under the composer (always present) --
+    function followupDefaults() {
+        const d = [I18N.sug1, I18N.sug2, I18N.sug3, I18N.sug4, I18N.sug5].filter(Boolean);
+        if (d.length) return d.slice(0, 4);
+        return [
+            "How do I apply for e-Residency?",
+            "How does Estonia's corporate income tax work?",
+            "How do I set up Smart-ID or Mobiil-ID?",
+        ];
+    }
+    window.renderFollowups = (items) => {
+        const host = $("#followups");
+        if (!host) return;
+        let list = Array.isArray(items) ? items.filter(Boolean) : [];
+        if (!list.length) list = followupDefaults();   // never leave the user stuck
+        host.innerHTML = "";
+        list.slice(0, 4).forEach(p => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "followup-chip";
+            b.title = p;
+            b.textContent = p;
+            b.onclick = () => { fillChat(p); sendMessage(null); };
+            host.appendChild(b);
+        });
+    };
+
     if ($("#sample-cards-row")) updateSampleCards(null);
+    // On the empty welcome screen the big cards cover suggestions; the under-box
+    // chips kick in once a conversation is underway (and after every answer).
+    (function initFollowups() {
+        const wh = $("#welcome-hero");
+        const welcomeVisible = wh && wh.style.display !== "none";
+        if ($("#followups") && !welcomeVisible) renderFollowups([]);
+    })();
 
     // -- SSE send --
     async function sendMessage(evt, options = {}) {
@@ -399,6 +433,8 @@
                             markFailed("Error: " + (payload.message || "unknown"));
                         } else if (type === "session") {
                             if (payload.sid) setSid(payload.sid);
+                        } else if (type === "suggestions") {
+                            if (Array.isArray(payload.items) && payload.items.length) renderFollowups(payload.items);
                         } else if (type === "done") {
                             doneReceived = true;
                             hideThinking();
@@ -412,6 +448,9 @@
                                 enhanceTables(bubble);
                                 addFeedbackControls(bubble.parentElement, accumulated, currentAgentSlug);
                             }
+                            // Ensure chips are present immediately; a trailing
+                            // "suggestions" event will replace them with context-sensitive ones.
+                            if (!failed) renderFollowups([]);
                             const fr = payload.free_remaining;
                             if (typeof fr === "number" && fr >= 0 && fr <= 2) {
                                 const note = fr === 0

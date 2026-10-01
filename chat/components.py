@@ -302,6 +302,9 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
                    cls="send-btn"),
             cls="chat-form",
         ),
+        # Always-present, context-sensitive suggestion chips under the composer
+        # (starters by default; replaced with follow-ups after each answer).
+        Div(id="followups", cls="followups", aria_label=t("chat_suggestions_label", lang)),
         Script(json.dumps({a.slug: list(a.example_prompts) for a in AGENTS}),
                id="agent-prompts-data", type="application/json"),
         Script(json.dumps({a.slug: a.name for a in AGENTS}),

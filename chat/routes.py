@@ -406,6 +406,21 @@ def register_chat_routes(rt):
             yield sse.event(sse.DONE, {"slug": agent_slug, "tools": len(tool_calls_log),
                                        "free_remaining": free_remaining})
 
+            # Context-sensitive follow-up suggestions — emitted AFTER done so they
+            # never delay the answer; best-effort (client falls back to starters).
+            if accumulated:
+                try:
+                    import asyncio
+                    from utils.followups import generate_followups
+                    items = await asyncio.to_thread(
+                        generate_followups, stripped_msg, final,
+                        lang_info["name"], spec.name if spec else "",
+                    )
+                    if items:
+                        yield sse.event(sse.SUGGESTIONS, {"items": items})
+                except Exception:
+                    log.exception("followup suggestions failed")
+
         return StreamingResponse(event_stream(), media_type="text/event-stream")
 
     @rt("/app/feedback", methods=["POST"])

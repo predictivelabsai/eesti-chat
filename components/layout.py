@@ -45,7 +45,7 @@ def app_styles():
         Meta(name='color-scheme', content='light'),
         Meta(name='viewport', content='width=device-width, initial-scale=1'),
         Link(rel='stylesheet', href='/static/tw.css'),
-        Link(rel='stylesheet', href='/static/app.css?v=16'),
+        Link(rel='stylesheet', href='/static/app.css?v=17'),
     )
 
 
@@ -192,7 +192,7 @@ def Page(content, active='home', title='', sess=None):
         Script("""
 (function() {
     var bubble = document.querySelector('.ask-bubble');
-    if (!bubble || document.querySelector('.home-page .hero-prompt-form')) return;
+    if (!bubble || document.querySelector('.center-pane')) return;
     function updateAskBubble() {
         var hero = document.querySelector('.home-hero');
         var threshold = hero

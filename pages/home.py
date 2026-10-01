@@ -10,7 +10,7 @@ def _stat(value, label):
     return Div(
         Span(value, cls='stat-value'),
         Span(label, cls='stat-label'),
-        cls='stat-item',
+        cls='stat-item reveal',
     )
 
 
@@ -114,7 +114,7 @@ def home_page(sess=None):
 
     statement = Section(
         Div(
-            H2(*_statement_parts(t('home_statement', lang)), cls='statement-copy'),
+            H2(*_statement_parts(t('home_statement', lang)), cls='statement-copy reveal'),
             cls='portal-container statement-inner',
         ),
         cls='statement-section',
@@ -151,7 +151,7 @@ def home_page(sess=None):
                         A(Span(link), Icon('arrow-right', 16), href=href, cls='editorial-link'),
                         cls='editorial-copy-column',
                     ),
-                    cls=f'editorial-row-shell {direction}',
+                    cls=f'editorial-row-shell {direction} reveal',
                 ) for kind, direction, eyebrow, title, body, link, href in feature_rows],
                 cls='editorial-list',
             ),
@@ -166,7 +166,7 @@ def home_page(sess=None):
             Div(agent_t(slug, 'name', lang), cls='agent-card-title'),
             P(agent_t(slug, 'one_liner', lang), cls='agent-card-copy'),
             href=f"/app?q={AGENTS_BY_SLUG[slug].prefix.strip()}",
-            cls='portal-card agent-card',
+            cls='portal-card agent-card reveal',
         )
         for slug in agents
     ]
@@ -194,7 +194,7 @@ def home_page(sess=None):
                         P(body, cls='step-copy'),
                         cls='step-content',
                     ),
-                    cls='step-row',
+                    cls='step-row reveal',
                 ) for num, title, body in [
                     ('01', t('how_01_title', lang), t('how_01_body', lang)),
                     ('02', t('how_02_title', lang), t('how_02_body', lang)),
@@ -210,11 +210,11 @@ def home_page(sess=None):
 
     cta = Section(
         Div(
-            H2(t('cta_headline', lang), cls='section-title cta-title'),
-            P(t('cta_body', lang), cls='cta-copy'),
+            H2(t('cta_headline', lang), cls='section-title cta-title reveal'),
+            P(t('cta_body', lang), cls='cta-copy reveal'),
             A(
                 Span(t('hero_cta_start', lang)), Icon('arrow-right', 16),
-                href='/app', cls='public-button public-button-primary',
+                href='/app', cls='public-button public-button-primary reveal',
             ),
             cls='portal-container cta-inner',
         ),
@@ -329,8 +329,28 @@ document.addEventListener('keydown', function(e) {
 .google-divider-text { font-size:12px; color:var(--ink-3); }
 """)
 
+    reveal_js = Script(NotStr("""
+document.documentElement.classList.add('js');
+(function() {
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        document.documentElement.classList.remove('js');
+        return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) {
+            if (en.isIntersecting) {
+                en.target.classList.add('reveal-in');
+                io.unobserve(en.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function(el) { io.observe(el); });
+})();
+"""))
+
     return Div(
         hero, statement, stats, features, agents_section, how, cta,
-        auth_modal, auth_css, auth_js,
+        auth_modal, auth_css, auth_js, reveal_js,
         cls='home-page',
     )

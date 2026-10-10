@@ -84,6 +84,9 @@ def build_session_update() -> dict:
             # field is audio.output.voice. Both are set so either shape applies.
             "voice": voice_name(),
             "instructions": VOICE_INSTRUCTIONS,
+            # Voice should answer at once. The default effort is "high", which
+            # holds the turn while the model reasons and the speaker stays silent.
+            "reasoning": {"effort": "none"},
             "turn_detection": {"type": "server_vad"},
             "tools": [{"type": "web_search"}],
             "audio": {

@@ -86,6 +86,14 @@ def home_page(sess=None):
                         Input(type='search', name='q', placeholder=t('chat_placeholder', lang),
                              autocomplete='off', id='hero-prompt-input', cls='hero-prompt-input'),
                         Button(
+                            Icon('mic', 18),
+                            type='button',
+                            cls='voice-btn hero-voice-btn',
+                            title=t('chat_voice', lang),
+                            aria_label=t('chat_voice', lang),
+                            onclick='toggleVoice(event)',
+                        ),
+                        Button(
                             Icon('arrow-right', 20),
                             type='submit', cls='hero-prompt-submit', title=t('hero_cta_start', lang),
                             aria_label=t('hero_cta_start', lang),

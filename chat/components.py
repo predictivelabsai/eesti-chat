@@ -218,12 +218,21 @@ def left_pane(user_email=None, sessions=None, current_sid="", current_agent_slug
             cls="agents-section",
         ),
         Div(auth_section, cls="auth-section"),
-        P(
-            A(f"v{app_version()}", href="/changelog", cls="powered-by-link", title="Changelog"),
-            " · Powered by ",
-            A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
-              rel="noopener noreferrer", cls="powered-by-link"),
-            cls="powered-by"),
+        Div(
+            P(
+                A(f"v{app_version()}", href="/changelog", cls="powered-by-link", title="Changelog"),
+                " · Powered by ",
+                A("Predictive Labs OÜ", href="https://predictivelabs.ai", target="_blank",
+                  rel="noopener noreferrer", cls="powered-by-link"),
+                cls="powered-by-line",
+            ),
+            P(
+                A("Agentic State", href="https://agenticstate.org", target="_blank",
+                  rel="noopener noreferrer", cls="powered-by-link"),
+                cls="powered-by-line",
+            ),
+            cls="powered-by",
+        ),
         cls="left-pane",
     )
 
@@ -318,7 +327,7 @@ def center_pane(messages=None, current_agent_slug=None, lang: str = "en"):
             ),
             Button(Icon("mic", 18), id="voice-btn", type="button",
                    aria_label=t("chat_voice", lang), title=t("chat_voice", lang),
-                   aria_pressed="false", onclick="toggleVoice()", cls="voice-btn"),
+                   aria_pressed="false", onclick="toggleVoice(event)", cls="voice-btn"),
             Button(Icon("send", 20), id="send-btn", type="button", aria_label="Send message", onclick="sendMessage(event)",
                    cls="send-btn"),
             cls="chat-form",

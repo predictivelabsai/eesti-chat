@@ -23,6 +23,7 @@ def test_session_uses_builtin_voice_and_project_key_shape(monkeypatch):
     assert session["audio"]["output"]["voice"] == "eve"
     assert "eesti.chat" in session["instructions"]
     assert session["tools"] == [{"type": "web_search"}]
+    assert session["reasoning"] == {"effort": "none"}
     assert session["audio"]["input"]["format"]["rate"] == 24000
     assert "e-Residency" in session["audio"]["input"]["transcription"]["keyterms"]
     assert "model=grok-voice-latest" in realtime_url()
@@ -58,5 +59,5 @@ def test_missing_key_closes_socket(monkeypatch):
 def test_composer_has_voice_button():
     html = to_xml(center_pane(messages=None, current_agent_slug=None, lang="en"))
     assert 'id="voice-btn"' in html
-    assert "toggleVoice()" in html
+    assert "toggleVoice(event)" in html
     assert 'aria-label="Talk"' in html

@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.2.1 — 2026-10-10
+
+**Footer link to Agentic State, and voice that answers after you speak.**
+
+- The public footer and the chat sidebar now link to [Agentic State](https://agenticstate.org) under the Predictive Labs credit.
+- Voice no longer waits on the model’s default high reasoning. If the server does not hear the end of a turn, the browser commits the microphone audio after a short silence so a reply still starts. The spoken line is shown in the voice panel as well as played.
+- The home page prompt and the floating ask bar have a microphone. Tapping it starts the same voice conversation.
+
 ## v1.2.0 — 2026-10-10
 
 **Talk to eesti.chat: a voice mode on the same xAI key.**

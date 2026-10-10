@@ -1,6 +1,26 @@
 from fasthtml.common import to_xml
 
+from chat.components import left_pane
+from components.layout import AskBubble, PageFooter
+from pages.home import home_page
 from pages.legal import delete_account_page, privacy_page
+
+
+def test_footers_link_agentic_state():
+    public = to_xml(PageFooter())
+    sidebar = to_xml(left_pane())
+    for html in (public, sidebar):
+        assert 'href="https://agenticstate.org"' in html
+        assert "Agentic State" in html
+
+
+def test_home_and_ask_bar_have_a_microphone():
+    home = to_xml(home_page())
+    bubble = to_xml(AskBubble())
+    assert "hero-voice-btn" in home
+    assert "toggleVoice(event)" in home
+    assert "ask-bubble-voice" in bubble
+    assert "toggleVoice(event)" in bubble
 
 
 def test_privacy_page_discloses_core_mobile_data_flows():

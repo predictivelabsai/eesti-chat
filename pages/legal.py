@@ -56,7 +56,9 @@ def privacy_page():
                     'AI and service providers',
                     _paragraph(
                         'Prompts and relevant conversation context may be sent to contracted AI service '
-                        'providers, including OpenAI or xAI, to generate eesti.chat responses. Google processes '
+                        'providers, including OpenAI or xAI, to generate eesti.chat responses. When you use '
+                        'voice mode, microphone audio and the transcript are sent to xAI to produce the spoken '
+                        'reply. Google processes '
                         'information when you use Google Sign-In, and Postmark processes contact details '
                         'needed to deliver transactional email. Hosting, database and security providers '
                         'process information on our behalf to operate eesti.chat.'

@@ -85,6 +85,7 @@ def NavBar(active='home', sess=None):
         ('home', '/', t('nav_home', lang)),
         ('advisory', '/app', t('nav_ask', lang)),
         ('topics', '/#topics', t('nav_topics', lang)),
+        ('developers', '/#developers', t('nav_developers', lang)),
         ('about', '/about', t('nav_about', lang)),
         ('contact', '/contact', t('nav_contact', lang)),
     ]
@@ -155,6 +156,7 @@ def PageFooter(lang: str = "en"):
                 Div(
                     H4(t('footer_resources', lang), cls='footer-heading'),
                     Ul(
+                        Li(A(t('nav_developers', lang), href='/#developers', cls='footer-link'), cls='mb-2'),
                         Li(A(t('nav_about', lang), href='/about', cls='footer-link'), cls='mb-2'),
                         Li(A(t('nav_contact', lang), href='/contact', cls='footer-link'), cls='mb-2'),
                         Li(A('eesti.ee', href='https://www.eesti.ee', target='_blank', rel='noopener noreferrer', cls='footer-link'), cls='mb-2'),

@@ -27,7 +27,7 @@
     "feat_estonia": "Rakennettu e-Estonian päälle",
     "feat_estonia_body": "Se lisää keskustelukerroksen Viron kypsään digitaalivaltioon: X-Tee-tiedonvaihto, e-ID, sähköiset allekirjoitukset ja vain kerran -periaate tukevat jo 99 % palveluista.",
     "feat_estonia_link": "Tietoa Virosta",
-    "topics_title": "Kuusi asiantuntija-avustajaa",
+    "topics_title": "Seitsemän asiantuntija-avustajaa",
     "topics_subtitle": "Jokainen avustaja keskittyy yhteen Viron elämän osa-alueeseen ja käyttää virallisia lähteitä.",
     "how_title": "Miten eesti.chat toimii",
     "how_01_title": "Kysy",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Ei hyödyllinen",
     "chat_fb_thanks": "Palaute tallennettu",
     "chat_retry": "Yritä uudelleen",
+    "chat_voice": "Puhu",
+    "js_voice_connecting": "Yhdistetään…",
+    "js_voice_mic": "Pyydetään mikrofonia…",
+    "js_voice_listening": "Kuuntelen…",
+    "js_voice_thinking": "Mietin…",
+    "js_voice_speaking": "Puhun…",
+    "js_voice_mic_blocked": "Mikrofoni on estetty. Salli käyttö ja napauta mikrofonia uudelleen.",
+    "js_voice_error": "Äänivirhe",
+    "js_voice_end": "Lopeta ääni",
+    "js_voice_hint_title": "Voit puhua.",
+    "js_voice_hint_body": "Napauta mikrofonia kysyäksesi ääneen. Selain pyytää luvan mikrofonille.",
     "js_thinking": "Ajattelee",
     "js_calling": "Hakee",
     "js_copy_csv": "Kopioi CSV",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Tutustu Viroon",
       "one_liner": "e-Estonian tarina, digitaaliyhteiskunta, kulttuuri ja miksi Viro."
+    },
+    "elections": {
+      "name": "Vaalit 2027",
+      "one_liner": "Vuoden 2027 Riigikogu-vaalit – puolueet, ohjelmat ja niiden takana olevat luvut."
     }
   },
   "categories": {
     "business": "e-Residency ja yrittäjyys",
     "living": "Asuminen Virossa",
     "digital": "Digitaaliyhteiskunta",
-    "discover": "Tutustu Viroon"
+    "discover": "Tutustu Viroon",
+    "elections": "Vaalit 2027"
   }
 }

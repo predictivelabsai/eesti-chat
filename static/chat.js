@@ -7,6 +7,7 @@
     let currentSessionId = getSidFromURL();
     let currentAgentSlug = null;
     let streaming = false;
+    let requestSequence = 0;
 
     const AGENT_PROMPTS = readJsonScript("agent-prompts-data") || {};
     const AGENT_NAMES = readJsonScript("agent-names-data") || {};
@@ -348,6 +349,7 @@
         if (!msg) return;
 
         streaming = true;
+        const requestId = ++requestSequence;
         const sendBtn = $("#send-btn");
         if (sendBtn) sendBtn.disabled = true;
 
@@ -444,9 +446,11 @@
                         } else if (type === "session") {
                             if (payload.sid) setSid(payload.sid);
                         } else if (type === "suggestions") {
-                            if (Array.isArray(payload.items) && payload.items.length) renderFollowups(payload.items);
+                            if (requestId === requestSequence && Array.isArray(payload.items) && payload.items.length) renderFollowups(payload.items);
                         } else if (type === "done") {
                             doneReceived = true;
+                            streaming = false;
+                            if (sendBtn) sendBtn.disabled = false;
                             hideThinking();
                             if (failed) return;
                             if (bubble) {
@@ -475,13 +479,15 @@
                 }
             }
         } catch (e) {
-            if (!terminalWithoutStream) markFailed("Connection lost. Please try again.");
+            if (!terminalWithoutStream && !doneReceived) markFailed("Connection lost. Please try again.");
         } finally {
             if (!doneReceived && !failed && !terminalWithoutStream) {
                 markFailed("Connection lost. Please try again.");
             }
-            streaming = false;
-            if (sendBtn) sendBtn.disabled = false;
+            if (requestId === requestSequence) {
+                streaming = false;
+                if (sendBtn) sendBtn.disabled = false;
+            }
         }
     }
 
@@ -518,6 +524,17 @@
         body.prepend(card);
         enhanceTables(card);
 
+        // Plotly charts can only be drawn once their host div is in the DOM.
+        if (payload.kind === "chart" && payload.figure && window.Plotly) {
+            const host = card.querySelector(".artifact-chart");
+            if (host) {
+                try {
+                    Plotly.newPlot(host, payload.figure.data || [], payload.figure.layout || {},
+                        { responsive: true, displayModeBar: false });
+                } catch (e) { console.error("chart render failed", e); }
+            }
+        }
+
         const isMobile = window.innerWidth <= 768;
         if (!isMobile) {
             document.querySelector(".app").classList.remove("pane-closed");
@@ -532,6 +549,10 @@
     }
 
     function renderArtifactHTML(p) {
+        if (p.kind === "chart") {
+            // Host div; Plotly.newPlot runs in showArtifact once it's in the DOM.
+            return '<div class="artifact-chart" style="width:100%;min-height:380px"></div>';
+        }
         if (p.kind === "table" && Array.isArray(p.rows)) {
             if (!p.rows.length) return '<p><em>No rows.</em></p>';
             const cols = p.columns || Object.keys(p.rows[0]);
@@ -606,7 +627,7 @@
         }
     };
     window.handleKey = (ev) => {
-        if (ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); sendMessage(ev); }
+        if (ev.key === "Enter" && !ev.shiftKey && !ev.isComposing) { ev.preventDefault(); sendMessage(ev); }
     };
     window.autoResize = (el) => {
         el.style.height = "auto";
@@ -616,8 +637,14 @@
         const question = getQuestionFromURL();
         const ta = $("#chat-input");
         if (!question || !ta) return;
-        ta.value = question;
-        window.autoResize(ta);
+        // Consume the entry prompt so reloads cannot submit it again.
+        const url = new URL(window.location);
+        url.searchParams.delete("q");
+        history.replaceState(null, "", url);
+        window.fillChat(question);
+        // Topic-only links select a specialist and show starters without spending a question.
+        const topic = question.match(/^(\w+):\s*$/);
+        if (topic && AGENT_PREFIX_MAP[topic[1].toLowerCase()]) return;
         setTimeout(() => sendMessage(null), 0);
     }
     window.fillChat = (text) => {

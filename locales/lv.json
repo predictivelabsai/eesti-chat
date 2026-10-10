@@ -27,7 +27,7 @@
     "feat_estonia": "Veidots uz e-Estonia",
     "feat_estonia_body": "Tas pievieno sarunu slāni Igaunijas nobriedušajai digitālajai valstij: X-Tee datu apmaiņa, e-ID, digitālie paraksti un vienreizējības princips jau nodrošina 99% pakalpojumu.",
     "feat_estonia_link": "Par Igauniju",
-    "topics_title": "Seši speciālisti",
+    "topics_title": "Septiņi speciālisti",
     "topics_subtitle": "Katrs palīgs koncentrējas uz vienu dzīves jomu Igaunijā un izmanto oficiālos avotus.",
     "how_title": "Kā darbojas eesti.chat",
     "how_01_title": "Jautā",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Nav noderīgi",
     "chat_fb_thanks": "Atsauksme pieņemta",
     "chat_retry": "Mēģināt vēlreiz",
+    "chat_voice": "Runāt",
+    "js_voice_connecting": "Savienojas…",
+    "js_voice_mic": "Pieprasa mikrofonu…",
+    "js_voice_listening": "Klausās…",
+    "js_voice_thinking": "Domā…",
+    "js_voice_speaking": "Runā…",
+    "js_voice_mic_blocked": "Mikrofons ir bloķēts. Atļaujiet piekļuvi un pieskarieties mikrofonam vēlreiz.",
+    "js_voice_error": "Balss kļūda",
+    "js_voice_end": "Beigt balsi",
+    "js_voice_hint_title": "Vari runāt.",
+    "js_voice_hint_body": "Pieskaries mikrofonam, lai jautātu skaļi. Pārlūks prasīs atļauju izmantot mikrofonu.",
     "js_thinking": "Domā",
     "js_calling": "Meklē",
     "js_copy_csv": "Kopēt CSV",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Iepazīsti Igauniju",
       "one_liner": "e-Estonia stāsts, digitālā sabiedrība, kultūra un kāpēc Igaunija."
+    },
+    "elections": {
+      "name": "2027. gada vēlēšanas",
+      "one_liner": "2027. gada Riigikogu vēlēšanas — partijas, programmas un skaitļi aiz tām."
     }
   },
   "categories": {
     "business": "e-Residency un uzņēmējdarbība",
     "living": "Dzīvošana Igaunijā",
     "digital": "Digitālā sabiedrība",
-    "discover": "Iepazīsti Igauniju"
+    "discover": "Iepazīsti Igauniju",
+    "elections": "2027. gada vēlēšanas"
   }
 }

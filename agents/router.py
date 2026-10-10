@@ -29,6 +29,11 @@ _SLUG_KEYWORDS: dict[str, list[str]] = {
     "explore": ["why estonia", "e-estonia", "digital society", "culture", "history",
                 "tourism", "visit", "tallinn", "travel", "about estonia", "story",
                 "invest", "innovation", "startup nation"],
+    "elections": ["election", "elections", "riigikogu", "2027", "party", "parties",
+                  "reform party", "eesti 200", "ekre", "keskerakond", "centre party",
+                  "social democrat", "sotsid", "isamaa", "coalition", "platform",
+                  "manifesto", "campaign", "valimised", "candidate", "ballot",
+                  "balancing the budget", "state budget", "deficit", "government debt"],
 }
 
 

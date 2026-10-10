@@ -10,6 +10,8 @@ services:
       - XAI_API_KEY=${XAI_API_KEY}
       - XAI_BASE_URL=${XAI_BASE_URL}
       - GROK_MODEL=${GROK_MODEL}
+      - XAI_VOICE=${XAI_VOICE:-eve}
+      - XAI_VOICE_MODEL=${XAI_VOICE_MODEL:-grok-voice-latest}
       - EXA_API_KEY=${EXA_API_KEY}
       - LLM_PROVIDER=${LLM_PROVIDER}
       - APP_SECRET=${APP_SECRET}

@@ -27,7 +27,7 @@
     "feat_estonia": "Sukurta ant e-Estonia pagrindo",
     "feat_estonia_body": "Jis prideda pokalbinį sluoksnį prie brandžios Estijos skaitmeninės valstybės: X-Tee duomenų mainai, e-ID, skaitmeniniai parašai ir vienkartinio pateikimo principas jau užtikrina 99 % paslaugų.",
     "feat_estonia_link": "Apie Estiją",
-    "topics_title": "Šeši specializuoti asistentai",
+    "topics_title": "Septyni specializuoti asistentai",
     "topics_subtitle": "Kiekvienas asistentas skirtas vienai gyvenimo Estijoje sričiai ir naudoja oficialius šaltinius.",
     "how_title": "Kaip veikia eesti.chat",
     "how_01_title": "Klauskite",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Nenaudinga",
     "chat_fb_thanks": "Atsiliepimas užfiksuotas",
     "chat_retry": "Bandyti dar kartą",
+    "chat_voice": "Kalbėti",
+    "js_voice_connecting": "Jungiamasi…",
+    "js_voice_mic": "Prašoma mikrofono…",
+    "js_voice_listening": "Klausau…",
+    "js_voice_thinking": "Mąstau…",
+    "js_voice_speaking": "Kalbu…",
+    "js_voice_mic_blocked": "Mikrofonas užblokuotas. Leiskite prieigą ir vėl palieskite mikrofoną.",
+    "js_voice_error": "Balso klaida",
+    "js_voice_end": "Baigti balsą",
+    "js_voice_hint_title": "Galite kalbėti.",
+    "js_voice_hint_body": "Palieskite mikrofoną, kad paklaustumėte balsu. Naršyklė paprašys leidimo naudoti mikrofoną.",
     "js_thinking": "Mąsto",
     "js_calling": "Ieško",
     "js_copy_csv": "Kopijuoti CSV",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Atraskite Estiją",
       "one_liner": "e-Estonia istorija, skaitmeninė visuomenė, kultūra ir kodėl Estija."
+    },
+    "elections": {
+      "name": "2027 m. rinkimai",
+      "one_liner": "2027 m. Riigikogu rinkimai — partijos, programos ir skaičiai už jų."
     }
   },
   "categories": {
     "business": "e-Residency ir verslas",
     "living": "Gyvenimas Estijoje",
     "digital": "Skaitmeninė visuomenė",
-    "discover": "Atraskite Estiją"
+    "discover": "Atraskite Estiją",
+    "elections": "2027 m. rinkimai"
   }
 }

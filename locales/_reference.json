@@ -109,8 +109,8 @@
       "et": "Eestist lähemalt"
     },
     "topics_title": {
-      "en": "Six specialist assistants",
-      "et": "Kuus eriabilist"
+      "en": "Seven specialist assistants",
+      "et": "Seitse eriabilist"
     },
     "topics_subtitle": {
       "en": "Each assistant focuses on one part of life in Estonia and uses official sources.",
@@ -369,6 +369,16 @@
         "en": "The e-Estonia story, digital society, culture, and why Estonia.",
         "et": "e-Eesti lugu, digiühiskond, kultuur ja miks Eesti."
       }
+    },
+    "elections": {
+      "name": {
+        "en": "Elections 2027",
+        "et": "Valimised 2027"
+      },
+      "one_liner": {
+        "en": "The 2027 Riigikogu election — parties, platforms, and the numbers behind them.",
+        "et": "2027. aasta Riigikogu valimised — erakonnad, platvormid ja numbrid nende taga."
+      }
     }
   },
   "categories": {
@@ -387,6 +397,10 @@
     "discover": {
       "en": "Discover Estonia",
       "et": "Avasta Eesti"
+    },
+    "elections": {
+      "en": "Elections 2027",
+      "et": "Valimised 2027"
     }
   }
 }

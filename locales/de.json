@@ -27,7 +27,7 @@
     "feat_estonia": "Auf e-Estonia aufgebaut",
     "feat_estonia_body": "Es fügt dem ausgereiften digitalen Staat Estlands eine Gesprächsebene hinzu: X-Tee-Datenaustausch, e-ID, digitale Signaturen und das Once-only-Prinzip betreiben bereits 99 % der Dienste.",
     "feat_estonia_link": "Über Estland",
-    "topics_title": "Sechs Fachassistenten",
+    "topics_title": "Sieben Fachassistenten",
     "topics_subtitle": "Jeder Assistent konzentriert sich auf einen Lebensbereich in Estland und nutzt offizielle Quellen.",
     "how_title": "So funktioniert eesti.chat",
     "how_01_title": "Fragen",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Nicht hilfreich",
     "chat_fb_thanks": "Feedback gespeichert",
     "chat_retry": "Erneut versuchen",
+    "chat_voice": "Sprechen",
+    "js_voice_connecting": "Verbinden…",
+    "js_voice_mic": "Mikrofon wird angefragt…",
+    "js_voice_listening": "Hört zu…",
+    "js_voice_thinking": "Denkt nach…",
+    "js_voice_speaking": "Spricht…",
+    "js_voice_mic_blocked": "Mikrofon blockiert. Zugriff erlauben und das Mikrofon erneut tippen.",
+    "js_voice_error": "Sprachfehler",
+    "js_voice_end": "Sprache beenden",
+    "js_voice_hint_title": "Du kannst sprechen.",
+    "js_voice_hint_body": "Tippe auf das Mikrofon, um laut zu fragen. Der Browser fragt nach dem Mikrofon.",
     "js_thinking": "Denkt nach",
     "js_calling": "Sucht",
     "js_copy_csv": "CSV kopieren",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Estland entdecken",
       "one_liner": "Die Geschichte von e-Estonia, digitale Gesellschaft, Kultur und warum Estland."
+    },
+    "elections": {
+      "name": "Wahlen 2027",
+      "one_liner": "Die Riigikogu-Wahl 2027 – Parteien, Programme und die Zahlen dahinter."
     }
   },
   "categories": {
     "business": "e-Residency & Unternehmen",
     "living": "Leben in Estland",
     "digital": "Digitale Gesellschaft",
-    "discover": "Estland entdecken"
+    "discover": "Estland entdecken",
+    "elections": "Wahlen 2027"
   }
 }

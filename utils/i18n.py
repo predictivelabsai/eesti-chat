@@ -148,6 +148,11 @@ THINKING_WORDS: dict[str, list[str]] = {
 # ---------------------------------------------------------------------------
 
 TRANSLATIONS: dict[str, dict[str, str]] = {
+    "nav_developers": {"en": "Developers", "et": "Arendajatele"},
+    "developers_title": {"en": "Build with Estonia’s public data", "et": "Loo lahendusi Eesti avalike andmetega"},
+    "developers_intro": {"en": "Explore official government APIs and data services for your next project. Documentation and access requirements are maintained by each provider.", "et": "Tutvu Eesti riiklike API-de ja andmeteenustega. Dokumentatsiooni ja juurdepääsutingimusi haldab iga teenuse pakkuja."},
+    "developers_docs": {"en": "Documentation", "et": "Dokumentatsioon"},
+
 
     # -- Navigation --
     "nav_home": {"en": "Home", "et": "Avaleht"},
@@ -217,7 +222,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "feat_estonia_link": {"en": "About Estonia", "et": "Eestist lähemalt"},
 
     # -- Topics / agents section --
-    "topics_title": {"en": "Six specialist assistants", "et": "Kuus eriabilist"},
+    "topics_title": {"en": "Seven specialist assistants", "et": "Seitse eriabilist"},
     "topics_subtitle": {
         "en": "Each assistant focuses on one part of life in Estonia and uses official sources.",
         "et": "Iga abiline keskendub ühele Eestiga seotud teemale ja vastab ametlike allikate põhjal.",
@@ -295,6 +300,7 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
     "chat_no_sessions": {"en": "No conversations yet", "et": "Vestlusi pole veel"},
     "chat_copy": {"en": "Copy", "et": "Kopeeri"},
     "chat_share": {"en": "Share", "et": "Jaga"},
+    "chat_voice": {"en": "Talk", "et": "Räägi"},
     "chat_canvas": {"en": "Canvas", "et": "Lõuend"},
     "chat_signin_title": {"en": "Sign in", "et": "Logi sisse"},
     "chat_signin_body": {"en": "Enter your email to save your chat history.", "et": "Sisesta oma e-post vestlusajaloo salvestamiseks."},
@@ -318,6 +324,22 @@ TRANSLATIONS: dict[str, dict[str, str]] = {
         "en": "Feedback noted", "et": "Tagasiside salvestatud", "ru": "Отзыв сохранён",
         "de": "Feedback gespeichert", "fr": "Avis enregistré", "sv": "Feedback sparad",
         "lv": "Atsauksme saglabāta", "fi": "Palaute tallennettu", "lt": "Atsiliepimas išsaugotas",
+    },
+    "js_voice_connecting": {"en": "Connecting…", "et": "Ühendan…"},
+    "js_voice_mic": {"en": "Requesting microphone…", "et": "Küsin mikrofoni luba…"},
+    "js_voice_listening": {"en": "Listening…", "et": "Kuulan…"},
+    "js_voice_thinking": {"en": "Thinking…", "et": "Mõtlen…"},
+    "js_voice_speaking": {"en": "Speaking…", "et": "Räägin…"},
+    "js_voice_mic_blocked": {
+        "en": "Microphone blocked. Allow access and tap the mic again.",
+        "et": "Mikrofon on blokeeritud. Luba juurdepääs ja vajuta mikrofoni uuesti.",
+    },
+    "js_voice_error": {"en": "Voice error", "et": "Hääleviga"},
+    "js_voice_end": {"en": "End voice", "et": "Lõpeta hääl"},
+    "js_voice_hint_title": {"en": "You can talk.", "et": "Saad rääkida."},
+    "js_voice_hint_body": {
+        "en": "Tap the microphone to ask out loud. Your browser will ask to use the microphone.",
+        "et": "Vajuta mikrofoni, et küsida häälega. Brauser küsib mikrofoni kasutamise luba.",
     },
     "chat_retry": {
         "en": "Try again", "et": "Proovi uuesti", "ru": "Повторить — попробовать снова",
@@ -398,6 +420,13 @@ AGENT_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
             "et": "e-Eesti lugu, digiühiskond, kultuur ja miks Eesti.",
         },
     },
+    "elections": {
+        "name": {"en": "Elections 2027", "et": "Valimised 2027"},
+        "one_liner": {
+            "en": "The 2027 Riigikogu election — parties, platforms, and the numbers behind them.",
+            "et": "2027. aasta Riigikogu valimised — erakonnad, platvormid ja numbrid nende taga.",
+        },
+    },
 }
 
 # -- Category translations --
@@ -406,6 +435,7 @@ CATEGORY_TRANSLATIONS: dict[str, dict[str, dict[str, str]]] = {
     "living": {"name": {"en": "Living in Estonia", "et": "Elamine Eestis"}},
     "digital": {"name": {"en": "Digital society", "et": "Digiühiskond"}},
     "discover": {"name": {"en": "Discover Estonia", "et": "Avasta Eesti"}},
+    "elections": {"name": {"en": "Elections 2027", "et": "Valimised 2027"}},
 }
 
 

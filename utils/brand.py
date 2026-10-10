@@ -32,10 +32,12 @@ ICONS: dict[str, str] = {
     "digital": "M17 9.5V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20V4a1.5 1.5 0 0 1 1.5-1.5h7A1.5 1.5 0 0 1 17 4v2.5M10.5 18.5h3M9.5 11.5h.01M12 11.5h.01M14.5 11.5h.01",
     "services": "M3 9 12 4l9 5M4.5 9.5h15M6.5 12v5M10.5 12v5M13.5 12v5M17.5 12v5M4 20h7M14 20h6",
     "discover": "M21 12a9 9 0 1 1-3.2-6.9M15.6 8.4l-2 5.2-5.2 2 2-5.2z",
+    "elections": "M5 10h14v10H5zM9 10V5h6v5M9.5 15l1.8 1.8L15 13",
     # Interface
     "chat": "M4 20V10a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v4a6 6 0 0 1-6 6H7.5",
     "new-chat": "M4 20V10a6 6 0 0 1 6-6h1.5M20 13.5v.5a6 6 0 0 1-6 6H7.5M17 3v6M14 6h6",
     "send": "M12 19V5M6 11l6-6 6 6",
+    "mic": "M9 6a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0zM6.5 11a5.5 5.5 0 0 0 11 0M12 16.5V20M9 20h6",
     "source": "M4 5.5A1.5 1.5 0 0 1 5.5 4H10a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 5.5A1.5 1.5 0 0 0 18.5 4H14a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z",
     "external": "M14 4h6v6M20 4l-8 8M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4",
     "search": "M17 10.5a6.5 6.5 0 1 0-1.9 4.6M15.5 15.5 20 20",
@@ -64,6 +66,7 @@ AGENT_ICONS = {
     "services": "services",
     "digital": "digital",
     "explore": "discover",
+    "elections": "elections",
 }
 
 CATEGORY_ICONS = {
@@ -71,6 +74,7 @@ CATEGORY_ICONS = {
     "living": "moving",
     "digital": "digital",
     "discover": "discover",
+    "elections": "elections",
 }
 
 

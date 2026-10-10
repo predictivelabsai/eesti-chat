@@ -1,5 +1,37 @@
 # Change Log
 
+## v1.2.0 — 2026-10-10
+
+**Talk to eesti.chat: a voice mode on the same xAI key.**
+
+- A microphone button on the chat composer opens a live voice conversation. The browser streams PCM16 audio to `/ws/voice`, which proxies it to xAI speech-to-speech with `XAI_API_KEY`. The spoken voice is `eve` (override with `XAI_VOICE`).
+- The voice agent uses a short spoken prompt for Estonian public services, searches the web for current figures, and writes the transcript into the chat. Typed chat is unchanged.
+- Anonymous visitors who have already used their free questions cannot start voice. The privacy page notes that microphone audio goes to xAI.
+
+## v1.1.0 — 2026-10-08
+
+**New "Elections 2027" assistant plus on-demand charts of official Estonian statistics.**
+
+- Added a seventh specialist assistant, **Elections 2027**, in its own sidebar category and
+  home topic card. It is a neutral, non-partisan guide to the 7 March 2027 Riigikogu election:
+  the main parliamentary parties (Reform, Eesti 200, EKRE, Centre, SDE, Isamaa), their AI /
+  digital-state strategies, how they propose to balance the state budget, and the common
+  patterns where platforms converge. Seeded starter questions cover all three themes.
+- New system prompt (`prompts/system/elections.md`) enforces balance, source citation, and
+  comparison tables; `web_search` grounding now allowlists the national election authority
+  (valimised.ee) and the six parties' official sites.
+- **On-demand data visualisation** (`make_chart` tool): the Elections assistant can chart live
+  official data from Statistics Estonia (stat.ee PxWeb API) — government debt & surplus/deficit
+  as % of GDP (`RR061`), GDP per capita (`RAA0013`), inflation (`IA001`), population (`RV021`)
+  and unemployment (`TT0151`). Figures are built server-side with Plotly and streamed to the
+  results panel via the existing `__ARTIFACT__` → `artifact_show` pipeline (Plotly.js on the CDN,
+  `Plotly.newPlot` client-side), mirroring the kaljuvee-chat streaming pattern.
+- New sidebar official links: Bank of Estonia (eestipank.ee), Statistics Estonia (stat.ee),
+  and an "Elections 2027" block (valimised.ee + the six party sites).
+- Localised the new assistant/category names and one-liners across all nine languages; home
+  section heading updated to "Seven specialist assistants".
+- Added `plotly` to requirements.
+
 ## v1.0.3 — 2026-10-01
 
 **Add visitestonia.com to the official links in the chat sidebar.**

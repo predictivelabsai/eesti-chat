@@ -42,6 +42,12 @@ CATEGORIES: list[dict] = [
         "blurb": "The e-Estonia story, culture, and why Estonia.",
         "icon": "★",
     },
+    {
+        "key": "elections",
+        "name": "Elections 2027",
+        "blurb": "The 2027 Riigikogu election: parties, platforms, and the numbers behind them.",
+        "icon": "▣",
+    },
 ]
 
 
@@ -151,6 +157,30 @@ AGENTS: tuple[AgentSpec, ...] = (
             "estonia: give me a short intro to Estonian history and culture",
             "estonia: why do startups and investors choose Estonia?",
             "estonia: what should I see on a first visit to Tallinn?",
+        ),
+    ),
+    # Elections 2027
+    AgentSpec(
+        slug="elections", name="Elections 2027",
+        category="elections", icon="▣", prefix="vote:",
+        one_liner="The 2027 Riigikogu election — parties, platforms, and the numbers behind them.",
+        description=(
+            "A neutral, non-partisan guide to Estonia's 2027 Riigikogu election (7 March 2027). "
+            "Explains how the main parliamentary parties — Reform, Eesti 200, EKRE, Centre, the "
+            "Social Democrats and Isamaa — compare on AI and digital-state strategy, balancing the "
+            "state budget, taxes and the deficit, and highlights the common patterns where their "
+            "platforms converge. Grounds answers in the parties' official sites and the national "
+            "election authority (valimised.ee), and can chart official fiscal and economic data from "
+            "Statistics Estonia (stat.ee) and the Bank of Estonia. Presents positions factually and "
+            "does not endorse any party."
+        ),
+        example_prompts=(
+            "vote: how do the main parties compare on AI and digital-state strategy for 2027?",
+            "vote: what do the parties propose for balancing the state budget and the deficit?",
+            "vote: where do the 2027 party platforms agree — what are the common patterns?",
+            "vote: show Estonia's government debt and deficit as a share of GDP",
+            "vote: who are the main parties and where are their official platforms?",
+            "vote: when is the 2027 Riigikogu election and how does voting work?",
         ),
     ),
 )

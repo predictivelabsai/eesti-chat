@@ -27,7 +27,7 @@
     "feat_estonia": "Byggt på e-Estonia",
     "feat_estonia_body": "Det lägger till ett samtalslager på Estlands mogna digitala stat: X-Tee-dataväxling, e-ID, digitala signaturer och engångsprincipen driver redan 99 % av tjänsterna.",
     "feat_estonia_link": "Om Estland",
-    "topics_title": "Sex specialistassistenter",
+    "topics_title": "Sju specialistassistenter",
     "topics_subtitle": "Varje assistent fokuserar på en del av livet i Estland och använder officiella källor.",
     "how_title": "Så fungerar eesti.chat",
     "how_01_title": "Fråga",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Inte användbart",
     "chat_fb_thanks": "Feedback mottagen",
     "chat_retry": "Försök igen",
+    "chat_voice": "Prata",
+    "js_voice_connecting": "Ansluter…",
+    "js_voice_mic": "Ber om mikrofonen…",
+    "js_voice_listening": "Lyssnar…",
+    "js_voice_thinking": "Tänker…",
+    "js_voice_speaking": "Pratar…",
+    "js_voice_mic_blocked": "Mikrofonen är blockerad. Tillåt åtkomst och tryck på mikrofonen igen.",
+    "js_voice_error": "Röstfel",
+    "js_voice_end": "Avsluta röst",
+    "js_voice_hint_title": "Du kan prata.",
+    "js_voice_hint_body": "Tryck på mikrofonen för att fråga högt. Webbläsaren ber om att få använda mikrofonen.",
     "js_thinking": "Tänker",
     "js_calling": "Söker",
     "js_copy_csv": "Kopiera CSV",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Upptäck Estland",
       "one_liner": "Berättelsen om e-Estonia, det digitala samhället, kulturen och varför Estland."
+    },
+    "elections": {
+      "name": "Valet 2027",
+      "one_liner": "Riksdagsvalet (Riigikogu) 2027 – partier, program och siffrorna bakom dem."
     }
   },
   "categories": {
     "business": "e-Residency och företagande",
     "living": "Att bo i Estland",
     "digital": "Digitalt samhälle",
-    "discover": "Upptäck Estland"
+    "discover": "Upptäck Estland",
+    "elections": "Valet 2027"
   }
 }

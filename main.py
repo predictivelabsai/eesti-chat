@@ -128,6 +128,10 @@ def api_status():
     return _JSONResponse(_api_status)
 
 
+# Voice WebSocket must sit in front of FastHTML's catch-all routes.
+from voice import register_voice_routes
+register_voice_routes(app)
+
 # --- Initialize DB on startup ---
 
 @app.on_event("startup")

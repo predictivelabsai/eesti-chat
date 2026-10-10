@@ -27,7 +27,7 @@
     "feat_estonia": "Construit sur l'e-Estonia",
     "feat_estonia_body": "Il ajoute une couche conversationnelle à l'État numérique mature de l'Estonie : l'échange de données X-Tee, l'e-ID, les signatures numériques et le principe « une seule fois » font déjà fonctionner 99 % des services.",
     "feat_estonia_link": "À propos de l'Estonie",
-    "topics_title": "Six assistants spécialisés",
+    "topics_title": "Sept assistants spécialisés",
     "topics_subtitle": "Chaque assistant se consacre à un aspect de la vie en Estonie et s'appuie sur des sources officielles.",
     "how_title": "Comment fonctionne eesti.chat",
     "how_01_title": "Demandez",
@@ -68,6 +68,17 @@
     "chat_fb_down": "Peu utile",
     "chat_fb_thanks": "Retour enregistré",
     "chat_retry": "Réessayer",
+    "chat_voice": "Parler",
+    "js_voice_connecting": "Connexion…",
+    "js_voice_mic": "Demande du microphone…",
+    "js_voice_listening": "Écoute…",
+    "js_voice_thinking": "Réflexion…",
+    "js_voice_speaking": "Parle…",
+    "js_voice_mic_blocked": "Microphone bloqué. Autorisez l'accès, puis touchez le micro à nouveau.",
+    "js_voice_error": "Erreur vocale",
+    "js_voice_end": "Arrêter",
+    "js_voice_hint_title": "Vous pouvez parler.",
+    "js_voice_hint_body": "Touchez le microphone pour poser votre question à voix haute. Le navigateur demandera l'accès au micro.",
     "js_thinking": "Réflexion",
     "js_calling": "Recherche",
     "js_copy_csv": "Copier le CSV",
@@ -102,12 +113,17 @@
     "explore": {
       "name": "Découvrir l'Estonie",
       "one_liner": "L'histoire de l'e-Estonia, la société numérique, la culture et pourquoi l'Estonie."
+    },
+    "elections": {
+      "name": "Élections 2027",
+      "one_liner": "Les élections au Riigikogu de 2027 — partis, programmes et les chiffres qui les sous-tendent."
     }
   },
   "categories": {
     "business": "e-Residency et entrepreneuriat",
     "living": "Vivre en Estonie",
     "digital": "Société numérique",
-    "discover": "Découvrir l'Estonie"
+    "discover": "Découvrir l'Estonie",
+    "elections": "Élections 2027"
   }
 }

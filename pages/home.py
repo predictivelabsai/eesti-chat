@@ -4,6 +4,7 @@ from utils.i18n import t, agent_t, get_lang
 from chat.components import signin_overlay
 from agents.registry import AGENTS_BY_SLUG
 from utils.brand import Icon, Mark, AGENT_ICONS
+from pages.developers import developers_section
 
 
 def _stat(value, label):
@@ -61,7 +62,7 @@ def _feature_visual(kind):
 def home_page(sess=None):
     lang = get_lang(sess or {})
 
-    agents = ["eresidency", "moving", "tax", "digital", "services", "explore"]
+    agents = ["eresidency", "moving", "tax", "digital", "services", "explore", "elections"]
 
     hero_chips = [
         A(
@@ -350,7 +351,7 @@ document.documentElement.classList.add('js');
 """))
 
     return Div(
-        hero, statement, stats, features, agents_section, how, cta,
+        hero, statement, stats, features, agents_section, how, developers_section(lang), cta,
         auth_modal, auth_css, auth_js, reveal_js,
         cls='home-page',
     )

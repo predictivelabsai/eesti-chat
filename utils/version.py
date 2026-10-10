@@ -2,7 +2,7 @@
 
 The repo-root ``VERSION`` file holds two lines: a semver on line 1 and the ISO
 release date on line 2. Bump it (and prepend a ``docs/change_log.md`` entry) on
-every change — see AGENTS.md. The version also cache-busts static assets.
+every change that gets pushed — see AGENTS.md. The version also cache-busts static assets.
 """
 
 from __future__ import annotations

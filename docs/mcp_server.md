@@ -96,3 +96,10 @@ python -m pytest tests/test_mcp_server.py -q --run-integration -k live         #
 ```
 
 CI runs both (`.github/workflows/test.yml`). The live job is allowed to fail, because government endpoints change without notice.
+
+## Deployment (production)
+
+- Coolify instance `coolify.predictivelabs.ai`, server 187.124.131.91, project **Eesti Chat** → app **eesti-mcp** (`v72swj97jfsfdiidbqymfwgu`).
+- Build pack Dockerfile (`/Dockerfile.mcp`), port 8000, health check `GET /health`, persistent volume at `/data`, 1 replica.
+- Domain `https://mcp.eesti.chat`. This needs a DNS A record `mcp` → `187.124.131.91` (Namecheap).
+- Every push to `main` also triggers this app through the GitHub secrets `COOLIFY_MCP_WEBHOOK_URL` and `COOLIFY_MCP_TOKEN` (a deploy-only Coolify token), using POST.

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<forecasts>
+	<forecast date="2026-10-13">
+		<night>
+			<phenomenon>Light rain</phenomenon>
+			<tempmin>3</tempmin>
+			<tempmax>11</tempmax>
+			<text>Cloudy with few clear spells. Rain in many places, after midnight reducing. Locally fog. Mainly northerly wind 2-7, on coast northeast 5-10, in gusts 15 m/s, after midnight gradually decreasing. Air temperature 3..8, on coast to 11°C.</text>
+			<place>
+				<name>Harku</name>
+				<phenomenon>Moderate rain</phenomenon>
+				<tempmin>7</tempmin>
+			</place>
+			<place>
+				<name>Jõhvi</name>
+				<phenomenon>Moderate rain</phenomenon>
+				<tempmin>6</tempmin>
+			</place>
+			<place>
+				<name>Tartu</name>
+				<phenomenon>Cloudy</phenomenon>
+				<tempmin>5</tempmin>
+			</place>
+			<place>
+				<name>Pärnu</name>
+				<phenomenon>Light shower</phenomenon>
+				<tempmin>5</tempmin>
+			</place>
+			<place>
+				<name>Kuressaare</name>
+				<phenomenon>Light shower</phenomenon>
+				<tempmin>9</tempmin>
+			</place>
+			<place>
+				<name>Türi</name>
+				<phenomenon>Moderate rain</phenomenon>
+				<tempmin>6</tempmin>
+			</place>
+			<wind>
+				<name>Kuusiku</name>
+				<direction>North wind</direction>
+				<speedmin>3</speedmin>
+				<speedmax>7</speedmax>
+				<gust></gust>
+			</wind>
+			<wind>
+				<name>Väike-Maarja</name>
+				<direction>Northeast wind</direction>
+				<speedmin>3</speedmin>
+				<speedmax>6</speedmax>
+				<gust></gust>
+			</wind>
+			<wind>
+				<name>Võrtsjärv</name>
+				<direction>Northerly winds</direction>
+				<speedmin>2</speedmin>
+				<speedmax>6</speedmax>
+				<gust></gust>
+			</wind>
+			<sea>Forecast for Baltic Sea valid 24 hours from 19:00 UTC Oct 12 to 19:00 UTC Oct 13, 2026.
+
+Warnings: 
+Northern Baltic: northeast, east 12, in gusts to 17 m/s. Wave height 1-3 m.
+Gulf of Finland: east, northeast 13, in gusts to 19 m/s. Wave height 1-2.5 m.
+
+Weather summary: Low moving slowly over Baltic States to eastwards and filling up, by day strengthening weak area of High.
+
+Northern Baltic, Western Gulf of Finland: northeast, north 7-12, in gusts to 16 m/s, after midnight decreasing 5-11, from noon variable 2-6 m/s, in evening becoming south at sea 5-11 m/s. Wave height at night 1.5-3 m. Rain in many places, after midnight reducing. Visibility moderate.
+
+Eastern Gulf of Finland: northeast, north 7-12, in gusts to 17 m/s, in morning decreasing, by day mainly northerly 3-8 m/s. Wave height at night 1-2 m. Rain in many places, in morning reducing. Visibility moderate.
+
+Northern Gulf of Riga, Vainameri: variable 2-7 m/s, after midnight northeast, north 3-8, in gusts to 12 m/s, in morning decreasing, in afternoon variable 1-6 m/s. Rain in many places, after midnight reducing. Visibility moderate.</sea>
+			<peipsi>Mainly northerly wind 3-7 m/s. Wave height 0.3-0.7 m. Rain in many places. Visibility moderate. Air temperature 6..8°C.</peipsi>
+		</night>
+		<day>
+			<phenomenon>Cloudy with clear spells</phenomenon>
+			<tempmin>7</tempmin>
+			<tempmax>12</tempmax>
+			<text>Cloudy with clear spells. Rain locally. Mainly northerly, in the afternoon variable wind 1-7 m/s. Air temperature 7..12°C.</text>
+			<place>
+				<name>Harku</name>
+				<phenomenon>Cloudy</phenomenon>
+				<tempmax>8</tempmax>
+			</place>
+			<place>
+				<name>Jõhvi</name>
+				<phenomenon>Light rain</phenomenon>
+				<tempmax>7</tempmax>
+			</place>
+			<place>
+				<name>Tartu</name>
+				<phenomenon>Cloudy</phenomenon>
+				<tempmax>9</tempmax>
+			</place>
+			<place>
+				<name>Pärnu</name>
+				<phenomenon>Cloudy</phenomenon>
+				<tempmax>10</tempmax>
+			</place>
+			<place>
+				<name>Kuressaare</name>
+				<phenomenon>Cloudy with clear spells</phenomenon>
+				<tempmax>12</tempmax>
+			</place>
+			<place>
+				<name>Türi</name>
+				<phenomenon>Cloudy</phenomenon>
+				<tempmax>9</tempmax>
+			</place>
+			<wind>
+				<name>Kuusiku</name>
+				<direction>North wind</direction>
+				<speedmin>1</speedmin>
+				<speedmax>4</speedmax>
+				<gust></gust>
+			</wind>
+			<wind>
+				<name>Väike-Maarja</name>
+				<direction>North wind</direction>
+				<speedmin>2</speedmin>
+				<speedmax>6</speedmax>
+				<gust></gust>
+			</wind>
+			<wind>
+				<name>Võrtsjärv</name>
+				<direction>Northerly winds</direction>
+				<speedmin>2</speedmin>
+				<speedmax>5</speedmax>
+				<gust></gust>
+			</wind>
+			<sea></sea>
+			<peipsi>Mainly northerly, in the afternoon variable wind 2-7 m/s. Wave height 0.3-0.7 m. Rain locally. Visibility good or moderate. Air temperature 7..9°C.</peipsi>
+		</day>
+	</forecast>
+	<forecast date="2026-10-14">
+		<night>
+			<phenomenon>Light shower</phenomenon>
+			<tempmin>-1</tempmin>
+			<tempmax>10</tempmax>
+			<text>Slightly and partly cloudy. Showers locally, in morning a denser area of rain approaching to islands. At first variable wind 1-7, around midnight becoming southeast, south and increasing 4-10, on coast in gusts to 15 m/s. Air temperature -1..+6, on western Estonian coast up to +10°C.</text>
+		</night>
+		<day>
+			<phenomenon>Moderate shower</phenomenon>
+			<tempmin>8</tempmin>
+			<tempmax>12</tempmax>
+			<text>Cloudy with clear spells. Rain is spreading from islands to mainland. Southeast, south wind 5-10, in gusts 13, on islands and western coast veering gradually southwest, west, in evening also northwest 10-15, in gusts to 20 m/s. Air temperature 8..12°C.</text>
+		</day>
+	</forecast>
+	<forecast date="2026-10-15">
+		<night>
+			<phenomenon>Fog</phenomenon>
+			<tempmin>2</tempmin>
+			<tempmax>11</tempmax>
+			<text>Cloudy with clear spells. Fog in many places and drizzle locally. In mainland southeast, south wind 3-8, on islands west, northwest 5-12, in gusts to 17 m/s, after midnight decreasing and becoming variable. Air temperature 2..8, on coast to 11°C.</text>
+		</night>
+		<day>
+			<phenomenon>Variable clouds</phenomenon>
+			<tempmin>9</tempmin>
+			<tempmax>13</tempmax>
+			<text>Variably cloudy. Possible light rain locally. In forenoon fog in places. Wind is becoming southerly 3-8, in evening on coast in gusts to 12 m/s. Air temperature 9..13°C.</text>
+		</day>
+	</forecast>
+	<forecast date="2026-10-16">
+		<night>
+			<phenomenon>Variable clouds</phenomenon>
+			<tempmin>5</tempmin>
+			<tempmax>13</tempmax>
+			<text>Variably cloudy and mainly dry. South, southwest wind 3-9, on coast in gusts 14 m/s. Air temperature 5..9, on coast to 13°C.</text>
+		</night>
+		<day>
+			<phenomenon>Light shower</phenomenon>
+			<tempmin>9</tempmin>
+			<tempmax>14</tempmax>
+			<text>Variably cloudy. Light rain locally in western Estonia. South, southwest wind 4-10, on coast in gusts 15 m/s. Air temperature 9..14°C.</text>
+		</day>
+	</forecast>
+</forecasts>

@@ -1,0 +1,44 @@
+{
+  "staatus" : "OK",
+  "paring" : "/otsi",
+  "metaandmed" : {
+    "kokku" : 555,
+    "leht" : 1,
+    "limiit" : 2
+  },
+  "aktid" : [ {
+    "globaalID" : 105072017023,
+    "terviktekstID" : 1002177,
+    "pealkiri" : "Asutuse ametnike ja töötajate, kelle koosseis, koondandmed või konkreetsed tööülesanded on riigisaladus, tulumaksu, sotsiaalmaksu, kohustusliku kogumispensioni makse ja töötuskindlustusmakse arvestamise kord",
+    "lyhend" : null,
+    "kehtivus" : {
+      "algus" : "2017-07-08",
+      "lopp" : null
+    },
+    "staatus" : "avaldatud",
+    "tekst" : "terviktekst",
+    "liik" : "määrus",
+    "valjaandja" : "Rahandusminister",
+    "mitteJoustunud" : false,
+    "kehtivKehtetus" : false,
+    "muudetud" : 1776508768909,
+    "url" : "/akt/105072017023.xml"
+  }, {
+    "globaalID" : 106012012017,
+    "terviktekstID" : 1002177,
+    "pealkiri" : "Asutuse teenistujate, kelle koosseis, koondandmed või konkreetsed tööülesanded on riigisaladus, tulumaksu, sotsiaalmaksu, kohustusliku kogumispensioni makse ja töötuskindlustusmakse arvestamise kord",
+    "lyhend" : null,
+    "kehtivus" : {
+      "algus" : "2012-01-09",
+      "lopp" : "2017-07-07"
+    },
+    "staatus" : "avaldatud",
+    "tekst" : "algtekst-terviktekst",
+    "liik" : "määrus",
+    "valjaandja" : "Rahandusminister",
+    "mitteJoustunud" : false,
+    "kehtivKehtetus" : false,
+    "muudetud" : 1776508803707,
+    "url" : "/akt/106012012017.xml"
+  } ]
+}

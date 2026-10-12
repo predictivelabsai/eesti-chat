@@ -1,6 +1,6 @@
 # eesti.chat MCP server — plan
 
-Status: **plan only, nothing implemented yet**. Author: Julian Kaljuvee. Written 2026-10-11.
+Status: **phases 1–2 implemented** (2026-10-12), see `docs/mcp_server.md`. Phase 2 currently covers the e-Residency & Company agent only. Author: Julian Kaljuvee. Written 2026-10-11.
 
 ## 1. Where the repo is today
 
@@ -126,3 +126,14 @@ Checked with `curl` from the box on 2026-10-11. "✅" = endpoint answered with t
 4. Should we **apply for X-tee membership** (through Predictive Labs OÜ) to get vehicle, population and other services later, or rule it out?
 5. Monorepo (`mcp_server/` in eesti-chat, as proposed) or a separate `predictivelabsai/eesti-mcp` repo?
 6. Should the chat agents switch from Exa-only to **MCP-tools-first** in P2, and which agent goes first (the Taxes or e-Residency & Company agent is suggested)?
+
+## 6. Decisions (2026-10-12)
+
+1. Public server: an anonymous tier with low limits, plus API keys for higher limits.
+2. Deploy as a new Coolify app at `mcp.eesti.chat` on 191.218.164.166.
+3. Free open data only; no paid RIK XML services.
+4. No X-tee for now.
+5. Monorepo: the server lives in `mcp_server/` in this repo.
+6. Agents call the MCP tools before Exa, starting with the e-Residency & Company agent.
+
+Differences from the original plan: v1 API keys are stored as sha256 hashes in an env var, not in Postgres, and the cache is in-process plus a SQLite mirror for the bulk files, not Postgres or Redis. Tax debtors (the EMTA link is dead), law full text and cadastral WFS move to phase 3.

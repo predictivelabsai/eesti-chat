@@ -16,3 +16,7 @@ fastapi==0.136.3
 # Testing
 pytest==8.4.1
 pytest-asyncio==1.0.0
+# --- MCP server (mcp_server/) and MCP-backed agent tools ---
+mcp>=1.20,<2
+cachetools==7.2.1
+respx==0.23.1

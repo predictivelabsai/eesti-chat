@@ -1,5 +1,7 @@
 """Official API directory for the homepage; links checked 2026-10-02."""
-from fasthtml.common import A, Article, Button, Code, Div, H2, H3, Li, NotStr, P, Pre, Script, Section, Span, Ul
+from pathlib import Path
+
+from fasthtml.common import A, Article, Button, Code, Div, H2, H3, H4, Li, NotStr, Ol, P, Script, Section, Span, Ul
 from utils.brand import Icon
 from utils.i18n import t
 
@@ -44,128 +46,265 @@ APIS = (
 T_OFFICIAL = ("Official government APIs", "Riiklikud API-d")
 
 MCP_ENDPOINT = "https://mcp.eesti.chat/mcp"
+_CLIENT_DIR = Path(__file__).resolve().parent.parent / "static" / "brand" / "clients"
 
-MCP_SNIPPETS = (
-    ("claude", "Claude Desktop", "claude_desktop_config.json",
-     '{\n  "mcpServers": {\n    "eesti-gov": {\n      "command": "npx",\n'
-     '      "args": ["-y", "mcp-remote", "https://mcp.eesti.chat/mcp"]\n    }\n  }\n}'),
-    ("cursor", "Cursor", "~/.cursor/mcp.json",
-     '{\n  "mcpServers": {\n    "eesti-gov": {\n      "url": "https://mcp.eesti.chat/mcp"\n    }\n  }\n}'),
-    ("curl", "curl", "List the tools",
-     "curl https://mcp.eesti.chat/mcp \\\n"
-     "  -H 'Content-Type: application/json' \\\n"
-     "  -H 'Accept: application/json, text/event-stream' \\\n"
-     "  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}'"),
+
+def _logo(name: str):
+    try:
+        return NotStr((_CLIENT_DIR / f"{name}.svg").read_text())
+    except OSError:  # pragma: no cover
+        return ""
+
+
+def _tr(lang):
+    return (lambda en, et: et if lang == "et" else en)
+
+
+def _copy_btn(text: str, lang: str, label: str = ""):
+    T = _tr(lang)
+    return Button(Icon("copy", 14), Span(T("Copy", "Kopeeri"), cls="dev-copy-label"),
+                  type="button", cls="dev-copy", data_copy=text,
+                  data_copied=T("Copied", "Kopeeritud"),
+                  aria_label=T("Copy", "Kopeeri") + (f" {label}" if label else ""))
+
+
+def _terminal(lang, cmd: str, out: list[str] = (), title: str = "", prompt: bool = True, label: str = ""):
+    """Dark terminal block. The copy button copies only `cmd` (no prompt, no output)."""
+    lines = cmd.split("\n")
+    rows = [Div(Span("$ " if (prompt and i == 0) else ("  " if prompt else ""), cls="dev-term-prompt"),
+                Span(line, cls="dev-term-cmd"), cls="dev-term-row") for i, line in enumerate(lines)]
+    rows += [Div(Span("→ ", cls="dev-term-arrow"), Span(o, cls="dev-term-out"), cls="dev-term-row")
+             for o in out]
+    return Div(
+        Div(Div(Span(cls="dev-dot"), Span(cls="dev-dot"), Span(cls="dev-dot"), cls="dev-dots"),
+            Span(title, cls="dev-term-title"), _copy_btn(cmd, lang, label or title), cls="dev-term-bar"),
+        Div(*rows, cls="dev-term-body"),
+        cls="dev-term",
+    )
+
+
+CLAUDE_CMD = "claude mcp add --transport http eesti https://mcp.eesti.chat/mcp"
+CURL_CMD = ("curl -s https://mcp.eesti.chat/mcp \\\n"
+            "  -H 'Content-Type: application/json' \\\n"
+            "  -H 'Accept: application/json, text/event-stream' \\\n"
+            "  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}'")
+CURSOR_JSON = '{\n  "mcpServers": {\n    "eesti": { "url": "https://mcp.eesti.chat/mcp" }\n  }\n}'
+GROK_JSON = ('"tools": [{\n  "type": "mcp",\n  "server_label": "eesti",\n'
+             '  "server_url": "https://mcp.eesti.chat/mcp"\n}]')
+
+# (key, name, logo, steps en, steps et, snippet title, snippet, prompt?)
+CLIENTS = (
+    ("chatgpt", "ChatGPT", "chatgpt",
+     ("Settings → Apps & Connectors → Advanced → turn on Developer mode.",
+      "Create a connector, name it eesti.chat and paste the server URL.",
+      "Choose No authentication, then Create."),
+     ("Seaded → Apps & Connectors → Advanced → lülita sisse Developer mode.",
+      "Loo konnektor, anna nimeks eesti.chat ja kleebi serveri URL.",
+      "Vali No authentication ja seejärel Create."),
+     "Server URL", MCP_ENDPOINT, False),
+    ("claude", "Claude", "claude",
+     ("Claude.ai or Desktop: Settings → Connectors → Add custom connector, paste the URL.",
+      "Claude Code: run the command below once."),
+     ("Claude.ai või Desktop: Settings → Connectors → Add custom connector, kleebi URL.",
+      "Claude Code: käivita allolev käsk üks kord."),
+     "Claude Code", CLAUDE_CMD, True),
+    ("grok", "Grok", "grok",
+     ("xAI API: add eesti.chat as a remote MCP tool in your request.",
+      "Grok calls the tools server-side and returns cited answers."),
+     ("xAI API: lisa eesti.chat päringusse kaug-MCP tööriistana.",
+      "Grok kutsub tööriistu serveri poolel ja tagastab viidetega vastused."),
+     "xAI Responses API", GROK_JSON, False),
+    ("cursor", "Cursor", "cursor",
+     ("Open Cursor Settings → MCP → Add new MCP server,",
+      "or add this to ~/.cursor/mcp.json and reload."),
+     ("Ava Cursor Settings → MCP → Add new MCP server",
+      "või lisa see faili ~/.cursor/mcp.json ja laadi uuesti."),
+     "~/.cursor/mcp.json", CURSOR_JSON, False),
 )
 
-# (group en, group et, [(tool, description en, description et)])
 MCP_TOOLS = (
     ("Companies & tax", "Ettevõtted ja maksud", (
         ("company_search", "Find companies in the e-Business Register", "Otsi ettevõtteid äriregistrist"),
         ("company_details", "Legal form, status, VAT number, address", "Õiguslik vorm, staatus, KMKR, aadress"),
         ("company_tax_data", "EMTA quarterly taxes, turnover, employees", "EMTA kvartali maksud, käive, töötajad"),
         ("procurement_search", "Public procurement notices (RHR)", "Riigihangete teated (RHR)"),
+        ("law_search", "Legislation in Riigi Teataja", "Õigusaktid Riigi Teatajas"),
     )),
-    ("Law & places", "Õigus ja asukohad", (
-        ("law_search", "Search legislation in Riigi Teataja", "Otsi õigusakte Riigi Teatajast"),
+    ("Places & everyday", "Asukohad ja igapäev", (
         ("address_lookup", "Official In-ADS addresses and coordinates", "Ametlikud In-ADS aadressid ja koordinaadid"),
         ("weather_now", "Live weather station observations", "Ilmajaamade värsked vaatlused"),
         ("weather_forecast", "4-day national forecast", "4 päeva ilmaprognoos"),
-    )),
-    ("Statistics & more", "Statistika ja muu", (
-        ("stat_search", "Find Statistics Estonia tables", "Otsi Statistikaameti tabeleid"),
-        ("stat_table_meta / stat_query", "Read table variables and query data", "Tabeli muutujad ja andmepäringud"),
         ("exchange_rate", "ECB / Eesti Pank euro reference rates", "EKP / Eesti Panga euro kursid"),
         ("word_lookup", "Estonian dictionary (EKI Sõnaveeb)", "Eesti sõnaraamat (EKI Sõnaveeb)"),
+    )),
+    ("Data & search", "Andmed ja otsing", (
+        ("stat_search", "Find Statistics Estonia tables", "Otsi Statistikaameti tabeleid"),
+        ("stat_table_meta", "Variables and value codes of a table", "Tabeli muutujad ja koodid"),
+        ("stat_query", "Query a statistics table", "Statistikatabeli päring"),
         ("open_data_search", "Datasets on andmed.eesti.ee", "Andmestikud portaalis andmed.eesti.ee"),
         ("gov_web_search", "Search official .ee websites", "Otsing ametlikelt .ee veebilehtedelt"),
     )),
 )
 
-COPY_JS = """
-document.addEventListener('click', function (e) {
-  var btn = e.target.closest('[data-copy-target]');
-  if (!btn) return;
-  var el = document.getElementById(btn.getAttribute('data-copy-target'));
-  if (!el || !navigator.clipboard) return;
-  navigator.clipboard.writeText(el.innerText).then(function () {
-    var label = btn.querySelector('.mcp-copy-label');
-    var prev = label.textContent;
-    label.textContent = btn.getAttribute('data-copied');
-    setTimeout(function () { label.textContent = prev; }, 1600);
+DEV_JS = """
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.dev-copy');
+    if (btn) {
+      var text = btn.getAttribute('data-copy');
+      var done = function () {
+        var l = btn.querySelector('.dev-copy-label'), prev = l.textContent;
+        l.textContent = btn.getAttribute('data-copied'); btn.classList.add('is-copied');
+        setTimeout(function () { l.textContent = prev; btn.classList.remove('is-copied'); }, 1600);
+      };
+      if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(done); }
+      else { var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t);
+             t.select(); try { document.execCommand('copy'); done(); } catch (x) {} t.remove(); }
+      return;
+    }
+    var tab = e.target.closest('.dev-client-tab');
+    if (tab) {
+      var root = tab.closest('.dev-clients');
+      root.querySelectorAll('.dev-client-tab').forEach(function (b) {
+        var on = b === tab; b.classList.toggle('is-active', on); b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.tabIndex = on ? 0 : -1;
+      });
+      root.querySelectorAll('.dev-client-panel').forEach(function (p) {
+        p.hidden = p.id !== tab.getAttribute('aria-controls');
+      });
+    }
   });
-});
+  document.addEventListener('keydown', function (e) {
+    var tab = e.target.closest && e.target.closest('.dev-client-tab');
+    if (!tab || (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft')) return;
+    var tabs = Array.prototype.slice.call(tab.parentNode.querySelectorAll('.dev-client-tab'));
+    var i = tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : -1);
+    var next = tabs[(i + tabs.length) % tabs.length]; next.focus(); next.click(); e.preventDefault();
+  });
+})();
 """
 
 
-def _copy_button(target, lang):
-    et = lang == "et"
-    return Button(Icon("copy", 14), Span("Kopeeri" if et else "Copy", cls="mcp-copy-label"),
-                  type="button", cls="mcp-copy", data_copy_target=target,
-                  data_copied="Kopeeritud" if et else "Copied",
-                  aria_label=("Kopeeri" if et else "Copy") + " " + target.replace("-", " "))
-
-
 def mcp_block(lang="en"):
+    T = _tr(lang)
     et = lang == "et"
-    T = (lambda en, est: est if et else en)
-    snippets = [
-        Div(
-            Div(Span(title, cls="mcp-snippet-title"), Span(sub, cls="mcp-snippet-sub"),
-                _copy_button(f"mcp-snippet-{key}", lang), cls="mcp-snippet-head"),
-            Pre(Code(code, id=f"mcp-snippet-{key}"), cls="mcp-code"),
-            cls="mcp-snippet",
-        ) for key, title, sub, code in MCP_SNIPPETS
-    ]
-    tools = [
-        Div(H3(g_et if et else g_en, cls="mcp-tool-group"),
-            Ul(*[Li(Code(name, cls="mcp-tool-name"), Span(d_et if et else d_en, cls="mcp-tool-desc"),
-                    cls="mcp-tool") for name, d_en, d_et in items], cls="mcp-tool-list"))
-        for g_en, g_et, items in MCP_TOOLS
-    ]
+    stats = [("15", T("read-only tools", "lugemistööriista")), ("11", T("official sources", "ametlikku allikat")),
+             ("0", T("sign-ups needed", "registreerumist")), ("2", T("access tiers", "juurdepääsutaset"))]
+
+    clients = Div(
+        Div(*[Button(Span(_logo(logo), cls="dev-client-logo"), Span(name),
+                     type="button", role="tab", id=f"dev-tab-{key}", aria_controls=f"dev-panel-{key}",
+                     aria_selected="true" if i == 0 else "false", tabindex="0" if i == 0 else "-1",
+                     cls="dev-client-tab" + (" is-active" if i == 0 else ""))
+              for i, (key, name, logo, *_r) in enumerate(CLIENTS)],
+            role="tablist", aria_label=T("MCP clients", "MCP kliendid"), cls="dev-client-tabs"),
+        *[Div(
+            Ol(*[Li(x) for x in (st_et if et else st_en)], cls="dev-client-steps"),
+            _terminal(lang, snippet, title=stitle, prompt=prompt, label=f"{name} {stitle}"),
+            role="tabpanel", id=f"dev-panel-{key}", aria_labelledby=f"dev-tab-{key}",
+            hidden=(i != 0), cls="dev-client-panel")
+          for i, (key, name, logo, st_en, st_et, stitle, snippet, prompt) in enumerate(CLIENTS)],
+        cls="dev-clients",
+    )
+
     return Div(
+        # Hero
         Div(
-            Span("MCP", cls="developer-api-type"),
-            H3(T("Estonia’s public data, inside your AI agent",
-                 "Eesti avalikud andmed otse sinu tehisintellekti agendis"), cls="mcp-hero-title"),
-            P(T("eesti.chat runs a free Model Context Protocol server. Connect Claude, Cursor or any MCP client "
-                "and your agent can look up companies, laws, addresses, statistics, procurements and more from "
-                "official Estonian sources. Every answer comes with its source URL, licence and timestamp.",
-                "eesti.chat pakub tasuta Model Context Protocoli serverit. Ühenda Claude, Cursor või muu MCP klient "
-                "ning agent saab otsida ettevõtteid, õigusakte, aadresse, statistikat, riigihankeid ja muud "
-                "ametlikest Eesti allikatest. Iga vastusega tuleb allika URL, litsents ja ajatempel."),
-              cls="mcp-hero-copy"),
-            Div(Span(T("Endpoint", "Otspunkt"), cls="mcp-endpoint-label"),
-                Code(MCP_ENDPOINT, id="mcp-endpoint", cls="mcp-endpoint-url"),
-                _copy_button("mcp-endpoint", lang), cls="mcp-endpoint"),
-            P(T("Streamable HTTP · read-only tools · no sign-up needed",
-                "Streamable HTTP · ainult lugemiseks · registreerumist pole vaja"), cls="mcp-endpoint-meta"),
-            cls="mcp-hero",
+            Span(T("MCP server", "MCP server"), cls="section-label-blue"),
+            H3(T("Plug Estonia’s public data into your AI agent.",
+                 "Ühenda Eesti avalikud andmed oma tehisintellekti agendiga."), cls="dev-hero-title"),
+            P(T("A free Model Context Protocol server for companies, laws, addresses, statistics, procurements, "
+                "weather and more, straight from official Estonian sources. Every result is cited.",
+                "Tasuta Model Context Protocoli server ettevõtete, õigusaktide, aadresside, statistika, riigihangete, "
+                "ilma ja muu jaoks otse ametlikest Eesti allikatest. Iga tulemus on viidatud."), cls="dev-lede"),
+            Div(Code(MCP_ENDPOINT, cls="dev-endpoint-url"), _copy_btn(MCP_ENDPOINT, lang, "endpoint"),
+                cls="dev-endpoint"),
+            Div(*[Div(Span(n, cls="dev-stat-n"), Span(l, cls="dev-stat-l"), cls="dev-stat") for n, l in stats],
+                cls="dev-stats"),
+            cls="dev-hero",
         ),
-        Div(*snippets, cls="mcp-snippets"),
+        # Works with
+        Div(Span(T("Works with", "Töötab koos"), cls="dev-works-label"),
+            Div(*[Span(Span(_logo(logo), cls="dev-client-logo"), Span(name), cls="dev-works-item")
+                  for key, name, logo, *_r in CLIENTS], cls="dev-works-row"),
+            cls="dev-works"),
+        # Terminal 1: install
         Div(
-            Div(H3(T("15 tools, all from official sources", "15 tööriista, kõik ametlikest allikatest"),
-                   cls="mcp-subtitle"),
-                Div(*tools, cls="mcp-tool-grid"), cls="mcp-tools"),
+            H3(T("Connect from your terminal.", "Ühenda terminalist."), cls="dev-h"),
+            P(T("One command adds eesti.chat to Claude Code. Any client that speaks MCP over HTTP works the same way.",
+                "Üks käsk lisab eesti.chati Claude Code'i. Iga MCP-d HTTP kaudu toetav klient töötab samamoodi."),
+              cls="dev-p"),
+            _terminal(lang, CLAUDE_CMD, [
+                "Added HTTP MCP server eesti with URL: https://mcp.eesti.chat/mcp",
+                T("15 tools · company_search, law_search, address_lookup, stat_query …",
+                  "15 tööriista · company_search, law_search, address_lookup, stat_query …")],
+                title="claude", label="Claude Code"),
+            P(T("Example output, illustrative.", "Näidisväljund, illustratiivne."), cls="dev-note"),
             Div(
-                H3(T("Rate limits & API keys", "Päringupiirangud ja API võtmed"), cls="mcp-subtitle"),
-                Ul(
-                    Li(Span(T("Anonymous", "Anonüümne"), cls="mcp-limit-tier"),
-                       Span(T("30 requests / minute · 500 / day per IP", "30 päringut minutis · 500 päevas IP kohta"),
-                            cls="mcp-limit-value")),
-                    Li(Span(T("With API key", "API võtmega"), cls="mcp-limit-tier"),
-                       Span(T("300 requests / minute · 20,000 / day", "300 päringut minutis · 20 000 päevas"),
-                            cls="mcp-limit-value")),
-                    cls="mcp-limits"),
-                P(T("Send your key as ", "Saada võti päises "), Code("Authorization: Bearer <key>"),
-                  T(". Need higher limits? ", ". Vajad suuremaid piiranguid? "),
-                  A(T("Ask for a key", "Küsi võtit"), href="/contact", cls="mcp-inline-link"), ".",
-                  cls="mcp-limits-note"),
-                cls="mcp-limits-card"),
-            cls="mcp-bottom",
+                Div(H4(T("How the endpoint and tool names read", "Kuidas otspunkti ja tööriistade nimesid lugeda"),
+                       cls="dev-h4"),
+                    P(Code("https://mcp.eesti.chat/mcp"),
+                      T(" is a single streamable-HTTP endpoint; there is nothing else to configure. "
+                        "Tools are named ", " on üks streamable HTTP otspunkt, muud seadistada pole vaja. "
+                        "Tööriistade nimed on kujul "),
+                      Code("{domain}_{action}"), T(": ", ": "), Code("company_search"), ", ",
+                      Code("company_details"), ", ", Code("stat_query"),
+                      T(". eesti is just the local name you give the server.",
+                        ". eesti on lihtsalt kohalik nimi, mille serverile annad."), cls="dev-p"),
+                    cls="dev-sub"),
+                Div(H4(T("What a result contains", "Mida tulemus sisaldab"), cls="dev-h4"),
+                    Ul(Li(Code("source_url"), T(" the official page or file the data came from",
+                                                 " ametlik leht või fail, kust andmed pärinevad")),
+                       Li(Code("licence"), T(" reuse terms, e.g. CC BY 4.0", " taaskasutuse tingimused, nt CC BY 4.0")),
+                       Li(Code("retrieved_at"), T(" when it was fetched (UTC)", " millal andmed toodi (UTC)")),
+                       Li(Code("cached"), T(" whether it was served from cache", " kas vastus tuli vahemälust")),
+                       Li(Code("data"), T(" the result itself", " tulemus ise")), cls="dev-fields"),
+                    cls="dev-sub"),
+                cls="dev-subs"),
+            cls="dev-step",
         ),
-        Script(NotStr(COPY_JS)),
-        cls="mcp-block",
+        # Terminal 2: curl
+        Div(
+            H3(T("Or call it directly.", "Või kutsu otse."), cls="dev-h"),
+            P(T("It is plain JSON-RPC over HTTPS, so curl works too.",
+                "See on tavaline JSON-RPC üle HTTPS-i, nii et ka curl töötab."), cls="dev-p"),
+            _terminal(lang, CURL_CMD, [
+                '{"jsonrpc":"2.0","id":1,"result":{"tools":[',
+                '  {"name":"company_search","description":"Search the Estonian e-Business Register…"},',
+                '  {"name":"law_search","description":"Search Estonian legislation in Riigi Teataja…"},',
+                "  … 13 more ]}}"], title="curl", label="curl tools/list"),
+            P(T("Example output, illustrative and shortened.", "Näidisväljund, illustratiivne ja lühendatud."),
+              cls="dev-note"),
+            cls="dev-step",
+        ),
+        # Clients
+        Div(
+            H3(T("Connect your client.", "Ühenda oma klient."), cls="dev-h"),
+            clients,
+            cls="dev-step",
+        ),
+        # Tools + limits
+        Div(
+            Div(H3(T("15 tools, all from official sources", "15 tööriista, kõik ametlikest allikatest"), cls="dev-h"),
+                Div(*[Div(H4(g_et if et else g_en, cls="dev-tool-group"),
+                          Ul(*[Li(Code(n, cls="dev-tool-name"), Span(d_et if et else d_en, cls="dev-tool-desc"),
+                                  cls="dev-tool") for n, d_en, d_et in items], cls="dev-tool-list"))
+                      for g_en, g_et, items in MCP_TOOLS], cls="dev-tool-grid"),
+                cls="dev-card"),
+            Div(H3(T("Rate limits & API keys", "Päringupiirangud ja API võtmed"), cls="dev-h"),
+                Ul(Li(Span(T("Anonymous", "Anonüümne"), cls="dev-tier"),
+                      Span(T("30 / minute · 500 / day per IP", "30 minutis · 500 päevas IP kohta"), cls="dev-tier-v")),
+                   Li(Span(T("API key", "API võti"), cls="dev-tier"),
+                      Span(T("300 / minute · 20,000 / day", "300 minutis · 20 000 päevas"), cls="dev-tier-v")),
+                   cls="dev-tiers"),
+                P(T("Send the key as ", "Saada võti päises "), Code("Authorization: Bearer <key>"),
+                  T(". Over the limit you get 429 with Retry-After. ", ". Piirangu ületamisel tuleb 429 koos Retry-Afteriga. "),
+                  A(T("Ask for a key", "Küsi võtit"), href="/contact", cls="dev-link"), ".", cls="dev-p"),
+                cls="dev-card"),
+            cls="dev-bottom",
+        ),
+        Script(NotStr(DEV_JS)),
+        cls="dev-block",
     )
 
 
@@ -176,7 +315,7 @@ def developers_section(lang="en"):
             Span(t("nav_developers", lang), cls="section-label-blue"),
             H2(t("developers_title", lang), id="developers-title", cls="section-title"),
             mcp_block(lang),
-            H3(T_OFFICIAL[1] if et else T_OFFICIAL[0], cls="mcp-subtitle developers-official-title"),
+            H3(T_OFFICIAL[1] if et else T_OFFICIAL[0], cls="dev-h developers-official-title"),
             P(t("developers_intro", lang), cls="developers-intro"),
             Div(*[
                 Article(

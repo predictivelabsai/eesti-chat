@@ -17,7 +17,10 @@ LEGACY_SCHEMA = "carhero"
 DB_ENABLED = bool(DB_URL)
 
 if DB_ENABLED:
-    engine = create_engine(DB_URL, pool_pre_ping=True, pool_size=5, max_overflow=10)
+    engine = create_engine(
+        DB_URL, pool_pre_ping=True, pool_size=2, max_overflow=3, pool_recycle=300,
+        connect_args={"application_name": os.getenv("DB_APPLICATION_NAME", "eesti-chat")},
+    )
 
     @event.listens_for(engine, "connect")
     def set_search_path(dbapi_conn, connection_record):

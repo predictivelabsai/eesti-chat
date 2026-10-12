@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<observations timestamp="1791825380"><station>
+        		<name>Kuressaare linn</name>
+        		<wmocode></wmocode>
+        		<longitude>22.48944444411111</longitude>
+        		<latitude>58.26416666666667</latitude>
+        		<phenomenon></phenomenon>
+        		<visibility></visibility>
+        		<precipitations></precipitations>
+        		<airpressure></airpressure>
+        		<relativehumidity>97</relativehumidity>
+        		<airtemperature>8.7</airtemperature>
+        		<winddirection></winddirection>
+        		<windspeed></windspeed>
+        		<windspeedmax></windspeedmax>		<waterlevel></waterlevel>		<waterlevel_eh2000></waterlevel_eh2000>
+        		<watertemperature></watertemperature>
+        		<uvindex></uvindex>
+        		<sunshineduration></sunshineduration>
+        		<globalradiation></globalradiation>
+        	</station><station>
+        		<name>Tallinn-Harku</name>
+        		<wmocode>26038</wmocode>
+        		<longitude>24.602891666624284</longitude>
+        		<latitude>59.398122222355134</latitude>
+        		<phenomenon>Light rain</phenomenon>
+        		<visibility>15</visibility>
+        		<precipitations>0.3</precipitations>
+        		<airpressure>1014.1</airpressure>
+        		<relativehumidity>96.6</relativehumidity>
+        		<airtemperature>9.1</airtemperature>
+        		<winddirection>49</winddirection>
+        		<windspeed>2.8</windspeed>
+        		<windspeedmax>3.7</windspeedmax>		<waterlevel></waterlevel>		<waterlevel_eh2000></waterlevel_eh2000>
+        		<watertemperature></watertemperature>
+        		<uvindex></uvindex>
+        		<sunshineduration>0</sunshineduration>
+        		<globalradiation>-2</globalradiation>
+        	</station><station>
+        		<name>Pakri</name>
+        		<wmocode>26029</wmocode>
+        		<longitude>24.040080555476536</longitude>
+        		<latitude>59.38950277719013</latitude>
+        		<phenomenon>Light shower</phenomenon>
+        		<visibility>14</visibility>
+        		<precipitations>0.2</precipitations>
+        		<airpressure>1013.5</airpressure>
+        		<relativehumidity>92</relativehumidity>
+        		<airtemperature>10.2</airtemperature>
+        		<winddirection>43</winddirection>
+        		<windspeed>10.6</windspeed>
+        		<windspeedmax>16.8</windspeedmax>		<waterlevel></waterlevel>		<waterlevel_eh2000></waterlevel_eh2000>
+        		<watertemperature></watertemperature>
+        		<uvindex></uvindex>
+        		<sunshineduration></sunshineduration>
+        		<globalradiation></globalradiation>
+        	</station><station>
+        		<name>Tallinn-Harku</name>
+        		<wmocode>26038</wmocode>
+        		<longitude>24.602891666624284</longitude>
+        		<latitude>59.398122222355134</latitude>
+        		<phenomenon>Light rain</phenomenon>
+        		<visibility>15</visibility>
+        		<precipitations>0.3</precipitations>
+        		<airpressure>1014.1</airpressure>
+        		<relativehumidity>96.6</relativehumidity>
+        		<airtemperature>9.1</airtemperature>
+        		<winddirection>49</winddirection>
+        		<windspeed>2.8</windspeed>
+        		<windspeedmax>3.7</windspeedmax>		<waterlevel></waterlevel>		<waterlevel_eh2000></waterlevel_eh2000>
+        		<watertemperature></watertemperature>
+        		<uvindex></uvindex>
+        		<sunshineduration>0</sunshineduration>
+        		<globalradiation>-2</globalradiation>
+        	</station></observations>

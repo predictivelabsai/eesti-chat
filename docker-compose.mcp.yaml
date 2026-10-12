@@ -1,0 +1,21 @@
+# Coolify "Docker Compose" alternative for the MCP server (or use Dockerfile.mcp directly).
+services:
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    environment:
+      - EXA_API_KEY=${EXA_API_KEY}
+      - MCP_API_KEY_HASHES=${MCP_API_KEY_HASHES}
+      - MCP_ANON_RPM=${MCP_ANON_RPM:-30}
+      - MCP_ANON_RPD=${MCP_ANON_RPD:-500}
+      - MCP_KEY_RPM=${MCP_KEY_RPM:-300}
+      - MCP_KEY_RPD=${MCP_KEY_RPD:-20000}
+    volumes:
+      - mcp-data:/data
+    labels:
+      - coolify.managed=true
+      - coolify.port=8000
+    restart: unless-stopped
+volumes:
+  mcp-data:

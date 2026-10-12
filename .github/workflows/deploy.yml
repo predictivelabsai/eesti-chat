@@ -17,3 +17,12 @@ jobs:
         env:
           COOLIFY_WEBHOOK_URL: ${{ secrets.COOLIFY_WEBHOOK_URL }}
           COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+      - name: Trigger Coolify deployment (MCP server)
+        run: |
+          if [ -z "$COOLIFY_MCP_WEBHOOK_URL" ]; then echo "COOLIFY_MCP_WEBHOOK_URL not set, skipping"; exit 0; fi
+          curl -f -X GET "$COOLIFY_MCP_WEBHOOK_URL" \
+            -H "Authorization: Bearer $COOLIFY_TOKEN" \
+            --max-time 120 || echo "Webhook timed out but deploy may still proceed"
+        env:
+          COOLIFY_MCP_WEBHOOK_URL: ${{ secrets.COOLIFY_MCP_WEBHOOK_URL }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}

@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.3.0 — 2026-10-13
+
+**Public MCP server for Estonian open data, verified in Claude Code, Claude.ai and ChatGPT.**
+
+- `mcp_server/` serves 15 read-only tools (companies, EMTA tax data, Riigi Teataja, In-ADS, Statistics Estonia, procurement, weather, exchange rates, Sõnaveeb, andmed.eesti.ee, official web search) at `https://mcp.eesti.chat/mcp`, with anonymous and API-key tiers. See `docs/mcp_server.md`.
+- The home page Developers section documents the endpoint, a terminal-style install block, per-client setup tabs, the tool list and rate limits.
+- Added `docs/linkedin_mcp.md`, the LinkedIn announcement draft for the MCP server, and `screenshots/` with the developers section, connector setup in Claude.ai and ChatGPT, live answers from both, a Claude Code run, and `mcp_tour.gif`.
+
 ## v1.2.2 — 2026-10-12
 
 **Smaller database pool.**
